@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.19 2002-11-08 16:38:47 mike Exp $
+// $Id: CQLParser.java,v 1.20 2002-11-14 22:04:16 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.19 2002-11-08 16:38:47 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.20 2002-11-14 22:04:16 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -45,39 +45,38 @@ public class CQLParser {
 	lexer = new CQLLexer(cql, LEXDEBUG);
 
 	lexer.nextToken();
-	debug("about to parse_query()");
-	CQLNode root = parse_query("srw.serverChoice", new CQLRelation("scr"));
-	// ### "scr" above should arguably be "="
+	debug("about to parseQuery()");
+	CQLNode root = parseQuery("srw.serverChoice", new CQLRelation("scr"));
 	if (lexer.ttype != lexer.TT_EOF)
 	    throw new CQLParseException("junk after end: " + lexer.render());
 
 	return root;
     }
 
-    private CQLNode parse_query(String qualifier, CQLRelation relation)
+    private CQLNode parseQuery(String qualifier, CQLRelation relation)
 	throws CQLParseException, IOException {
-	debug("in parse_query()");
+	debug("in parseQuery()");
 
-	CQLNode term = parse_term(qualifier, relation);
+	CQLNode term = parseTerm(qualifier, relation);
 	while (lexer.ttype != lexer.TT_EOF &&
 	       lexer.ttype != ')') {
 	    if (lexer.ttype == lexer.TT_AND) {
 		match(lexer.TT_AND);
-		CQLNode term2 = parse_term(qualifier, relation);
+		CQLNode term2 = parseTerm(qualifier, relation);
 		term = new CQLAndNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_OR) {
 		match(lexer.TT_OR);
-		CQLNode term2 = parse_term(qualifier, relation);
+		CQLNode term2 = parseTerm(qualifier, relation);
 		term = new CQLOrNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_NOT) {
 		match(lexer.TT_NOT);
-		CQLNode term2 = parse_term(qualifier, relation);
+		CQLNode term2 = parseTerm(qualifier, relation);
 		term = new CQLNotNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_PROX) {
 		match(lexer.TT_PROX);
 		CQLProxNode proxnode = new CQLProxNode(term);
 		gatherProxParameters(proxnode);
-		CQLNode term2 = parse_term(qualifier, relation);
+		CQLNode term2 = parseTerm(qualifier, relation);
 		proxnode.addSecondSubterm(term2);
 		term = (CQLNode) proxnode;
 	    } else {
@@ -90,32 +89,25 @@ public class CQLParser {
 	return term;
     }
 
-    private CQLNode parse_term(String qualifier, CQLRelation relation)
+    private CQLNode parseTerm(String qualifier, CQLRelation relation)
 	throws CQLParseException, IOException {
-	debug("in parse_term()");
+	debug("in parseTerm()");
 
 	String word;
 	while (true) {
 	    if (lexer.ttype == '(') {
 		debug("parenthesised term");
 		match('(');
-		CQLNode expr = parse_query(qualifier, relation);
+		CQLNode expr = parseQuery(qualifier, relation);
 		match(')');
 		return expr;
-	    } else if (lexer.ttype != lexer.TT_WORD &&
-		       lexer.ttype != lexer.TT_NUMBER &&
-		       lexer.ttype != '"') {
-		throw new CQLParseException("expected qualifier or term, " +
-					    "got " + lexer.render());
+	    } else if (lexer.ttype == '>') {
+		match('>');
+		return parsePrefix(qualifier, relation);
 	    }
 
 	    debug("non-parenthesised term");
-	    if (lexer.ttype == lexer.TT_NUMBER) {
-		word = lexer.render();
-	    } else {
-		word = lexer.sval;
-	    }
-	    match(lexer.ttype);
+	    word = matchSymbol("qualifier or term");
 	    if (!isBaseRelation())
 		break;
 
@@ -141,6 +133,21 @@ public class CQLParser {
 	CQLTermNode node = new CQLTermNode(qualifier, relation, word);
 	debug("made term node " + node.toCQL());
 	return node;
+    }
+
+    private CQLNode parsePrefix(String qualifier, CQLRelation relation)
+	throws CQLParseException, IOException {
+	debug("prefix mapping");
+
+	String name = null;
+	String identifier = matchSymbol("prefix-name");
+	if (lexer.ttype == '=') {
+	    match('=');
+	    name = identifier;
+	    identifier = matchSymbol("prefix-identifer");
+	}
+	CQLNode term = parseTerm(qualifier, relation);
+	return new CQLPrefixNode(name, identifier, term);
     }
 
     private void gatherProxParameters(CQLProxNode node)
@@ -212,7 +219,8 @@ public class CQLParser {
 	return (isProxRelation() ||
 		lexer.ttype == lexer.TT_ANY ||
 		lexer.ttype == lexer.TT_ALL ||
-		lexer.ttype == lexer.TT_EXACT);
+		lexer.ttype == lexer.TT_EXACT ||
+		lexer.ttype == lexer.TT_SCR);
     }
 
     private boolean isProxRelation() {
@@ -237,6 +245,43 @@ public class CQLParser {
 	debug("match() got token=" + lexer.ttype + ", " +
 	      "nval=" + lexer.nval + ", sval='" + lexer.sval + "'" +
 	      " (tmp=" + tmp + ")");
+    }
+
+    private String matchSymbol(String expected)
+	throws CQLParseException, IOException {
+
+	debug("in matchSymbol()");
+	if (lexer.ttype == lexer.TT_WORD ||
+	    lexer.ttype == lexer.TT_NUMBER ||
+	    lexer.ttype == '"' ||
+	    // The following is a complete list of keywords.  Because
+	    // they're listed here, they can be used unquoted as
+	    // qualifiers, terms, prefix names and prefix identifiers.
+	    lexer.ttype == lexer.TT_AND ||
+	    lexer.ttype == lexer.TT_OR ||
+	    lexer.ttype == lexer.TT_NOT ||
+	    lexer.ttype == lexer.TT_PROX ||
+	    lexer.ttype == lexer.TT_ANY ||
+	    lexer.ttype == lexer.TT_ALL ||
+	    lexer.ttype == lexer.TT_EXACT ||
+	    lexer.ttype == lexer.TT_pWORD ||
+	    lexer.ttype == lexer.TT_SENTENCE ||
+	    lexer.ttype == lexer.TT_PARAGRAPH ||
+	    lexer.ttype == lexer.TT_ELEMENT ||
+	    lexer.ttype == lexer.TT_ORDERED ||
+	    lexer.ttype == lexer.TT_UNORDERED ||
+	    lexer.ttype == lexer.TT_RELEVANT ||
+	    lexer.ttype == lexer.TT_FUZZY ||
+	    lexer.ttype == lexer.TT_STEM ||
+	    lexer.ttype == lexer.TT_SCR) {
+	    String symbol = (lexer.ttype == lexer.TT_NUMBER) ?
+		lexer.render() : lexer.sval;
+	    match(lexer.ttype);
+	    return symbol;
+	}
+
+	throw new CQLParseException("expected " + expected + ", " +
+				    "got " + lexer.render());
     }
 
 

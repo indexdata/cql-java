@@ -1,21 +1,29 @@
-$Id: Changes,v 1.7 2002-11-12 22:37:48 mike Exp $
+$Id: Changes,v 1.8 2002-11-14 22:04:16 mike Exp $
 
 Revision history for "cql-java"
+See the bottom of this file for a list of things still to do.
 
 0.3  (IN PROGRESS)
+	- Allow keywords to be used unquoted as search terms.
+	- Add support for serverChoiceRelation (scr).
+	- Add support for prefix-mapping, as in
+		>dc="http://dublincore.org/ dc.title=fish
+	  and
+		>"http://dublincore.org/ title=fish
+	  ### But the XCQL output may need to be changed depending on
+	      the result of the ZNG list's deliberations.
+	- Fix the parser to normalise relation modifiers to lower case.
 	- Fix the CQLParser test harness not to emit an extraneous
 	  blank line at end of XCQL output.
-	- Fix the parser to normalise relation modifiers to lower case.
 	- Fix CQLNode documentation to contain a link to YAZ's
 	  documentation of Prefix Query Format (PQF) rather than
 	  containing a rather unhelpful chunk of BNF.
-	- Change the source directory's Makefile so that it specifies
-	  the appropriate -classpath by default.
-	  ### undo this change!
 	- Change the test/regression Makefile so that "make clean" now
 	  does what "make distclean" used to do - the distinction
 	  between them is pointless.
 	- Fix a few typos in the documentation.
+	- Move the README file's old "THINGS TO DO" section to the end
+	  of this file, the new "Still to do" section.
 
 0.2  Wed Nov  6 23:05:54 2002
 	- Fix the order of proximity parameters in accordance with the
@@ -44,4 +52,32 @@ Revision history for "cql-java"
 
 0.1  Sun Nov  3 20:58:27 2002
 	- First public release.
+
+--
+
+### Still to do
+	- Fix the bug where "9x" is parsed as two tokens, a TT_NUMBER
+	  followed by a TT_WORD.  The problem here is that I don't
+	  think it's actually possible to fix this without throwing
+	  out StreakTokenizer and rolling our own, which we absolutely
+	  _don't_ want to do.
+	- Write javadoc comments for CQLRelation and ModifierSet.
+	- Write "overview" file for the javadoc documentation.
+	- Some niceties for the cql-decompiling back-end:
+	  * Don't emit redundant parentheses.
+	  * Don't put spaces around relations that don't need them.
+	- Consider the utility of yet another back-end that translates
+	  a CQLNode tree into JZKit's representation of a Type-1 query
+	  tree.  That would be nice so that CQL could become a JZKit
+	  query-type; but you could achieve the same effect by
+	  generating PQF, and running that through JZKit's existing
+	  PQN-to-Type-1 compiler.
+	- Many refinements to the random query generator:
+	  * Generate relation modifiers
+	  * Proximity support
+	  * Don't always generate qualifier/relation for terms
+	  * Better selection of qualifier (configurable?)
+	  * Better selection of terms (from a dictionary file?)
+	  * Introduce wildcard characters into generated terms
+	  * Generate multi-word terms
 

@@ -1,13 +1,20 @@
-# $Id: Makefile,v 1.10 2002-11-12 22:38:35 mike Exp $
+# $Id: Makefile,v 1.11 2002-11-14 22:04:16 mike Exp $
+#
+# Your Java compiler, and javadoc, will require that this source
+# directory is on the classpath.  The best way to do that is just to
+# add the cql-java distribution's "src" subdirectory to your CLASSPATH
+# environment variable, like this:
+#	CLASSPATH=$CLASSPATH:/where/ever/you/unpacked/it/cql-java-VERSION/src
 
 DOCDIR = ../../../../../docs
 
 OBJ = Utils.class \
 	CQLNode.class CQLTermNode.class CQLBooleanNode.class \
 	CQLAndNode.class CQLOrNode.class CQLNotNode.class \
-	CQLRelation.class CQLProxNode.class ModifierSet.class \
-	CQLParser.class CQLLexer.class CQLParseException.class \
-	CQLGenerator.class MissingParameterException.class \
+	CQLProxNode.class CQLPrefixNode.class CQLPrefix.class \
+	CQLRelation.class ModifierSet.class \
+	CQLParser.class CQLLexer.class CQLGenerator.class \
+	CQLParseException.class MissingParameterException.class \
 	PQFTranslationException.class \
 	UnknownQualifierException.class UnknownRelationException.class \
 	UnknownRelationModifierException.class UnknownPositionException.class
@@ -15,15 +22,6 @@ OBJ = Utils.class \
 ../../../../../lib/cql-java.jar: $(OBJ)
 	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class
 
-# ### FIX THIS COMMENT!
-# Your Java compiler will require that this source directory is on the
-# classpath.  Generally, you can use the rules below, which set the
-# classpath suitably.  But that will break if you need other elements
-# in the CLASSPATH too.  If that's the situation you're in, take the
-# "-classpath ../../../.." flag out of the rules below, and set your
-# CLASSPATH environment variable to include
-#	/where/ever/you/unpacked/it/cql-java-VERSION/src
-#
 %.class: %.java
 	javac $<
 

@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.4 2002-11-02 01:21:35 mike Exp $
+// $Id: CQLLexer.java,v 1.5 2002-11-14 22:04:16 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -35,6 +35,7 @@ class CQLLexer extends StreamTokenizer {
     static int TT_RELEVANT  = 1016;	// The "relevant" relation modifier
     static int TT_FUZZY     = 1017;	// The "fuzzy" relation modifier
     static int TT_STEM      = 1018;	// The "stem" relation modifier
+    static int TT_SCR       = 1019;	// The server choice relation
 
     // Support for keywords.  It would be nice to compile this linear
     // list into a Hashtable, but it's hard to store ints as hash
@@ -67,6 +68,7 @@ class CQLLexer extends StreamTokenizer {
 	new Keyword(TT_RELEVANT, "relevant"),
 	new Keyword(TT_FUZZY, "fuzzy"),
 	new Keyword(TT_STEM, "stem"),
+	new Keyword(TT_SCR, "scr"),
     };
 
     // For halfDecentPushBack() and the code at the top of nextToken()

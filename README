@@ -1,4 +1,4 @@
-$Id: README,v 1.17 2002-11-08 13:49:48 mike Exp $
+$Id: README,v 1.18 2002-11-14 22:04:16 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -114,35 +114,5 @@ All the other free CQL compilers everyone's going to write  :-)
 THINGS TO DO
 ------------
 
-* ### Fix bug where "9x" is parsed as two tokens, a TT_NUMBER followed
-  by a TT_WORD.  The problem here is that I don't think it's actually
-  possible to fix this without throwing out StreakTokenizer and
-  rolling our own, which we absolutely _don't_ want to do.
-
-* Allow keywords to be used unquoted as search terms.
-
-* Add support for serverChoiceRelation (scr).
-
-* Write javadoc comments for CQLRelation and ModifierSet.
-
-* Write "overview" file for the javadoc documentation.
-
-* Some niceties for the cql-decompiling back-end:
-	* don't emit redundant parentheses.
-	* don't put spaces around relations that don't need them.
-
-* Consider the utility of yet another back-end that translates a
-  CQLNode tree into a Type-1 query tree using the JZKit data
-  structures.  That would be nice so that CQL could become a JZKit
-  query-type; but you could achieve the same effect by generating PQN,
-  and running that through JZKit's existing PQN-to-Type-1 compiler.
-
-* Many refinements to the random query generator:
-	* Generate relation modifiers
-	* Proximity support
-	* Don't always generate qualifier/relation for terms
-	* Better selection of qualifier (configurable?)
-	* Better selection of terms (from a dictionary file?)
-	* Introduce wildcard characters into generated terms
-	* Generate multi-word terms
+[See the final "Still to do" section of the "Changes" file.]
 
