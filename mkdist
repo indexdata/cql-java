@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# mkdist - make a distribution of the cql-java software
+# $Id: mkdist,v 1.1 2002-11-03 17:37:14 mike Exp $
+
+version=`cat VERSION`
+distdir=cql-java-$version
+distfile=$distdir.tar.gz
+tmpdir=/tmp/$distdir
+echo "Building $distdir"
+trap "rm -rf $tmpdir" 1 2 15	# 0
+cp -rp . $tmpdir
+cd $tmpdir
+find . \( -name CVS -o -name .cvsignore \) -print | xargs rm -rf
+rm mkdist
+( cd src/org/z3950/zing/cql && make && make clean )
+( cd src/org/z3950/zing/cql && make docs )
+cd ..
+tar cf - $distdir | gzip -9v > $distfile
+rm -rf $tmpdir
+echo "Made $distfile"
