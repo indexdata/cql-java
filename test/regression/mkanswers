@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mkanswers,v 1.3 2002-11-20 22:50:45 mike Exp $
+# $Id: mkanswers,v 1.4 2002-11-20 23:10:17 mike Exp $
 
 use IO::File;
 use strict;
@@ -14,7 +14,7 @@ my $compiler = $ARGV[0];
 while (<sections/*>) {
     my $sdir = $_;
     s@sections/@@;
-    next if /^CVS$/;
+    next if /^CVS$/ || /^10$/;	# I _can't_ get CVS to stop extracting "10"
     print "answering section $_ - ", read_file("$sdir/name"), "\n";
 
     while (<$sdir/*.cql>) {

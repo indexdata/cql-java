@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: runtests,v 1.5 2002-11-20 17:55:46 mike Exp $
+# $Id: runtests,v 1.6 2002-11-20 23:10:17 mike Exp $
 
 use IO::File;
 use strict;
@@ -15,6 +15,7 @@ my $norman = $ARGV[1];
 while (<sections/*>) {
     my $sdir = $_;
     s@sections/@@;
+    next if /^CVS$/ || /^10$/;
     print "testing section $_ - ", read_file("$sdir/name"), "\n";
 
     while (<$sdir/*.cql>) {
