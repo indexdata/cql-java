@@ -1,4 +1,4 @@
-// $Header: /home/cvsroot/cql-java/src/org/z3950/zing/cql/CQLParser.java,v 1.2 2002-10-24 16:05:15 mike Exp $
+// $Id: CQLParser.java,v 1.3 2002-10-24 16:06:34 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -13,7 +13,7 @@ import java.io.StreamTokenizer;
  * Compiles a CQL string into a parse tree ...
  * ###
  *
- * @version	$Id: CQLParser.java,v 1.2 2002-10-24 16:05:15 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.3 2002-10-24 16:06:34 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
