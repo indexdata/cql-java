@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 2002-11-03 16:49:38 mike Exp $
+# $Id: Makefile,v 1.5 2002-11-03 17:02:48 mike Exp $
 
 OBJ = Utils.class \
 	CQLNode.class CQLTermNode.class CQLBooleanNode.class \
@@ -20,7 +20,18 @@ docs: ../../../../../docs/overview-tree.html
 	javac $<
 
 clean:
-	rm -f $(CLASS)
+	rm -f $(OBJ) 'CQLLexer$$Keyword.class'
 
 cleandocs:
-	rm -r docs/*
+	rm -rf \
+		../../../../../docs/allclasses-frame.html \
+		../../../../../docs/deprecated-list.html \
+		../../../../../docs/help-doc.html \
+		../../../../../docs/index-all.html \
+		../../../../../docs/index.html \
+		../../../../../docs/org \
+		../../../../../docs/overview-tree.html \
+		../../../../../docs/package-list \
+		../../../../../docs/packages.html \
+		../../../../../docs/serialized-form.html \
+		../../../../../docs/stylesheet.css
