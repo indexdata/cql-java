@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.15 2002-11-20 01:15:15 mike Exp $
+// $Id: CQLNode.java,v 1.16 2002-12-04 16:56:06 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.15 2002-11-20 01:15:15 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.16 2002-12-04 16:56:06 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -93,4 +93,218 @@ public abstract class CQLNode {
      * <TT>&amp;lt;</TT>.
      */
     protected static String xq(String str) { return Utils.xq(str); }
+
+    /**
+     * ### Document this!
+     */
+    abstract public byte[] toType1(Properties config)
+	throws PQFTranslationException;
+
+    // ANS.1 classes
+    protected static final int UNIVERSAL   = 0;
+    protected static final int APPLICATION = 1;
+    protected static final int CONTEXT     = 2;
+    protected static final int PRIVATE     = 3;
+
+    // ASN.1 tag forms
+    protected static final int PRIMITIVE   = 0;
+    protected static final int CONSTRUCTED = 1;
+
+    // ASN.1 UNIVERSAL data types
+    public static final byte BOOLEAN          =  1;
+    public static final byte INTEGER          =  2;
+    public static final byte BITSTRING        =  3;
+    public static final byte OCTETSTRING      =  4;
+    public static final byte NULL             =  5;
+    public static final byte OBJECTIDENTIFIER =  6;
+    public static final byte OBJECTDESCRIPTOR =  7;
+    public static final byte EXTERNAL         =  8;
+    public static final byte ENUMERATED       = 10;
+    public static final byte SEQUENCE         = 16;
+    public static final byte SET              = 17;
+    public static final byte VISIBLESTRING    = 26;
+    public static final byte GENERALSTRING    = 27;
+
+    protected static final int putTag(int asn1class, int fldid, int form,
+				      byte[] record, int offset) {
+        if (fldid < 31)
+            record[offset++] = (byte)(fldid + asn1class*64 + form*32);
+        else {
+            record[offset++] = (byte)(31 + asn1class*64 + form*32);
+            if (fldid < 128)
+                record[offset++] = (byte)(fldid);
+            else {
+                record[offset++] = (byte)(128 + fldid/128);
+                record[offset++] = (byte)(fldid % 128);
+            }
+        }
+        return offset;
+    }
+
+    /**
+     * Put a length directly into a BER record.
+     *
+     * @param length length to put into record
+     * @return the new, incremented value of the offset parameter.
+     */
+    public // ### shouldn't this be protected?
+	static final int putLen(int len, byte[] record, int offset) {
+
+        if (len < 128)
+            record[offset++] = (byte)len;
+        else {
+            int t;
+            record[offset] = (byte)(lenLen(len) - 1);
+            for (t = record[offset]; t > 0; t--) {
+                record[offset+t] = (byte)(len & 0xff);
+                len >>= 8;
+            }
+            t = offset;
+            offset += (record[offset]&0xff) + 1;
+            record[t] += 128; // turn on bit 8 in length byte.
+        }
+        return offset;
+    }
+
+    /**
+     * Get the length needed to represent the given length.
+     *
+     * @param length determine length needed to encode this
+     * @return length needed to encode given length
+     */
+    protected // ### shouldn't this be private?
+	static final int lenLen(int length) {
+
+        return ((length < 128) ? 1 :
+            (length < 256) ? 2 :
+                (length < 65536L) ? 3 : 4);
+    }
+
+    /**
+     * Get the length needed to represent the given number.
+     *
+     * @param number determine length needed to encode this
+     * @return length needed to encode given number
+     */
+    protected static final int numLen(long num) {
+        num = num < 0 ? -num : num;
+	// ### Wouldn't this be better done algorithmically?
+	// Or at least with the constants expressed in hex?
+        return ((num < 128) ? 1 :
+            (num < 32768) ? 2 :
+                (num < 8388608) ? 3 :
+                    (num < 2147483648L) ? 4 :
+                        (num < 549755813888L) ? 5 :
+                            (num < 140737488355328L) ? 6 :
+                                (num < 36028797018963968L) ? 7 : 8);
+    }
+
+    /**
+     * Put a number into a given buffer
+     *
+     * @param num number to put into buffer
+     * @param record buffer to use
+     * @param offset offset into buffer
+     * @return the new, incremented value of the offset parameter.
+     */
+    protected static final int putNum(long num, byte record[], int offset) {
+        int cnt=numLen(num);
+
+        for (int count = cnt - 1; count >= 0; count--) {
+            record[offset+count] = (byte)(num & 0xff);
+            num >>= 8;
+        }
+        return offset+cnt;
+    }
+
+    // Used only by the makeOID() method
+    private static final java.util.Hashtable madeOIDs =
+	new java.util.Hashtable(10);
+
+    protected static final byte[] makeOID(String oid) {
+        byte[] o;
+        int dot, offset = 0, oidOffset = 0, value;
+
+        if ((o = (byte[])madeOIDs.get(oid)) == null) {
+            o = new byte[100];
+
+	    // Isn't this kind of thing excruciating in Java?
+            while (oidOffset < oid.length() &&
+              Character.isDigit(oid.charAt(oidOffset)) == true) {
+                if (offset > 90) // too large
+                    return null;
+
+                dot = oid.indexOf('.', oidOffset);
+                if (dot == -1)
+                    dot = oid.length();
+
+                value = Integer.parseInt(oid.substring(oidOffset, dot));
+
+                if (offset == 0) {  // 1st two are special
+                    if (dot == -1) // ### can't happen: -1 is reassigned above
+                        return null; // can't be this short
+                    oidOffset = dot+1; // skip past '.'
+
+                    dot = oid.indexOf('.', oidOffset);
+                    if (dot == -1)
+                        dot = oid.length();
+
+		    // ### Eh?!
+                    value = value * 40 +
+                        Integer.parseInt(oid.substring(oidOffset,dot));
+                }
+
+                if (value < 0x80) {
+                    o[offset++] = (byte)value;
+                } else {
+                    int count = 0;
+                    byte bits[] = new byte[12]; // save a 84 (12*7) bit number
+
+                    while (value != 0) {
+                        bits[count++] = (byte)(value & 0x7f);
+                        value >>= 7;
+                    }
+
+                    // Now place in the correct order
+                    while (--count > 0)
+                        o[offset++] = (byte)(bits[count] | 0x80);
+
+                    o[offset++] = bits[count];
+		}
+
+                dot = oid.indexOf('.', oidOffset);
+                if (dot == -1)
+                    break;
+
+		oidOffset = dot+1;
+            }
+
+            byte[] ptr = new byte[offset];
+            System.arraycopy(o, 0, ptr, 0, offset);
+            madeOIDs.put(oid, ptr);
+            return ptr;
+        }
+        return o;
+    }
+
+    public static final byte[] makeQuery(CQLNode root, Properties properties)
+	throws PQFTranslationException {
+        byte[] rpnStructure = root.toType1(properties);
+        byte[] qry = new byte[rpnStructure.length+100];
+        int offset = 0;
+        offset = putTag(CONTEXT, 1, CONSTRUCTED, qry, offset);
+        qry[offset++] = (byte)(0x80&0xff);  // indefinite length
+        offset = putTag(UNIVERSAL, OBJECTIDENTIFIER, PRIMITIVE, qry, offset);
+        byte[] oid = makeOID("1.2.840.10003.3.1"); // bib-1
+        offset = putLen(oid.length, qry, offset);
+        System.arraycopy(oid, 0, qry, offset, oid.length);
+        offset += oid.length;
+        System.arraycopy(rpnStructure, 0, qry, offset, rpnStructure.length);
+        offset += rpnStructure.length;
+        qry[offset++] = 0x00;  // end of query
+        qry[offset++] = 0x00;
+        byte[] q = new byte[offset];
+        System.arraycopy(qry, 0, q, 0, offset);
+        return q;
+    }
 }
