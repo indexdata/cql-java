@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.15 2002-12-09 17:01:03 mike Exp $
+// $Id: CQLTermNode.java,v 1.16 2002-12-11 00:30:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.15 2002-12-09 17:01:03 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.16 2002-12-11 00:30:02 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -136,7 +136,7 @@ public class CQLTermNode extends CQLNode {
     public String toPQF(Properties config) throws PQFTranslationException {
 	if (qualifier.equals("srw.resultSet")) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
-	    // ### Parallel code is required in toType1()
+	    // There's parallel code in toType1()
 	    return "@set " + maybeQuote(term);
 	}
 
@@ -177,6 +177,25 @@ public class CQLTermNode extends CQLNode {
     }
 
     public byte[] toType1(Properties config) throws PQFTranslationException {
+	if (qualifier.equals("srw.resultSet")) {
+	    // Special case: ignore relation, modifiers, wildcards, etc.
+	    // There's parallel code in toPQF()
+	    byte[] operand = new byte[term.length()+100];
+	    int offset;
+	    offset = putTag(CONTEXT, 0, CONSTRUCTED, operand, 0); // op
+	    operand[offset++] = (byte)(0x80&0xff); // indefinite length
+	    offset = putTag(CONTEXT, 31, PRIMITIVE, operand, offset); // ResultSetId
+	    byte[] t = term.getBytes();
+	    offset = putLen(t.length, operand, offset);
+	    System.arraycopy(t, 0, operand, offset, t.length);
+	    offset += t.length;
+	    operand[offset++] = 0x00; // end of Operand
+	    operand[offset++] = 0x00;
+	    byte[] o = new byte[offset];
+	    System.arraycopy(operand, 0, o, 0, offset);
+	    return o;
+	}
+
 	String text = term;
 	if (text.length() > 0 && text.substring(0, 1).equals("^"))
 	    text = text.substring(1);
