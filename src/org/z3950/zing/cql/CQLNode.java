@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.17 2002-12-06 12:35:15 mike Exp $
+// $Id: CQLNode.java,v 1.18 2002-12-08 00:37:54 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.17 2002-12-06 12:35:15 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.18 2002-12-08 00:37:54 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -76,8 +76,7 @@ public abstract class CQLNode {
      *	<TT>etc/pqf.properties</TT>, which see.
      * @return
      *	A String containing a PQF query equivalent to the parse-tree
-     *	whose root is this node.  This may be fed into the tool of
-     *	your choice to obtain a BER-encoded packet.
+     *	whose root is this node.
      */
     abstract public String toPQF(Properties config)
 	throws PQFTranslationException;
@@ -95,8 +94,23 @@ public abstract class CQLNode {
     protected static String xq(String str) { return Utils.xq(str); }
 
     /**
-     * ### Document this!
-     * ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc
+     * Renders a parser-tree into a BER-endoded packet representing an
+     * equivalent Z39.50 Type-1 query.  If you don't know what that
+     * means, then you don't need this method :-)  This is useful
+     * primarily for SRW-to-Z39.50 gateways.
+     *
+     * @param config
+     *	A <TT>Properties</TT> object containing configuration
+     *	information that specifies the mapping from CQL qualifiers,
+     *	relations, etc. to Type-1 attributes.  The mapping
+     *	specification is described in the cql-java distribution's
+     *	sample PQF-mapping configuration file,
+     *	<TT>etc/pqf.properties</TT>, which see.
+     * @return
+     *	A byte array containing the BER packet.
+     * @see
+     *	<A href="ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc"
+     *	        >ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc</A>
      */
     abstract public byte[] toType1(Properties config)
 	throws PQFTranslationException;
