@@ -1,6 +1,6 @@
-$Id: Changes,v 1.17 2002-11-20 09:49:28 mike Exp $
+$Id: Changes,v 1.18 2002-11-20 22:50:18 mike Exp $
 
-Revision history for "cql-java"
+Revision history for the "cql-java" package.
 See the bottom of this file for a list of things still to do.
 
 0.4  (IN PROGRESS)
@@ -15,15 +15,19 @@ See the bottom of this file for a list of things still to do.
 	  rendition of prefix-mapping: a <prefixes> element,
 	  containing one of more <prefix>es may appear at the top
 	  of either a <searchClause> or a <triple>.
+	- Include test/regression/xmlpp.pl in the distribution: this
+	  may now be used for testing whether a CQL compiler produces
+	  _equivalent_ XCQL to the what's in the regression test,
+	  rather than requiring byte-identical output.
+	- Include the reference XCQL output in the distribution, for
+	  the regression test suite to run against.
 	- Change build process so that javadoc documentation is built
-	  by "make" in the "docs" directory.
+	  by "make" in the "docs" directory.  There's now a top-level
+	  makefile that builds the source, runs the test suite and
+	  creates the documentation.
 	- Write javadoc comments for CQLRelation and ModifierSet.
 	- Other improvements to javadoc comments (e.g. describe the
 	  `config' parameter to the toPQF() method.)
-	- Include test/regression/xmlpp.pl in the distribution: this
-	  is now used for testing whether a CQL compiler produces
-	  _equivalent_ XCQL to the what's in the regression test,
-	  rather than requiring byte-identical output.
 	- Sort out the licence: I've settled on the LGPL.
 	- Remove the redundant and misleading etc/Grammar file.
 	- Fix up various Maintenance Agency web addresses that have
@@ -90,9 +94,6 @@ See the bottom of this file for a list of things still to do.
 	  think it's actually possible to fix this without throwing
 	  out StreamTokenizer and rolling our own, which we absolutely
 	  _don't_ want to do.
-	- Find out what the ZNG group finally settled on as the
-	  correct XCQL representation of prefix-mapping, and tweak my
-	  toXCQL() output to match that.
 	- Add srw.resultSet support to the toPFQ() method.
 	- Write "overview" file for the javadoc documentation.
 	- Some niceties for the cql-decompiling back-end:
