@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.9 2002-12-06 12:34:45 mike Exp $
+// $Id: CQLRelation.java,v 1.10 2002-12-11 17:14:20 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL qualifier and term.
  *
- * @version	$Id: CQLRelation.java,v 1.9 2002-12-06 12:34:45 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.10 2002-12-11 17:14:20 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -71,7 +71,7 @@ public class CQLRelation extends CQLNode {
 	throw new Error("CQLRelation.toPQF() can never be called");
     }
 
-    public byte[] toType1(Properties config) {
-	throw new Error("CQLRelation.toType1() can never be called");
+    public byte[] toType1BER(Properties config) {
+	throw new Error("CQLRelation.toType1BER() can never be called");
     }
 }

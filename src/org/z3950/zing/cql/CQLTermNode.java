@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.16 2002-12-11 00:30:02 mike Exp $
+// $Id: CQLTermNode.java,v 1.17 2002-12-11 17:14:20 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.16 2002-12-11 00:30:02 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.17 2002-12-11 17:14:20 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -136,7 +136,7 @@ public class CQLTermNode extends CQLNode {
     public String toPQF(Properties config) throws PQFTranslationException {
 	if (qualifier.equals("srw.resultSet")) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
-	    // There's parallel code in toType1()
+	    // There's parallel code in toType1BER()
 	    return "@set " + maybeQuote(term);
 	}
 
@@ -176,7 +176,7 @@ public class CQLTermNode extends CQLNode {
 	return str;
     }
 
-    public byte[] toType1(Properties config) throws PQFTranslationException {
+    public byte[] toType1BER(Properties config) throws PQFTranslationException {
 	if (qualifier.equals("srw.resultSet")) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
 	    // There's parallel code in toPQF()
@@ -204,7 +204,7 @@ public class CQLTermNode extends CQLNode {
 	    text = text.substring(0, len-1);
 
 	String attr, attrList, term = maybeQuote(text);
-	System.out.println("in CQLTermNode.toType101(): PQF=" + toPQF(config));
+	System.out.println("in CQLTermNode.toType1BER(): PQF=" + toPQF(config));
 	byte[] operand = new byte[text.length()+100];
 	int i, j, offset, type, value;
 	offset = putTag(CONTEXT, 0, CONSTRUCTED, operand, 0); // op

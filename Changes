@@ -1,11 +1,11 @@
-$Id: Changes,v 1.26 2002-12-09 17:01:03 mike Exp $
+$Id: Changes,v 1.27 2002-12-11 17:14:20 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
 
 0.5  (IN PROGRESS, currently at RC1)
 	- Add an extra back-end method,
-		byte[] toType1(Properties config)
+		byte[] toType1BER(Properties config)
 	  which generates an opaque BER-encoded PDU suitable for
 	  forwarding to Z39.50 server as a pasrt of a searchRequest
 	  APDU.  This was contributed by Ralph Levan <levan@oclc.org>
@@ -24,9 +24,7 @@ See the bottom of this file for a list of things still to do.
 	  difference to anything: in particular, file-names such as
 	  "cql-java.jar" remain the same.
 	- Recreate last-in-field support
-	- Add srw.resultSet support to the toPFQ() method.  I've not
-	  attempted this for the toType1() method: Ralph will have to
-	  do it.
+	- Add srw.resultSet support to the toPFQ() method.
 
 0.4  Thu Nov 21 10:09:26 2002
 	- Add support for the new "phonetic" relation modifier,

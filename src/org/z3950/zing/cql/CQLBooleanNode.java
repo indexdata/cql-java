@@ -1,4 +1,4 @@
-// $Id: CQLBooleanNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.13 2002-12-11 17:14:20 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.13 2002-12-11 17:14:20 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
     CQLBooleanNode() {}		// prevent javadoc from documenting this
@@ -59,11 +59,11 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     abstract String op();
 
-    public byte[] toType1(Properties config) throws PQFTranslationException {
-        System.out.println("in CQLBooleanNode.toType101(): PQF=" +
+    public byte[] toType1BER(Properties config) throws PQFTranslationException {
+        System.out.println("in CQLBooleanNode.toType1BER(): PQF=" +
 			   toPQF(config));
-        byte[] rpn1 = left.toType1(config);
-        byte[] rpn2 = right.toType1(config);
+        byte[] rpn1 = left.toType1BER(config);
+        byte[] rpn2 = right.toType1BER(config);
         byte[] op = opType1();
         byte[] rpnStructure = new byte[rpn1.length+rpn2.length+op.length+4];
         

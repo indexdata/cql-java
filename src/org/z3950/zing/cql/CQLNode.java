@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.19 2002-12-09 16:29:44 mike Exp $
+// $Id: CQLNode.java,v 1.20 2002-12-11 17:14:20 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.19 2002-12-09 16:29:44 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.20 2002-12-11 17:14:20 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -112,7 +112,7 @@ public abstract class CQLNode {
      *	<A href="ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc"
      *	        >ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc</A>
      */
-    abstract public byte[] toType1(Properties config)
+    abstract public byte[] toType1BER(Properties config)
 	throws PQFTranslationException;
 
     // ANS.1 classes
@@ -304,7 +304,7 @@ public abstract class CQLNode {
 
     public static final byte[] makeQuery(CQLNode root, Properties properties)
 	throws PQFTranslationException {
-        byte[] rpnStructure = root.toType1(properties);
+        byte[] rpnStructure = root.toType1BER(properties);
         byte[] qry = new byte[rpnStructure.length+100];
         int offset = 0;
         offset = putTag(CONTEXT, 1, CONSTRUCTED, qry, offset);
