@@ -1,30 +1,31 @@
-$Id: Changes,v 1.27 2002-12-11 17:14:20 mike Exp $
+$Id: Changes,v 1.28 2002-12-12 15:03:50 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
 
-0.5  (IN PROGRESS, currently at RC1)
+0.5  (IN PROGRESS, currently at RC2)
 	- Add an extra back-end method,
 		byte[] toType1BER(Properties config)
 	  which generates an opaque BER-encoded PDU suitable for
 	  forwarding to Z39.50 server as a pasrt of a searchRequest
 	  APDU.  This was contributed by Ralph Levan <levan@oclc.org>
+	- Add srw.resultSet support to the toPFQ() method.
+	- Add new resultSetName() method to CQLNode and its
+	  subclasses, returning the name of the referenced result-set
+	  for a node that is just a result-set reference, and null for
+	  anything else.
 	- Change regression-test rules for Adam's compiler to use his
 	  new front-end cql2xcql instead of the old cqlparse3.
 	- Change the names of the anchoring properties in
 	  etc/pqf.properties and the CQLTermNode code that examines
 	  them, in accordance with Adam's PQF-renderer's behaviour.
 	  This gives more flexibility in terms of generating
-	  attributes for end-of-field anchoring.
-	- Fix comment in etc/pqf.properties (claimed that the Type-1
-	  "string" attribute was "phrase").  Just a documentation
-	  error.
+	  attributes for end-of-field anchoring.  Various other minor
+	  tweaks to the pqf.properties file, mostly to the comments.
 	- Change the capitalisation of the project name from
 	  "cql-java" to "CQL-Java".  That doesn't really make any
 	  difference to anything: in particular, file-names such as
 	  "cql-java.jar" remain the same.
-	- Recreate last-in-field support
-	- Add srw.resultSet support to the toPFQ() method.
 
 0.4  Thu Nov 21 10:09:26 2002
 	- Add support for the new "phonetic" relation modifier,
