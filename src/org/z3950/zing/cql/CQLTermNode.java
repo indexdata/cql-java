@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.3 2002-10-25 16:56:43 mike Exp $
+// $Id: CQLTermNode.java,v 1.4 2002-10-27 00:46:25 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -7,7 +7,7 @@ package org.z3950.zing.cql;
  * Represents a terminal node in a CQL parse-tree ...
  * ###
  *
- * @version	$Id: CQLTermNode.java,v 1.3 2002-10-25 16:56:43 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.4 2002-10-27 00:46:25 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -22,9 +22,9 @@ public class CQLTermNode extends CQLNode {
 
     String toXCQL(int level) {
 	return (indent(level) + "<searchClause>\n" +
-		indent(level+1) + "<index>" + qualifier + "<index>\n" +
-		indent(level+1) + "<relation>" + relation + "<relation>\n" +
-		indent(level+1) + "<term>" + term + "<term>\n" +
+		indent(level+1) + "<index>" + xq(qualifier) + "<index>\n" +
+		indent(level+1) + "<relation>" + xq(relation) + "<relation>\n"+
+		indent(level+1) + "<term>" + xq(term) + "<term>\n" +
 		indent(level) + "</searchClause>\n");
     }
 

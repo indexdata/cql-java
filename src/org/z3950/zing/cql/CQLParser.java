@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.7 2002-10-25 16:56:43 mike Exp $
+// $Id: CQLParser.java,v 1.8 2002-10-27 00:46:25 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,130 +12,118 @@ import java.io.StreamTokenizer;
  * Compiles a CQL string into a parse tree ...
  * ###
  *
- * @version	$Id: CQLParser.java,v 1.7 2002-10-25 16:56:43 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.8 2002-10-27 00:46:25 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
 public class CQLParser {
-    private String cql;
-    private StreamTokenizer st;
+    private CQLLexer lexer;
+    static private boolean PARSEDEBUG = false;
+    static private boolean LEXDEBUG = false;
 
     private class CQLParseException extends Exception {
 	CQLParseException(String s) { super(s); }
     }
 
-    public CQLParser() {
-	// Nothing to do: do we need this constructor, then?
+    static void debug(String str) {
+	if (PARSEDEBUG)
+	    System.err.println("PARSEDEBUG: " + str);
     }
 
     public CQLNode parse(String cql)
 	throws CQLParseException, IOException {
-	this.cql = cql;
-	st = new StreamTokenizer(new StringReader(cql));
-	st.ordinaryChar('=');
-	st.ordinaryChar('<');
-	st.ordinaryChar('>');
-	st.ordinaryChar('/');
-	st.ordinaryChar('(');
-	st.ordinaryChar(')');
+	lexer = new CQLLexer(cql, LEXDEBUG);
 
-	if (false) {
-	    // Lexical debug
-	    int token;
-	    while ((token = st.nextToken()) != st.TT_EOF) {
-		System.out.println("token=" + token + ", " +
-				   "nval=" + st.nval + ", " +
-				   "sval=" + st.sval);
-	    }
-	    System.exit(0);
-	}
-
-	st.nextToken();
-	System.err.println("*about to parse_query()");
-	CQLNode root = parse_query();
-	if (st.ttype != st.TT_EOF)
-	    throw new CQLParseException("junk after end: " + render(st));
+	lexer.nextToken();
+	debug("about to parse_query()");
+	CQLNode root = parse_query("srw.serverChoice", "=");
+	if (lexer.ttype != lexer.TT_EOF)
+	    throw new CQLParseException("junk after end: " + lexer.render());
 
 	return root;
     }
 
-    private CQLNode parse_query()
+    private CQLNode parse_query(String qualifier, String relation)
 	throws CQLParseException, IOException {
-	System.err.println("*in parse_query()");
+	debug("in parse_query()");
 
-	CQLNode term = parse_term();
-	while (st.ttype == st.TT_WORD) {
-	    String op = st.sval.toLowerCase();
-	    System.err.println("*checking op '" + op + "'");
-	    if (st.sval.equals("and")) {
-		match(st.TT_WORD);
-		CQLNode term2 = parse_term();
+	CQLNode term = parse_term(qualifier, relation);
+	while (lexer.ttype == lexer.TT_WORD) {
+	    String op = lexer.sval.toLowerCase();
+	    debug("checking op '" + op + "'");
+	    if (lexer.sval.equals("and")) {
+		match(lexer.TT_WORD);
+		CQLNode term2 = parse_term(qualifier, relation);
 		term = new CQLAndNode(term, term2);
-	    } else if (st.sval.equals("or")) {
-		match(st.TT_WORD);
-		CQLNode term2 = parse_term();
+	    } else if (lexer.sval.equals("or")) {
+		match(lexer.TT_WORD);
+		CQLNode term2 = parse_term(qualifier, relation);
 		term = new CQLOrNode(term, term2);
-	    } else if (st.sval.equals("not")) {
-		match(st.TT_WORD);
-		CQLNode term2 = parse_term();
+	    } else if (lexer.sval.equals("not")) {
+		match(lexer.TT_WORD);
+		CQLNode term2 = parse_term(qualifier, relation);
 		term = new CQLNotNode(term, term2);
+	    } else if (lexer.sval.equals("prox")) {
+		// ### Handle "prox"
+	    } else {
+		throw new CQLParseException("unrecognised boolean: '" +
+					    lexer.sval + "'");
 	    }
-	    // ### Need to handle "prox"
 	}
 
-	System.err.println("*no more ops");
+	debug("no more ops");
 	return term;
     }
 
-    private CQLNode parse_term()
+    private CQLNode parse_term(String qualifier, String relation)
 	throws CQLParseException, IOException {
-	System.err.println("*in parse_term()");
-	if (st.ttype == '(') {
-	    match('(');
-	    CQLNode expr = parse_query();
-	    match(')');
-	    return expr;
+	debug("in parse_term()");
+
+	String word;
+	while (true) {
+	    if (lexer.ttype == '(') {
+		debug("parenthesised term");
+		match('(');
+		CQLNode expr = parse_query(qualifier, relation);
+		match(')');
+		return expr;
+	    } else if (lexer.ttype != lexer.TT_WORD && lexer.ttype != '"') {
+		throw new CQLParseException("expected qualifier or term, " +
+					    "got " + lexer.render());
+	    }
+
+	    debug("non-parenthesised term");
+	    word = lexer.sval;
+	    match(lexer.ttype);
+	    if (!isRelation())
+		break;
+
+	    qualifier = word;
+	    relation = lexer.render(false);
+	    match(lexer.ttype);
+	    debug("qualifier='" + qualifier + ", relation='" + relation + "'");
 	}
 
-	System.err.println("*not a parenthesised term");
-	// ### Need to parse qualifier-relation pairs
-	String word = st.sval;
-	match(st.ttype);
-	CQLTermNode node = new CQLTermNode("x", "=", word);
-	System.err.println("*made term node " + node);
+	CQLTermNode node = new CQLTermNode(qualifier, relation, word);
+	debug("made term node " + node);
 	return node;
+    }
+
+    boolean isRelation() {
+	// ### Also need to handle <=, >=, <>
+	return (lexer.ttype == '<' ||
+		lexer.ttype == '>' ||
+		lexer.ttype == '=');
     }
 
     private void match(int token)
 	throws CQLParseException, IOException {
-	System.err.println("*in match(" + render(st, token, null) + ")");
-	if (st.ttype != token)
-	    throw new CQLParseException("expected " + render(st, token, null) +
-					", " + "got " + render(st));
-	st.nextToken();
-    }
-
-    // ### This utility should surely be a method of the StreamTokenizer class
-    private static String render(StreamTokenizer st) {
-	return render(st, st.ttype, null);
-    }
-
-    private static String render(StreamTokenizer st, int token, String str) {
-	String ret;
-
-	if (token == st.TT_EOF) {
-	    return "EOF";
-	} else if (token == st.TT_EOL) {
-	    return "EOL";
-	} else if (token == st.TT_NUMBER) {
-	    return "number: " + st.nval;
-	} else if (token == st.TT_WORD) {
-	    return "word: \"" + st.sval + "\"";
-	} else if (token == '"' || token == '\'') {
-	    return "string: \"" + st.sval + "\"";
-	}
-
-        return "'" + String.valueOf((char) token) + "'";
+	debug("in match(" + lexer.render(token, null, true) + ")");
+	if (lexer.ttype != token)
+	    throw new CQLParseException("expected " +
+					lexer.render(token, null, true) +
+					", " + "got " + lexer.render());
+	lexer.nextToken();
     }
 
 
@@ -144,7 +132,27 @@ public class CQLParser {
     // e.g. echo '(au=Kerninghan or au=Ritchie) and ti=Unix' |
     //				java org.z3950.zing.cql.CQLParser
     // yields:
-    //	###
+    //	<triple>
+    //	  <boolean>and</boolean>
+    //	  <triple>
+    //	    <boolean>or</boolean>
+    //	    <searchClause>
+    //	      <index>au<index>
+    //	      <relation>=<relation>
+    //	      <term>Kerninghan<term>
+    //	    </searchClause>
+    //	    <searchClause>
+    //	      <index>au<index>
+    //	      <relation>=<relation>
+    //	      <term>Ritchie<term>
+    //	    </searchClause>
+    //	  </triple>
+    //	  <searchClause>
+    //	    <index>ti<index>
+    //	    <relation>=<relation>
+    //	    <term>Unix<term>
+    //	  </searchClause>
+    //	</triple>
     //
     public static void main (String[] args) {
 	if (args.length != 0) {
@@ -157,7 +165,7 @@ public class CQLParser {
 	    // Read in the whole of standard input in one go
 	    int nbytes = System.in.read(bytes);
 	} catch (java.io.IOException ex) {
-	    System.err.println("Can't read query: " + ex);
+	    System.err.println("Can't read query: " + ex.getMessage());
 	    System.exit(2);
 	}
 	String cql = new String(bytes);
@@ -165,14 +173,74 @@ public class CQLParser {
 	CQLNode root;
 	try {
 	    root = parser.parse(cql);
-	    System.err.println("root='" + root + "'");
+	    debug("root='" + root + "'");
 	    System.out.println(root.toXCQL(0));
 	} catch (CQLParseException ex) {
-	    System.err.println("Syntax error: " + ex);
+	    System.err.println("Syntax error: " + ex.getMessage());
 	    System.exit(3);
 	} catch (java.io.IOException ex) {
-	    System.err.println("Can't compile query: " + ex);
+	    System.err.println("Can't compile query: " + ex.getMessage());
 	    System.exit(4);
 	}
+    }
+}
+
+
+// This is a trivial subclass for java.io.StreamTokenizer which knows
+// about the multi-character tokens "<=", ">=" and "<>", and included
+// a render() method.  Used only by CQLParser.
+//
+class CQLLexer extends StreamTokenizer {
+    private static boolean lexdebug;
+
+    CQLLexer(String cql, boolean lexdebug) {
+	super(new StringReader(cql));
+	this.ordinaryChar('=');
+	this.ordinaryChar('<');
+	this.ordinaryChar('>');
+	this.ordinaryChar('/');
+	this.ordinaryChar('(');
+	this.ordinaryChar(')');
+	this.wordChars('\'', '\''); // prevent this from introducing strings
+	this.lexdebug = lexdebug;
+    }
+
+    public int nextToken() throws java.io.IOException {
+	int token = super.nextToken();
+	if (lexdebug)
+	    System.out.println("LEXDEBUG: " +
+			       "token=" + token + ", " +
+			       "nval=" + this.nval + ", " +
+			       "sval=" + this.sval);
+
+	return token;
+    }
+
+    String render() {
+	return this.render(this.ttype, null, true);
+    }
+
+    String render(boolean quoteChars) {
+	return this.render(this.ttype, null, quoteChars);
+    }
+
+    String render(int token, String str, boolean quoteChars) {
+	String ret;
+
+	if (token == this.TT_EOF) {
+	    return "EOF";
+	} else if (token == this.TT_EOL) {
+	    return "EOL";
+	} else if (token == this.TT_NUMBER) {
+	    return "number: " + this.nval;
+	} else if (token == this.TT_WORD) {
+	    return "word: \"" + this.sval + "\"";
+	} else if (token == '"') {
+	    return "string: \"" + this.sval + "\"";
+	}
+
+	String res = String.valueOf((char) token);
+	if (quoteChars) res = "'" + res + "'";
+        return res;
     }
 }
