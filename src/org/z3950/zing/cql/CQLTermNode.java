@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.20 2003-03-04 18:06:11 mike Exp $
+// $Id: CQLTermNode.java,v 1.21 2003-07-29 22:53:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.20 2003-03-04 18:06:11 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.21 2003-07-29 22:53:02 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -216,7 +216,7 @@ public class CQLTermNode extends CQLNode {
 	if (len > 0 && text.substring(len-1, len).equals("^"))
 	    text = text.substring(0, len-1);
 
-	String attr, attrList, term = maybeQuote(text);
+	String attr, attrList, term = text;
 	byte[] operand = new byte[text.length()+100];
 	int i, j, offset, type, value;
 	offset = putTag(CONTEXT, 0, CONSTRUCTED, operand, 0); // op

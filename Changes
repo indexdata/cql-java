@@ -1,7 +1,12 @@
-$Id: Changes,v 1.31 2003-02-05 15:54:30 mike Exp $
+$Id: Changes,v 1.32 2003-07-29 22:53:02 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
+
+0.6  Tue Jul 29 23:33:56 2003
+	- Include Ralph's fix for CQLTermNode::toType1BER() to prevent
+	  it surrounding multi-word terms in quotes when encoded into
+	  BER packet.
 
 0.5  Wed Feb  5 15:50:57 2003
 	- Add an extra back-end method,
