@@ -1,4 +1,4 @@
-$Id: Changes,v 1.20 2002-11-21 10:11:08 mike Exp $
+$Id: Changes,v 1.21 2002-11-24 17:42:26 mike Exp $
 
 Revision history for the "cql-java" package.
 See the bottom of this file for a list of things still to do.
@@ -17,8 +17,8 @@ See the bottom of this file for a list of things still to do.
 	  of either a <searchClause> or a <triple>.
 	- Include test/regression/xmlpp.pl in the distribution: this
 	  may now be used for testing whether a CQL compiler produces
-	  _equivalent_ XCQL to the what's in the regression test,
-	  rather than requiring byte-identical output.
+	  _equivalent_ XCQL to what's in the regression test, rather
+	  than requiring byte-identical output.
 	- Include the reference XCQL output in the distribution, for
 	  the regression test suite to run against.
 	- Change build process so that javadoc documentation is built
@@ -95,7 +95,10 @@ See the bottom of this file for a list of things still to do.
 	  out StreamTokenizer and rolling our own, which we absolutely
 	  _don't_ want to do.
 	- Add srw.resultSet support to the toPFQ() method.
-	- Write "overview" file for the javadoc documentation.
+	- Write some "glue" code to generate a BER-encoded Type-1
+	  query packet using ZJKit's PQF-compiler and the facilities
+	  for serialising the resulting Type-1 tree representation.
+	- Write "package.html" file for the javadoc documentation.
 	- Some niceties for the cql-decompiling back-end:
 	  * Don't emit redundant parentheses.
 	  * Don't put spaces around relations that don't need them.
