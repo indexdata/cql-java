@@ -1,7 +1,19 @@
-$Id: Changes,v 1.12 2002-11-15 15:28:03 mike Exp $
+$Id: Changes,v 1.13 2002-11-17 23:29:02 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
+
+0.4  (IN PROGRESS)
+	- Add support for the new "phonetic" relation modifier,
+	  including its mapping in "etc/pqf.properties".
+	- Make prefix-maps bind loosely, so that ``>dc=x a and b''
+	  applies the dc=x binding to both the ``a'' and ``b''
+	  sub-queries.
+	- Change build process so that javadoc documentation is built
+	  by "make" in the "docs" directory.
+	- Write javadoc comments for CQLRelation and ModifierSet.
+	- Other improvements to javadoc comments (e.g. describe the
+	  `config' parameter to the toPQF() method.)
 
 0.3  Fri Nov 15 12:04:04 2002
 	- Allow keywords to be used unquoted as search terms.
@@ -62,14 +74,12 @@ See the bottom of this file for a list of things still to do.
 	- Fix the bug where "9x" is parsed as two tokens, a TT_NUMBER
 	  followed by a TT_WORD.  The problem here is that I don't
 	  think it's actually possible to fix this without throwing
-	  out StreakTokenizer and rolling our own, which we absolutely
+	  out StreamTokenizer and rolling our own, which we absolutely
 	  _don't_ want to do.
-	- Add support for the new "phonetic" relation modifier,
-	  including its mapping in "etc/pqf.properties".
-	- Describe prefix-mapping in the CQL tutorial (not really
-	  anything to do with cql-java, but this note will remind me
-	  to do it.)
-	- Write javadoc comments for CQLRelation and ModifierSet.
+	- Find out what the ZNG group finally settled on as the
+	  correct XCQL representation of prefix-mapping, and tweak my
+	  toXCQL() output to match that.
+	- Add srw.resultSet support to the toPFQ() method.
 	- Write "overview" file for the javadoc documentation.
 	- Some niceties for the cql-decompiling back-end:
 	  * Don't emit redundant parentheses.

@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.13 2002-11-08 16:32:01 mike Exp $
+// $Id: CQLNode.java,v 1.14 2002-11-17 23:29:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.13 2002-11-08 16:32:01 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.14 2002-11-17 23:29:02 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -46,6 +46,13 @@ public abstract class CQLNode {
      *	>Chapter 7 (Supporting Tools)</A> of the
      * <A href="http://indexdata.dk/yaz/">YAZ</A> manual.
      * <P>
+     * @param config
+     *	A <TT>Properties</TT> object containing configuration
+     *	information that specifies the mapping from CQL qualifiers,
+     *	relations, etc. to Type-1 attributes.  The mapping
+     *	specification is described in the cql-java distribution's
+     *	sample PQF-mapping configuration file,
+     *	<TT>etc/pqf.properties</TT>, which see.
      * @return
      *	A String containing a PQF query equivalent to the parse-tree
      *	whose root is this node.  This may be fed into the tool of

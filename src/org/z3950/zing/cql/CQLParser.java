@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.20 2002-11-14 22:04:16 mike Exp $
+// $Id: CQLParser.java,v 1.21 2002-11-17 23:29:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.20 2002-11-14 22:04:16 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.21 2002-11-17 23:29:02 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -119,7 +119,8 @@ public class CQLParser {
 		match('/');
 		if (lexer.ttype != lexer.TT_RELEVANT &&
 		    lexer.ttype != lexer.TT_FUZZY &&
-		    lexer.ttype != lexer.TT_STEM)
+		    lexer.ttype != lexer.TT_STEM &&
+		    lexer.ttype != lexer.TT_PHONETIC)
 		    throw new CQLParseException("expected relation modifier, "
 						+ "got " + lexer.render());
 		relation.addModifier(lexer.sval.toLowerCase());
@@ -146,7 +147,7 @@ public class CQLParser {
 	    name = identifier;
 	    identifier = matchSymbol("prefix-identifer");
 	}
-	CQLNode term = parseTerm(qualifier, relation);
+	CQLNode term = parseQuery(qualifier, relation);
 	return new CQLPrefixNode(name, identifier, term);
     }
 
@@ -223,6 +224,7 @@ public class CQLParser {
 		lexer.ttype == lexer.TT_SCR);
     }
 
+    // Checks for a relation that may be used inside a prox operator
     private boolean isProxRelation() {
 	debug("isProxRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
@@ -257,6 +259,8 @@ public class CQLParser {
 	    // The following is a complete list of keywords.  Because
 	    // they're listed here, they can be used unquoted as
 	    // qualifiers, terms, prefix names and prefix identifiers.
+	    // ### Instead, we should ask the lexer whether what we
+	    // have is a keyword, and let the knowledge reside there.
 	    lexer.ttype == lexer.TT_AND ||
 	    lexer.ttype == lexer.TT_OR ||
 	    lexer.ttype == lexer.TT_NOT ||
@@ -273,7 +277,8 @@ public class CQLParser {
 	    lexer.ttype == lexer.TT_RELEVANT ||
 	    lexer.ttype == lexer.TT_FUZZY ||
 	    lexer.ttype == lexer.TT_STEM ||
-	    lexer.ttype == lexer.TT_SCR) {
+	    lexer.ttype == lexer.TT_SCR ||
+	    lexer.ttype == lexer.TT_PHONETIC) {
 	    String symbol = (lexer.ttype == lexer.TT_NUMBER) ?
 		lexer.render() : lexer.sval;
 	    match(lexer.ttype);

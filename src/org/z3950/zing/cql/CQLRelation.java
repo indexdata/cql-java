@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.5 2002-11-06 20:13:45 mike Exp $
+// $Id: CQLRelation.java,v 1.6 2002-11-17 23:29:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,23 +8,47 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL qualifier and term.
  *
- * @version	$Id: CQLRelation.java,v 1.5 2002-11-06 20:13:45 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.6 2002-11-17 23:29:02 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
 
+    /**
+     * Creates a new CQLRelation with the specified base relation.
+     * Typical base relations include the usual six ordering relations
+     * (<TT>&lt;=</TT>, <TT>&gt</TT>, <I>etc.</I>), the text
+     * relations <TT>any</TT>, <TT>all</TT> and <TT>exact</TT> and the
+     * server-choice relation <TT>scr</TT>.
+     */
     public CQLRelation(String base) {
 	ms = new ModifierSet(base);
     }
 
+    /**
+     * Returns the base relation with which the CQLRelation was
+     * originally created.
+     */
     public String getBase() {
 	return ms.getBase();
     }
 
+    /**
+     * Adds a new relation modifier to the specified CQLRelation.
+     * Typical relation modifiers include <TT>relevant</TT>,
+     * <TT>fuzzy</TT>, <TT>stem</TT> and <TT>phonetic</TT>.  On the
+     * whole, these modifiers have a meaningful interpretation only
+     * for the text relations.
+     */
     public void addModifier(String modifier) {
 	ms.addModifier(null, modifier);
     }
 
+    /**
+     * Returns an array of the modifiers associated with a CQLRelation.
+     * @return
+     *	An array of zero or more <TT>String</TT>s, each representing a
+     *	modifier associated with the specified CQLRelation.
+     */
     public String[] getModifiers() {
 	Vector[] v = ms.getModifiers();
 	int n = v.length;

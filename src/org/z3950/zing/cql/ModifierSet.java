@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.4 2002-11-06 20:13:45 mike Exp $
+// $Id: ModifierSet.java,v 1.5 2002-11-17 23:29:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -9,23 +9,37 @@ import java.lang.StringBuffer;
  * <P>
  * This class is used as a workhorse delegate by both CQLRelation and
  * CQLProxNode - two functionally very separate classes that happen to
- * require the same data structures and functionality.
+ * require similar data structures and functionality.
+ * <P>
+ * A ModifierSet consists of a ``base'' string together with a set of
+ * zero or more <I>type</I>=<I>value</I> pairs, where both type and
+ * value are strings.  Types may be null, values may not.
  *
- * @version $Id: ModifierSet.java,v 1.4 2002-11-06 20:13:45 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.5 2002-11-17 23:29:02 mike Exp $
  */
 public class ModifierSet {
     String base;
     Vector modifiers;
 
+    /**
+     * Creates a new ModifierSet with the specified base.
+     */
     public ModifierSet(String base) {
 	this.base = base;
 	modifiers = new Vector();
     }
 
+    /**
+     * Returns the base string with which the ModifierSet was created.
+     */
     public String getBase() {
 	return base;
     }
 
+    /**
+     * Adds a modifier of the specified <TT>type</TT> and
+     * <TT>value</TT> to a ModifierSet.
+     */
     public void addModifier(String type, String value) {
 	Vector modifier = new Vector();
 	modifier.add(type);
@@ -33,6 +47,10 @@ public class ModifierSet {
 	modifiers.add(modifier);
     }
 
+    /**
+     * Returns the value of the modifier in the specified ModifierSet
+     * that corresponds to the specified type.
+     */
     public String modifier(String type) {
 	int n = modifiers.size();
 	for (int i = 0; i < n; i++) {
@@ -43,6 +61,13 @@ public class ModifierSet {
 	return null;
     }
 
+    /**
+     * Returns an array of the modifiers in a ModifierSet.
+     * @return
+     *	An array of modifiers, each represented by a two-element
+     *	<TT>Vector</TT>, in which element 0 is the modifier type and
+     *	element 1 is the associated value.
+     */
     public Vector[] getModifiers() {
 	int n = modifiers.size();
 	Vector[] res = new Vector[n];
