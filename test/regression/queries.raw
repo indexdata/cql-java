@@ -69,11 +69,18 @@ cat?dog
 (cat and dog) or (horse and frog)
 (cat and (horse or frog)) and chips
 
+# Prefix Maps
+
+> foo="http://www.loc.gov/zing/cql/dc-indexes/" foo.title="fish"
+> "http://www.loc.gov/zing/cql/dc-indexes/" title="fish"
+> foo="http://www.loc.gov/zing/cql/dc-indexes" > ccg = "http://srw.o-r-g.org/indexSets/ccg/" foo.title="fish" and ccg.force=3
+
 # Lame searches
 
 any or all:stem and all exact any prox prox=fuzzy
 (((((((((any)))))))))
-("")
+""
+> any > any = exact any > any
 
 # Invalid searches [should error]
 
@@ -89,3 +96,5 @@ index any fish)
 (cat any dog or ())
 title = ("illegal parentheses")
 "quoted" any "illegal quotes"
+> illegal="urn:missingQuery"
+"fish" and > illegal="urn:invalidPrefixLocation" "chips"
