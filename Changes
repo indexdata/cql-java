@@ -1,6 +1,19 @@
-$Id: Changes,v 1.4 2002-11-08 01:10:55 mike Exp $
+$Id: Changes,v 1.5 2002-11-08 16:30:52 mike Exp $
 
 Revision history for "cql-java"
+
+0.3  (IN PROGRESS)
+	- Fix the CQLParser test harness not to emit an extraneous
+	  blank line at end of XCQL output.
+	- Fix CQLNode documentation to contain a link to YAZ's
+	  documentation of Prefix Query Format (PQF) rather than
+	  containing a rather unhelpful chunk of BNF.
+	- Change the source directory's Makefile so that it specifies
+	  the appropriate -classpath by default.
+	- Change the test/regression Makefile so that "make clean" now
+	  does what "make distclean" used to do - the distinction
+	  between them is pointless.
+	- Fix a few typos in the documentation.
 
 0.2  Wed Nov  6 23:05:54 2002
 	- Fix the order of proximity parameters in accordance with the
