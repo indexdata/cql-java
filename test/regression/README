@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2002-11-03 16:53:04 mike Exp $
+$Id: README,v 1.2 2002-11-19 12:11:48 mike Exp $
 
 "queries.raw" is the file of test queries as provided by Rob.
 "mktests" parses the raw file into sections and individual queries
@@ -26,6 +26,9 @@ against its results, do this:
 	./runtests CQLParser sgmlnorm
 
 (Except that sgmlnorm is useless -- gotta find something better.)
+(That something better is xmlpp from DecisionSoft, found at
+	http://software.decisionsoft.com/tools.html
+which I will probably distribute along with cql-java.)
 
 Also: there's a nasty hack here called "showtest" which, when run like
 ``./showtest 07/03'', will show you the ways in which my output
