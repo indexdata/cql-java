@@ -1,11 +1,11 @@
 #!/usr/bin/perl -w
 
-# $Id: mktests,v 1.2 2002-11-03 17:02:48 mike Exp $
+# $Id: mktests,v 1.3 2002-11-20 22:50:45 mike Exp $
 
 use IO::File;
 use strict;
 
-mkdir "sections";
+maybe_mkdir("sections");
 my $section = 0;
 my $dir;
 my $query;
@@ -19,7 +19,7 @@ while (<>) {
 	$section++;
 	$query = 0;
 	$dir = "sections/" . substr("0$section", -2);
-	mkdir $dir;
+	maybe_mkdir($dir);
 	write_file("$dir/name", $_);
 	print "created section $section ($dir) - $_\n";
 	next;
@@ -31,7 +31,8 @@ while (<>) {
     $query++;
     my $filename = $dir . "/" . substr("0$query", -2) . ".cql";
     write_file($filename, $_);
-    print "  added query $query ($filename) - $_\n";
+    $filename =~ s@sections/(.*)\.cql@$1@;
+    print "  added $filename - $_\n";
 }
 
 sub write_file {
@@ -41,4 +42,15 @@ sub write_file {
 	or die "can't create '$name': $!";
     $fh->print($contents);
     $fh->close();
+}
+
+sub maybe_mkdir {
+    my($dir) = shift();
+    if (mkdir $dir) {
+	return;
+    }
+    if ($! =~ /exists/i) {
+	return;
+    }
+    die "can't create directory '$dir': $!";
 }

@@ -82,19 +82,3 @@ any or all:stem and all exact any prox prox=fuzzy
 ""
 > any > any = exact any > any
 
-# Invalid searches [should error]
-
->
-===
-cat or
-index any 
-index any/wrong term
-a prox/wrong b
-()
-(a
-index any fish)
-(cat any dog or ())
-title = ("illegal parentheses")
-"quoted" any "illegal quotes"
-> illegal="urn:missingQuery"
-"fish" and > illegal="urn:invalidPrefixLocation" "chips"

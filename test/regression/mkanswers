@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mkanswers,v 1.2 2002-11-03 17:02:48 mike Exp $
+# $Id: mkanswers,v 1.3 2002-11-20 22:50:45 mike Exp $
 
 use IO::File;
 use strict;
@@ -14,6 +14,7 @@ my $compiler = $ARGV[0];
 while (<sections/*>) {
     my $sdir = $_;
     s@sections/@@;
+    next if /^CVS$/;
     print "answering section $_ - ", read_file("$sdir/name"), "\n";
 
     while (<$sdir/*.cql>) {
@@ -22,7 +23,7 @@ while (<sections/*>) {
 	my $query = read_file($qfile);
 	my $afile = $qfile;
 	$afile =~ s/\.cql$/.xcql/;
-	print "  query $_ - $query\n";
+	print "  wrote $_ - $query\n";
 	my $fh = new IO::File("| $compiler > $afile")
 	    or die "can't run compiler '$compiler': $!";
 	print $fh $query;
