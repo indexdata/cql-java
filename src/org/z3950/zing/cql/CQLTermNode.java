@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.13 2002-12-06 12:35:42 mike Exp $
+// $Id: CQLTermNode.java,v 1.14 2002-12-09 16:55:19 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.13 2002-12-06 12:35:42 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.14 2002-12-09 16:55:19 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -106,10 +106,20 @@ public class CQLTermNode extends CQLNode {
 	String pos = "any";
 	String text = term;
 	if (text.length() > 0 && text.substring(0, 1).equals("^")) {
-	    text = text.substring(1);
+	    text = text.substring(1); // ### change not seen by caller
 	    pos = "first";
 	}
-	// ### add back the last-in-field stuff
+	int len = text.length();
+	if (len > 0 && text.substring(len-1, len).equals("^")) {
+	    text = text.substring(0, len-1); // ### change not seen by caller
+	    pos = pos.equals("first") ? "firstAndLast" : "last";
+	    // ### in the firstAndLast case, the standard
+	    //  pqf.properties file specifies that we generate a
+	    //  completeness=whole-field attributem, which means that
+	    //  we don't generate a position attribute at all.  Do we
+	    //  care?  Does it matter?
+	}
+
 	attr = config.getProperty("position." + pos);
 	if (attr == null)
 	    throw new UnknownPositionException(pos);
@@ -135,6 +145,10 @@ public class CQLTermNode extends CQLNode {
 	String text = term;
 	if (text.length() > 0 && text.substring(0, 1).equals("^"))
 	    text = text.substring(1);
+	int len = text.length();
+	if (len > 0 && text.substring(len-1, len).equals("^"))
+	    text = text.substring(0, len-1);
+
 	return s + maybeQuote(text);
     }
 
@@ -156,13 +170,14 @@ public class CQLTermNode extends CQLNode {
 	return str;
     }
 
-    /**
-     * ### Document this!
-     */
     public byte[] toType1(Properties config) throws PQFTranslationException {
 	String text = term;
 	if (text.length() > 0 && text.substring(0, 1).equals("^"))
 	    text = text.substring(1);
+	int len = text.length();
+	if (len > 0 && text.substring(len-1, len).equals("^"))
+	    text = text.substring(0, len-1);
+
 	String attr, attrList, term = maybeQuote(text);
 	System.out.println("in CQLTermNode.toType101(): PQF=" + toPQF(config));
 	byte[] operand = new byte[text.length()+100];
