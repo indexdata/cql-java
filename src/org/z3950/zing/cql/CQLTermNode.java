@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.2 2002-10-25 16:01:26 mike Exp $
+// $Id: CQLTermNode.java,v 1.3 2002-10-25 16:56:43 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -7,48 +7,49 @@ package org.z3950.zing.cql;
  * Represents a terminal node in a CQL parse-tree ...
  * ###
  *
- * @version	$Id: CQLTermNode.java,v 1.2 2002-10-25 16:01:26 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.3 2002-10-25 16:56:43 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
     private String relation;
-    private String value;
+    private String term;
 
-    public CQLTermNode(String qualifier, String relation, String value) {
+    public CQLTermNode(String qualifier, String relation, String term) {
 	this.qualifier = qualifier;
 	this.relation = relation;
-	this.value = value;
+	this.term = term;
     }
 
     String toXCQL(int level) {
 	return (indent(level) + "<searchClause>\n" +
 		indent(level+1) + "<index>" + qualifier + "<index>\n" +
 		indent(level+1) + "<relation>" + relation + "<relation>\n" +
-		indent(level+1) + "<term>" + value + "<term>\n" +
+		indent(level+1) + "<term>" + term + "<term>\n" +
 		indent(level) + "</searchClause>\n");
     }
 
     String toCQL() {
-	String res = value;
+	String quotedTerm = term;
 
-	if (res.indexOf('"') != -1) {
+	if (quotedTerm.indexOf('"') != -1) {
 	    // ### precede each '"' with a '/'
 	}
 
-	if (res.indexOf('"') != -1 ||
-	    res.indexOf(' ') != -1 ||
-	    res.indexOf('\t') != -1 ||
-	    res.indexOf('=') != -1 ||
-	    res.indexOf('<') != -1 ||
-	    res.indexOf('>') != -1 ||
-	    res.indexOf('/') != -1 ||
-	    res.indexOf('(') != -1 ||
-	    res.indexOf(')') != -1) {
-	    res = '"' + res + '"';
+	// ### There must be a better way ...
+	if (quotedTerm.indexOf('"') != -1 ||
+	    quotedTerm.indexOf(' ') != -1 ||
+	    quotedTerm.indexOf('\t') != -1 ||
+	    quotedTerm.indexOf('=') != -1 ||
+	    quotedTerm.indexOf('<') != -1 ||
+	    quotedTerm.indexOf('>') != -1 ||
+	    quotedTerm.indexOf('/') != -1 ||
+	    quotedTerm.indexOf('(') != -1 ||
+	    quotedTerm.indexOf(')') != -1) {
+	    quotedTerm = '"' + quotedTerm + '"';
 	}
 
 	// ### The qualifier may need quoting.
 	// ### We don't always need spaces around `relation'.
-	return qualifier + " " + relation + " " + value;
+	return qualifier + " " + relation + " " + quotedTerm;
     }
 }
