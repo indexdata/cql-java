@@ -1,4 +1,4 @@
-// $Id: CQLPrefixNode.java,v 1.1 2002-11-14 22:04:16 mike Exp $
+// $Id: CQLPrefixNode.java,v 1.2 2002-11-14 22:07:32 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -8,7 +8,7 @@ import java.util.Properties;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.1 2002-11-14 22:04:16 mike Exp $
+ * @version	$Id: CQLPrefixNode.java,v 1.2 2002-11-14 22:07:32 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
     /**
@@ -35,11 +35,11 @@ public class CQLPrefixNode extends CQLNode {
     public String toXCQL(int level) {
 	String maybeName = "";
 	if (prefix.name != null)
-	    maybeName = indent(level+1) + "<name>" + prefix.name + "<name>\n";
+	    maybeName = indent(level+1) + "<name>" + prefix.name + "</name>\n";
 
 	return (indent(level) + "<prefix>\n" + maybeName +
 		indent(level+1) +
-		    "<identifier>" + prefix.identifier + "<identifier>\n" +
+		    "<identifier>" + prefix.identifier + "</identifier>\n" +
 		subtree.toXCQL(level+1) +
 		indent(level) + "</prefix>\n");
     }
