@@ -1,4 +1,4 @@
-$Id: README,v 1.5 2002-10-30 09:19:26 mike Exp $
+$Id: README,v 1.6 2002-10-30 11:13:18 mike Exp $
 
 cql-java -- a free CQL compiler for Java
 
@@ -101,9 +101,9 @@ TO DO
   and running that through JZKit's existing PQN-to-Type-1 compiler.
 
 * Refinements to random query generator:
-	* Fix to handle new, structured, relation representation
 	* Generate relation modifiers
 	* Proximity support
+	* Don't always generate qualifier/relation for terms
 	* Better selection of qualifier (configurable?)
 	* Better selection of terms (from a dictionary file?)
 	* Introduce wildcard characters into generated terms

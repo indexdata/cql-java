@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.7 2002-10-30 09:19:26 mike Exp $
+// $Id: CQLNode.java,v 1.8 2002-10-30 11:13:18 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -7,7 +7,7 @@ package org.z3950.zing.cql;
  * Represents a node in a CQL parse-tree.
  * ###
  *
- * @version	$Id: CQLNode.java,v 1.7 2002-10-30 09:19:26 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.8 2002-10-30 11:13:18 mike Exp $
  */
 public abstract class CQLNode {
     abstract String toXCQL(int level);
@@ -54,8 +54,12 @@ public abstract class CQLNode {
 
     // Test harness
     public static void main (String[] args) {
-	CQLNode n1 = new CQLTermNode("dc.author", "=", "kernighan");
-	CQLNode n2 = new CQLTermNode("dc.title", "all", "elements style");
+	CQLNode n1 = new CQLTermNode("dc.author",
+				     new CQLRelation("="),
+				     "kernighan");
+	CQLNode n2 = new CQLTermNode("dc.title",
+				     new CQLRelation("all"),
+				     "elements style");
 	CQLNode root = new CQLAndNode(n1, n2);
 	System.out.println(root.toXCQL(0));
     }

@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.1 2002-10-30 09:19:26 mike Exp $
+// $Id: CQLGenerator.java,v 1.2 2002-10-30 11:13:18 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.1 2002-10-30 09:19:26 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.2 2002-10-30 11:13:18 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -154,8 +154,9 @@ public class CQLGenerator {
 	    return generate_cql_query();
 	}
 
+	// ### Should sometimes generate qualifier/relation-free terms
 	String qualifier = generate_qualifier();
-	String relation = generate_relation();
+	CQLRelation relation = generate_relation();
 	String term = generate_term();
 
 	return new CQLTermNode(qualifier, relation, term);
@@ -182,10 +183,11 @@ public class CQLGenerator {
 	return qualifier;
     }
 
-    // ### Representation of relations will change when we handle modifiers
-    private String generate_relation() throws ParameterMissingException {
-	return generate_base_relation();
+    private CQLRelation generate_relation() throws ParameterMissingException {
+	String base = generate_base_relation();
+	CQLRelation rel = new CQLRelation(base);
 	// ### should generate modifiers too
+	return rel;
     }
 
     private String generate_base_relation() throws ParameterMissingException {
