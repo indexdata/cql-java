@@ -1,0 +1,70 @@
+$Header: /home/cvsroot/cql-java/README,v 1.1 2002-10-24 15:57:56 mike Exp $
+
+cql-java -- a free CQL compiler for Java
+
+
+This project provides a set of classes for representing a CQL parse
+tree (CQLBooleanNode, CQLTermNode, etc.) and a Compiler class which
+builds a parse tree given a CQL query as input.  It also provides
+compiler back-ends to render out the parse tree either as XCQL or
+Yaz-style Prefix Query Format (PQF).
+
+CQL is "Common Query Language", a new query language designed under
+the umbrella of the ZING initiative (Z39.59-International Next
+Generation).  More information at
+	http://zing.z3950.org/cql/index.html
+
+XCQL is "XML CQL", a representation of CQL-equivalent queries in XML
+which is supposed to be easier to parse.  More information at
+	http://www.loc.gov/z3950/agency/zing/srwu/xcql.html
+(not much more, though)
+
+But if you didn't know that, why are you even reading this?  :-)
+
+
+SYNOPSIS
+--------
+
+Test-harness:
+
+	$ echo "foo and (bar or baz)" | java org.z3950.zing.cql.CQLParser
+
+Library:
+
+	import org.z3950.zing.cql.*
+
+	CQLParser parser = new CQLParser();
+	CQLNode root = parser.parse("title=dinosaur");
+	print root.toXCQL();
+	print root.toPQF(qualSet);
+	// ... where `qualSet' specifies CQL-qualfier => Z-attr mapping
+
+
+DESCRIPTION
+-----------
+
+Se the automatically generated class documentation in the "doc"
+subdirectory.  (### It's not there yet, of course)
+
+
+AUTHOR
+------
+
+Mike Taylor <mike@z3950.org>
+http://www.miketaylor.org.uk
+
+
+LICENCE
+-------
+
+This software is open source, but I've not yet decided exactly what
+licence to use.  Be good.  Assume I'm going with the GPL (most
+restrictive) until I say otherwise.
+
+
+SEE ALSO
+--------
+
+Adam Dickmeiss's CQL compiler, written in C.
+Rob Sanderson's CQL compiler, written in Python.
+All the other free CQL compilers everyone's going to write.
