@@ -1,4 +1,4 @@
-// $Id: CQLBooleanNode.java,v 1.10 2002-11-20 17:26:42 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.11 2002-11-20 17:56:22 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.10 2002-11-20 17:26:42 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.11 2002-11-20 17:56:22 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
     CQLBooleanNode() {}		// prevent javadoc from documenting this
@@ -38,7 +38,6 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     // Represents the boolean operation itself: overridden for CQLProxNode
     String opXCQL(int level) {
-	System.err.println("in CQLBooleanNode.opXCQL()");
 	return(indent(level) + "<boolean>\n" +
 	       indent(level+1) + "<value>" + op() + "</value>\n" +
 	       indent(level) + "</boolean>\n");
