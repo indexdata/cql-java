@@ -1,4 +1,0 @@
-$Id: README,v 1.2 2002-11-03 16:49:38 mike Exp $
-
-Automatically-generated documentation should appear here.
-cd ../src/org/z3950/zing/cql && make javadocs

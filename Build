@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# $Id: Build,v 1.1 2002-11-17 23:29:54 mike Exp $
+
+: ${MAKE=make}
+for dir in src/org/z3950/zing/cql test/random docs; do
+	echo "=== Building in $dir ==="
+	( cd $dir; $MAKE ${@+"$@"} )
+done
