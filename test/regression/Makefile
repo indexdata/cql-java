@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2002-11-03 16:49:38 mike Exp $
+# $Id: Makefile,v 1.1 2002-11-03 16:53:04 mike Exp $
 
 sections/01/01.xcql: sections
 	./mkanswers CQLParser
