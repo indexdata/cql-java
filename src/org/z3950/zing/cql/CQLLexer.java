@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.3 2002-11-01 23:45:28 mike Exp $
+// $Id: CQLLexer.java,v 1.4 2002-11-02 01:21:35 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -80,6 +80,9 @@ class CQLLexer extends StreamTokenizer {
 
     CQLLexer(String cql, boolean lexdebug) {
 	super(new StringReader(cql));
+	wordChars('!', '?');	// ASCII-dependency!
+	wordChars('[', '`');	// ASCII-dependency!
+	quoteChar('"');
 	ordinaryChar('=');
 	ordinaryChar('<');
 	ordinaryChar('>');
