@@ -1,4 +1,4 @@
-$Id: README,v 1.16 2002-11-08 09:50:58 mike Exp $
+$Id: README,v 1.17 2002-11-08 13:49:48 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -43,7 +43,7 @@ What's what in this distribution?
 	etc	Other files: CQL Grammar, generator properties, etc.
 
 "Installation" of this package would consist of putting the bin
-directory on your PATH and the lib directory on your CLASSPATH.
+directory on your PATH and lib/cql-java.jar on your CLASSPATH.
 
 
 SYNOPSIS
