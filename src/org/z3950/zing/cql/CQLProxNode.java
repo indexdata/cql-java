@@ -1,6 +1,7 @@
-// $Id: CQLProxNode.java,v 1.2 2002-11-06 00:05:58 mike Exp $
+// $Id: CQLProxNode.java,v 1.3 2002-11-06 20:13:45 mike Exp $
 
 package org.z3950.zing.cql;
+import java.util.Vector;
 
 
 /**
@@ -9,7 +10,7 @@ package org.z3950.zing.cql;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.2 2002-11-06 00:05:58 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.3 2002-11-06 20:13:45 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     ModifierSet ms;
@@ -38,10 +39,6 @@ public class CQLProxNode extends CQLBooleanNode {
 	this.right = right;
     }
 
-    String op() {
-	return ms.toCQL();
-    }
-
     /**
      * Adds a modifier of the specified <TT>type</TT> and
      * <TT>value</TT> to a proximity node.  Valid types are
@@ -57,9 +54,73 @@ public class CQLProxNode extends CQLBooleanNode {
 	ms.addModifier(type, value);
     }
 
-    // ### should have a public method to retrieve all modifiers
+    /**
+     * Returns an array of the modifiers associated with a proximity
+     * node.
+     * @return
+     *	An array of modifiers, each represented by a two-element
+     *	<TT>Vector</TT>, in which element 0 is the modifier type
+     *	(e.g. <TT>distance</TT> or <TT>ordering</TT>) and element 1 is
+     *	the associated value (e.g. <TT>3</TT> or <TT>unordered</TT>).
+     */
+    public Vector[] getModifiers() {
+	return ms.getModifiers();
+    }
 
-    String booleanXQL(int level) {
+    String op() {
+	return ms.toCQL();
+    }
+
+    String opXQL(int level) {
 	return ms.toXCQL(level, "boolean");
+    }
+
+    /*
+     * proximity ::= exclusion distance ordered relation which-code unit-code.
+     * exclusion ::= '1' | '0' | 'void'.
+     * distance ::= integer.
+     * ordered ::= '1' | '0'.
+     * relation ::= integer.
+     * which-code ::= 'known' | 'private' | integer.
+     * unit-code ::= integer.
+     */
+    String opPQF() {
+	String rel = ms.modifier("relation");
+	int relCode = 0;
+	if (rel.equals("<")) {
+	    relCode = 1;
+	} else if (rel.equals("<=")) {
+	    relCode = 2;
+	} else if (rel.equals("=")) {
+	    relCode = 3;
+	} else if (rel.equals(">=")) {
+	    relCode = 4;
+	} else if (rel.equals(">")) {
+	    relCode = 5;
+	} else if (rel.equals("<>")) {
+	    relCode = 6;
+	}
+
+	String unit = ms.modifier("unit");
+	int unitCode = 0;
+	if (unit.equals("word")) {
+	    unitCode = 2;
+	} else if (unit.equals("sentence")) {
+	    unitCode = 3;
+	} else if (unit.equals("paragraph")) {
+	    unitCode = 4;
+	} else if (unit.equals("element")) {
+	    unitCode = 8;
+	}
+
+	String res = "prox " +
+	    "0 " +
+	    ms.modifier("distance") + " " +
+	    (ms.modifier("ordering").equals("ordered") ? 1 : 0) + " " +
+	    relCode + " " +
+	    "1 " +
+	    unitCode;
+	
+	return res;
     }
 }

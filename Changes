@@ -1,4 +1,4 @@
-$Id: Changes,v 1.1 2002-11-06 00:05:57 mike Exp $
+$Id: Changes,v 1.2 2002-11-06 20:13:45 mike Exp $
 
 Revision history for "cql-java"
 
@@ -13,14 +13,19 @@ Revision history for "cql-java"
 	  through parse-trees and so implement its own back-end
 	  (e.g. to build BER-friendly data structures using whatever
 	  Z39.50 toolkit is preferred.)
-	- Add javadoc comments for CQLNode and subclasses.
-	- Add the toPQF(Properties p) method to CQLNode and subclasses.
-		(### NOT YET FINISHED)
-	- Add UnknownQualifierException and UnknownRelationException.
+	- Add the toPQF(Properties p) method to CQLNode and
+	  subclasses.  This produces a query in YAZ-style Prefix Query
+	  Format, which can be trivially translated into a Z39.50
+	  Type-1 query (see, for example, JZKit's code to do so).
+	- Add etc/pqf.properties to configure to toPQF() method.
 	- Add "-p <props-file>" option to the CQLParser test-harness,
 	  indicating that the parsed tree is to be rendered to PQF.
-	- Add etc/pqf.properties to configure to toPQF() method.
+	- Add PQFTranslationException and its subclasses
+	  UnknownQualifierException, UnknownRelationException,
+	  UnknownRelationModifierException and
+	  UnknownPositionException.
 	- Rename ParameterMissingException to MissingParameterException.
+	- Add javadoc comments for CQLNode and its subclasses.
 
 0.1  Sun Nov  3 20:58:27 2002
 	- First public release.

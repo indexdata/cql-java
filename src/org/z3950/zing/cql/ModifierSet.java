@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.3 2002-11-06 00:05:58 mike Exp $
+// $Id: ModifierSet.java,v 1.4 2002-11-06 20:13:45 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -11,7 +11,7 @@ import java.lang.StringBuffer;
  * CQLProxNode - two functionally very separate classes that happen to
  * require the same data structures and functionality.
  *
- * @version $Id: ModifierSet.java,v 1.3 2002-11-06 00:05:58 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.4 2002-11-06 20:13:45 mike Exp $
  */
 public class ModifierSet {
     String base;
@@ -31,6 +31,16 @@ public class ModifierSet {
 	modifier.add(type);
 	modifier.add(value);
 	modifiers.add(modifier);
+    }
+
+    public String modifier(String type) {
+	int n = modifiers.size();
+	for (int i = 0; i < n; i++) {
+	    Vector pair = (Vector) modifiers.get(i);
+	    if (pair.get(0).equals(type))
+		return (String) pair.get(1);
+	}
+	return null;
     }
 
     public Vector[] getModifiers() {

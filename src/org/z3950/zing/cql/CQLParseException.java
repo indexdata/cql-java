@@ -1,4 +1,4 @@
-// $Id: CQLParseException.java,v 1.1 2002-10-30 09:19:26 mike Exp $
+// $Id: CQLParseException.java,v 1.2 2002-11-06 20:13:45 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.Exception;
@@ -7,10 +7,16 @@ import java.lang.Exception;
 /**
  * Exception indicating that an error ocurred parsing CQL.
  *
- * @version	$Id: CQLParseException.java,v 1.1 2002-10-30 09:19:26 mike Exp $
+ * @version	$Id: CQLParseException.java,v 1.2 2002-11-06 20:13:45 mike Exp $
  */
 public class CQLParseException extends Exception {
-    CQLParseException(String s) {
+    /**
+     * Creates a new <TT>CQLParseException</TT>.
+     * @param s
+     *	An error message describing the problem with the query,
+     *	usually a syntax error of some kind.
+     */
+    public CQLParseException(String s) {
 	super(s);
     }
 }

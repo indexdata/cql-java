@@ -1,4 +1,4 @@
-$Id: README,v 1.14 2002-11-06 00:05:58 mike Exp $
+$Id: README,v 1.15 2002-11-06 20:13:45 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -15,7 +15,7 @@ cql-java is a Free Software project that provides:
 * A selection of compiler back-ends to render out the parse tree as:
 	* XCQL (the standard XML representation)
 	* CQL (i.e. decompiling the parse-tree)
-	* PQF (Yaz-style Prefix Query Format) [### NOT YET]
+	* PQF (Yaz-style Prefix Query Format)
 * A random query generator, useful for testing.
 
 CQL is "Common Query Language", a new query language designed under
@@ -73,15 +73,15 @@ Using the library in your own applications:
 	CQLNode root = parser.parse("title=dinosaur");
 	System.out.print(root.toXCQL(0));
 	System.out.println(root.toCQL());
-	System.out.println(root.toPQF(qualSet));
-	// ... where `qualSet' specifies CQL-qualfier => Z-attr mapping
+	System.out.println(root.toPQF(config));
+	// ... where `config' specifies CQL-qualfier => Z-attr mapping
 
 
 DESCRIPTION
 -----------
 
 See the automatically generated class documentation in the "doc"
-subdirectory.  (It's not all there yet, but it's coming.)
+subdirectory.
 
 
 AUTHOR
@@ -119,20 +119,15 @@ THINGS TO DO
   possible to fix this without throwing out StreakTokenizer and
   rolling our own, which we absolutely _don't_ want to do.
 
-* Write javadoc comments for CQLRelation, ModifierSet and the
-  Exception classes.
+* Write javadoc comments for CQLRelation and ModifierSet.
+
+* Write "overview" file for the javadoc documentation.
 
 * Allow keywords to be used unquoted as search terms.
 
 * Some niceties for the cql-decompiling back-end:
 	* don't emit redundant parentheses.
 	* don't put spaces around relations that don't need them.
-
-* Write the PQN-generating back-end.  This will need to be driven from
-  a configuation file specifying how to represent the qualifiers,
-  relations, relation modifiers and wildcard characters as z39.50
-  attributes.  I think Ray has such a thing, though perhaps not yet in
-  a form sufficiently rigorous to be computer-readable.
 
 * Consider the utility of yet another back-end that translates a
   CQLNode tree into a Type-1 query tree using the JZKit data
@@ -149,4 +144,3 @@ THINGS TO DO
 	* Introduce wildcard characters into generated terms
 	* Generate multi-word terms
 
-* Write fuller "javadoc" comments.

@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.15 2002-11-06 00:05:58 mike Exp $
+// $Id: CQLParser.java,v 1.16 2002-11-06 20:13:45 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.15 2002-11-06 00:05:58 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.16 2002-11-06 20:13:45 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -328,7 +328,7 @@ public class CQLParser {
 	    try {
 		// Read in the whole of standard input in one go
 		int nbytes = System.in.read(bytes);
-	    } catch (java.io.IOException ex) {
+	    } catch (IOException ex) {
 		System.err.println("Can't read query: " + ex.getMessage());
 		System.exit(2);
 	    }
@@ -342,7 +342,7 @@ public class CQLParser {
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
 	    System.exit(3);
-	} catch (java.io.IOException ex) {
+	} catch (IOException ex) {
 	    System.err.println("Can't compile query: " + ex.getMessage());
 	    System.exit(4);
 	}
@@ -362,9 +362,25 @@ public class CQLParser {
 	    } else {
 		System.out.print(root.toXCQL(0));
 	    }
-	} catch (java.io.IOException ex) {
+	} catch (IOException ex) {
 	    System.err.println("Can't render query: " + ex.getMessage());
 	    System.exit(5);
+	} catch (UnknownQualifierException ex) {
+	    System.err.println("Unknown qualifier: " + ex.getMessage());
+	    System.exit(6);
+	} catch (UnknownRelationException ex) {
+	    System.err.println("Unknown relation: " + ex.getMessage());
+	    System.exit(7);
+	} catch (UnknownRelationModifierException ex) {
+	    System.err.println("Unknown relation modifier: " +
+			       ex.getMessage());
+	    System.exit(8);
+	} catch (UnknownPositionException ex) {
+	    System.err.println("Unknown position: " + ex.getMessage());
+	    System.exit(9);
+	} catch (PQFTranslationException ex) {
+	    // We catch all of this class's subclasses, so --
+	    throw new Error("can't get a PQFTranslationException");
 	}
     }
 }
