@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.17 2002-11-06 22:03:58 mike Exp $
+// $Id: CQLParser.java,v 1.18 2002-11-08 01:10:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.17 2002-11-06 22:03:58 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.18 2002-11-08 01:10:55 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -361,8 +361,7 @@ public class CQLParser {
 		f.close();
 		System.out.println(root.toPQF(config));
 	    } else {
-		System.out.println(root.toXCQL(0));
-		// ### should be print (no ~ln)
+		System.out.print(root.toXCQL(0));
 	    }
 	} catch (IOException ex) {
 	    System.err.println("Can't render query: " + ex.getMessage());
