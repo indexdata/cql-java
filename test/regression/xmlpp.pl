@@ -7,7 +7,7 @@
 #  for more information.
 # 
 
-# $Revision: 1.1 $
+# $Revision: 1.2 $
 #
 # xmlpp: XML pretty printing
 #
@@ -20,7 +20,7 @@ use FileHandle;
 use Fcntl;
 use Getopt::Std;
 
-use vars qw($opt_h $opt_H $opt_s $opt_z $opt_t $opt_e $opt_S $opt_c $opt_n);
+use vars qw($opt_h $opt_H $opt_s $opt_z $opt_t $opt_e $opt_S $opt_c $opt_n $opt_l);
 
 my $indent=0;
 my $textContent='';
@@ -29,9 +29,11 @@ my $output;
 my $inAnnotation = 0;
 
 
-if (!getopts('nzhHsteSc') or $opt_h) {
+if (!getopts('nzhHsteScl:') or $opt_h) {
     usage();
 }
+
+my $indentSize = $opt_l || 2;
 
 if ($opt_s){
 
@@ -191,7 +193,7 @@ sub parseStart {
         $output .= "\n";
     }
 
-    $output .= "  " x $indent;
+    $output .= " " x ($indent * $indentSize);
     $output .= "<$s";
     my @k = keys %attr;
 
@@ -245,7 +247,7 @@ sub parseStart {
         }
 
         if ($splitAttributes) {
-            $output .= "\n"."  " x $indent." ";
+            $output .= "\n"." " x ($indent * $indentSize) ." ";
         }
         if ($attr{$attr} =~ /'/) {
             $output .= " $attr=\"$attr{$attr}\"";
@@ -254,7 +256,7 @@ sub parseStart {
         }
     }
     if ($splitAttributes and @k) {
-        $output .= "\n"."  " x $indent;
+        $output .= "\n"." " x ($indent * $indentSize);
     }
     if ($selfclose) {
         $output .= " />";
@@ -284,7 +286,7 @@ sub parseEnd {
     printContent($textContent);
     if ($lastTag == 0) {
         $output .= "\n";
-        $output .= "  " x $indent;
+        $output .= " " x ($indent * $indentSize);
     } 
     $output .= "</$s>";
     $textContent = '';
@@ -396,7 +398,7 @@ options:
   -c  place comments on new line.
   -n  normalise whitespace (remove leading and trailing whitespace from nodes
       with text content.
-
+  -l <num>  Indent each level by <num> spaces [default: 2]
 EOF
     exit 1;
 }
