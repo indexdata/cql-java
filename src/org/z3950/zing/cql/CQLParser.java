@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.13 2002-11-02 01:24:14 mike Exp $
+// $Id: CQLParser.java,v 1.14 2002-11-03 16:49:38 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -6,10 +6,9 @@ import java.util.Vector;
 
 
 /**
- * Compiles a CQL string into a parse tree.
- * ##
+ * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.13 2002-11-02 01:24:14 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.14 2002-11-03 16:49:38 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -23,6 +22,20 @@ public class CQLParser {
 	    System.err.println("PARSEDEBUG: " + str);
     }
 
+    /**
+     * Compiles a CQL query.
+     * <P>
+     * The resulting parse tree may be further processed by hand (see
+     * the individual node-types' documentation for details on the
+     * data structure) or, more often, simply rendered out in the
+     * desired form using one of the back-ends.  <TT>toCQL()</TT>
+     * returns a decompiled CQL query equivalent to the one that was
+     * compiled in the first place; and <TT>toXCQL()</TT> returns an
+     * XML snippet representing the query.
+     *
+     * @param cql	The query
+     * @return		A CQLNode object which is the root of a parse
+     * tree representing the query.  */
     public CQLNode parse(String cql)
 	throws CQLParseException, IOException {
 	lexer = new CQLLexer(cql, LEXDEBUG);
@@ -188,7 +201,7 @@ public class CQLParser {
 	match(lexer.ttype);
     }
 
-    boolean isBaseRelation() {
+    private boolean isBaseRelation() {
 	debug("isBaseRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
 	return (isProxRelation() ||
@@ -197,7 +210,7 @@ public class CQLParser {
 		lexer.ttype == lexer.TT_EXACT);
     }
 
-    boolean isProxRelation() {
+    private boolean isProxRelation() {
 	debug("isProxRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
 	return (lexer.ttype == '<' ||
@@ -222,33 +235,61 @@ public class CQLParser {
     }
 
 
-    // Test harness.
-    //
-    // e.g. echo '(au=Kerninghan or au=Ritchie) and ti=Unix' |
-    //				java org.z3950.zing.cql.CQLParser
-    // yields:
-    //	<triple>
-    //	  <boolean>and</boolean>
-    //	  <triple>
-    //	    <boolean>or</boolean>
-    //	    <searchClause>
-    //	      <index>au<index>
-    //	      <relation>=<relation>
-    //	      <term>Kerninghan<term>
-    //	    </searchClause>
-    //	    <searchClause>
-    //	      <index>au<index>
-    //	      <relation>=<relation>
-    //	      <term>Ritchie<term>
-    //	    </searchClause>
-    //	  </triple>
-    //	  <searchClause>
-    //	    <index>ti<index>
-    //	    <relation>=<relation>
-    //	    <term>Unix<term>
-    //	  </searchClause>
-    //	</triple>
-    //
+    /**
+     * Simple test-harness for the CQLParser class.
+     * <P>
+     * Reads a CQL query either from its command-line argument, if
+     * there is one, or standard input otherwise.  So these two
+     * invocations are equivalent:
+     * <PRE>
+     *  CQLParser 'au=(Kerninghan or Ritchie) and ti=Unix'
+     *  echo au=(Kerninghan or Ritchie) and ti=Unix | CQLParser
+     * </PRE>
+     * The test-harness parses the supplied query and renders is as
+     * XCQL, so that both of the invocations above produce the
+     * following output:
+     * <PRE>
+     *	&lt;triple&gt;
+     *	  &lt;boolean&gt;
+     *	    &lt;value&gt;and&lt;/value&gt;
+     *	  &lt;/boolean&gt;
+     *	  &lt;triple&gt;
+     *	    &lt;boolean&gt;
+     *	      &lt;value&gt;or&lt;/value&gt;
+     *	    &lt;/boolean&gt;
+     *	    &lt;searchClause&gt;
+     *	      &lt;index&gt;au&lt;/index&gt;
+     *	      &lt;relation&gt;
+     *	        &lt;value&gt;=&lt;/value&gt;
+     *	      &lt;/relation&gt;
+     *	      &lt;term&gt;Kerninghan&lt;/term&gt;
+     *	    &lt;/searchClause&gt;
+     *	    &lt;searchClause&gt;
+     *	      &lt;index&gt;au&lt;/index&gt;
+     *	      &lt;relation&gt;
+     *	        &lt;value&gt;=&lt;/value&gt;
+     *	      &lt;/relation&gt;
+     *	      &lt;term&gt;Ritchie&lt;/term&gt;
+     *	    &lt;/searchClause&gt;
+     *	  &lt;/triple&gt;
+     *	  &lt;searchClause&gt;
+     *	    &lt;index&gt;ti&lt;/index&gt;
+     *	    &lt;relation&gt;
+     *	      &lt;value&gt;=&lt;/value&gt;
+     *	    &lt;/relation&gt;
+     *	    &lt;term&gt;Unix&lt;/term&gt;
+     *	  &lt;/searchClause&gt;
+     *	&lt;/triple&gt;
+     * </PRE>
+     * <P>
+     * @param -c
+     *	Causes the output to be written in CQL rather than XCQL - that
+     *	is, a query equivalent to that which was input, is output.  In
+     *	effect, the test harness acts as a query canonicaliser.
+     * @return
+     *	The input query, either as XCQL [default] or CQL [if the
+     *	<TT>-c</TT> option is supplied].
+     */
     public static void main (String[] args) {
 	boolean canonicalise = false;
 	Vector argv = new Vector();

@@ -65,13 +65,12 @@ cat?dog
 
 # Lame searches
 
-any or all:stem and all exact any prox/word prox=fuzzy
-(((((((((any)))))))))
+"any" or "all:stem" and "all" exact "any" prox/word "prox"="fuzzy"
+((((((((("any")))))))))
 
 
 # Invalid searches [should error]
 
-^
 >
 ===
 cat or
@@ -82,6 +81,6 @@ a prox/wrong b
 (a
 index any fish)
 (cat any dog or ())
-sorry = (mike)
 fred and any
 ((fred or all))
+sorry = (mike)

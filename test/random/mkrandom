@@ -1,0 +1,21 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+my $n = 1;
+if (@ARGV > 1) {
+    print STDERR "Usage: $0 [<number-of-trees>]\n";
+    exit 1;
+} elsif (@ARGV == 1) {
+    $n = $ARGV[0];
+}
+
+for (my $i = 0; $i < $n; $i++) {
+    print $i+1, " of $n -- ";
+    my $query=`CQLGenerator ../../etc/generate.properties`;
+    print $query;
+    my $canon=`CQLParser -c '$query'`;
+    if ($canon ne $query) {
+	print "ERROR: canonicalised query differs from original\n";
+    }
+}

@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.2 2002-10-30 11:13:18 mike Exp $
+// $Id: CQLGenerator.java,v 1.3 2002-11-03 16:49:38 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.2 2002-10-30 11:13:18 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.3 2002-11-03 16:49:38 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -260,13 +260,14 @@ public class CQLGenerator {
      * A simple test-harness for the generator.
      * <P>
      * It generates a single random query using the parameters
-     * specified in a nominated properties file, and decompiles it
-     * into CQL which is written to standard output.
+     * specified in a nominated properties file, plus any additional
+     * <I>name value</I> pairs provided on the command-line, and
+     * decompiles it into CQL which is written to standard output.
      * <P>
      * For example,
-     * <TT>java org.z3950.zing.cql.CQLGenerator etc/generate.properties</TT>
+     * <TT>java org.z3950.zing.cql.CQLGenerator
+     *	etc/generate.properties seed 18398</TT>,
      * where the file <TT>generate.properties</TT> contains:<PRE>
-     *	seed=18398
      *	complexQuery=0.4
      *	complexClause=0.4
      *	equalsRelation=0.5
@@ -281,13 +282,19 @@ public class CQLGenerator {
      * @param configFile
      *	The name of a properties file from which to read the
      *	configuration parameters (see above).
+     * @param name
+     *	The name of a configuration parameter.
+     * @param value
+     *	The value to assign to the configuration parameter named in
+     *	the immediately preceding command-line argument.
      * @return
      *	A CQL query expressed in a form that should be comprehensible
      *	to all conformant CQL compilers.
      */
     public static void main (String[] args) throws Exception {
-	if (args.length != 1) {
-	    System.err.println("Usage: CQLGenerator <props-file>");
+	if (args.length % 2 != 1) {
+	    System.err.println("Usage: CQLGenerator <props-file> "+
+			       "[<name> <value>]...");
 	    System.exit(1);
 	}
 
@@ -300,6 +307,8 @@ public class CQLGenerator {
 	Properties params = new Properties();
 	params.load(f);
 	f.close();
+	for (int i = 1; i < args.length; i += 2)
+	    params.setProperty(args[i], args[i+1]);
 
 	CQLGenerator generator = new CQLGenerator(params);
 	CQLNode tree = generator.generate();
