@@ -1,4 +1,4 @@
-$Id: Changes,v 1.8 2002-11-14 22:04:16 mike Exp $
+$Id: Changes,v 1.9 2002-11-14 22:12:19 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
@@ -10,8 +10,11 @@ See the bottom of this file for a list of things still to do.
 		>dc="http://dublincore.org/ dc.title=fish
 	  and
 		>"http://dublincore.org/ title=fish
-	  ### But the XCQL output may need to be changed depending on
-	      the result of the ZNG list's deliberations.
+	  The XCQL generated corresponds to Adam's suggested format
+	  rather than Rob's, not so much because I prefer it (although
+	  I do) as because it's what fell out when I just Coded What
+	  Comes Natur'ly.  That may need to change, depending on the
+	  result of the ZNG list's deliberations.
 	- Fix the parser to normalise relation modifiers to lower case.
 	- Fix the CQLParser test harness not to emit an extraneous
 	  blank line at end of XCQL output.
