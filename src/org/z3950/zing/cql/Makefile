@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.6 2002-11-04 12:55:23 mike Exp $
+# $Id: Makefile,v 1.7 2002-11-06 00:05:58 mike Exp $
 
 DOCDIR = ../../../../../docs
 
@@ -7,7 +7,8 @@ OBJ = Utils.class \
 	CQLAndNode.class CQLOrNode.class CQLNotNode.class \
 	CQLRelation.class CQLProxNode.class ModifierSet.class \
 	CQLParser.class CQLLexer.class CQLParseException.class \
-	CQLGenerator.class ParameterMissingException.class
+	CQLGenerator.class MissingParameterException.class \
+	UnknownQualifierException.class UnknownRelationException.class
 
 ../../../../../lib/cql-java.jar: $(OBJ)
 	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class

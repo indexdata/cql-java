@@ -1,0 +1,27 @@
+$Id: Changes,v 1.1 2002-11-06 00:05:57 mike Exp $
+
+Revision history for "cql-java"
+
+0.2  (IN PROGRESS)
+	- Fix the order of proximity parameters in accordance with the
+	  updated official grammar, which now specifies proximity
+	  operators of the form
+		prox/<relation>/<distance>/<unit>/<ordering>
+	  as in ``foo prox/<=/3/sentence bar''.
+	- Make the necessary parts of the CQLNode class and its
+	  subclasses public.  This means that client code can now walk
+	  through parse-trees and so implement its own back-end
+	  (e.g. to build BER-friendly data structures using whatever
+	  Z39.50 toolkit is preferred.)
+	- Add javadoc comments for CQLNode and subclasses.
+	- Add the toPQF(Properties p) method to CQLNode and subclasses.
+		(### NOT YET FINISHED)
+	- Add UnknownQualifierException and UnknownRelationException.
+	- Add "-p <props-file>" option to the CQLParser test-harness,
+	  indicating that the parsed tree is to be rendered to PQF.
+	- Add etc/pqf.properties to configure to toPQF() method.
+	- Rename ParameterMissingException to MissingParameterException.
+
+0.1  Sun Nov  3 20:58:27 2002
+	- First public release.
+

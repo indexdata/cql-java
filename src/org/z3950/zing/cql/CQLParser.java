@@ -1,14 +1,18 @@
-// $Id: CQLParser.java,v 1.14 2002-11-03 16:49:38 mike Exp $
+// $Id: CQLParser.java,v 1.15 2002-11-06 00:05:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
 import java.util.Vector;
+import java.util.Properties;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.14 2002-11-03 16:49:38 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.15 2002-11-06 00:05:58 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -150,9 +154,9 @@ public class CQLParser {
 		switch (i) {
 		    // Order should be: relation/distance/unit/ordering
 		    // For now, use MA's: unit/relation/distance/ordering
-		case 1: gatherProxRelation(node); break;
-		case 2: gatherProxDistance(node); break;
-		case 0: gatherProxUnit(node); break;
+		case 0: gatherProxRelation(node); break;
+		case 1: gatherProxDistance(node); break;
+		case 2: gatherProxUnit(node); break;
 		case 3: gatherProxOrdering(node); break;
 		}
 	    }
@@ -291,19 +295,27 @@ public class CQLParser {
      *	<TT>-c</TT> option is supplied].
      */
     public static void main (String[] args) {
-	boolean canonicalise = false;
+	char mode = 'x';	// x=XCQL, c=CQL, p=PQF
+	String pfile = null;
+
 	Vector argv = new Vector();
 	for (int i = 0; i < args.length; i++) {
 	    argv.add(args[i]);
 	}
 
 	if (argv.size() > 0 && argv.get(0).equals("-c")) {
-	    canonicalise = true;
+	    mode = 'c';
+	    argv.remove(0);
+	} else if (argv.size() > 1 && argv.get(0).equals("-p")) {
+	    mode = 'p';
+	    argv.remove(0);
+	    pfile = (String) argv.get(0);
 	    argv.remove(0);
 	}
 
 	if (argv.size() > 1) {
-	    System.err.println("Usage: CQLParser [-c] [<CQL-query>]");
+	    System.err.println(
+		"Usage: CQLParser [-c] [-p <pqf-properties> [<CQL-query>]");
 	    System.err.println("If unspecified, query is read from stdin");
 	    System.exit(1);
 	}
@@ -324,21 +336,35 @@ public class CQLParser {
 	}
 
 	CQLParser parser = new CQLParser();
-	CQLNode root;
+	CQLNode root = null;
 	try {
 	    root = parser.parse(cql);
-	    debug("root='" + root + "'");
-	    if (canonicalise) {
-		System.out.println(root.toCQL());
-	    } else {
-		System.out.print(root.toXCQL(0));
-	    }
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
 	    System.exit(3);
 	} catch (java.io.IOException ex) {
 	    System.err.println("Can't compile query: " + ex.getMessage());
 	    System.exit(4);
+	}
+
+	try {
+	    if (mode == 'c') {
+		System.out.println(root.toCQL());
+	    } else if (mode == 'p') {
+		InputStream f = new FileInputStream(pfile);
+		if (f == null)
+		    throw new FileNotFoundException(pfile);
+
+		Properties config = new Properties();
+		config.load(f);
+		f.close();
+		System.out.println(root.toPQF(config));
+	    } else {
+		System.out.print(root.toXCQL(0));
+	    }
+	} catch (java.io.IOException ex) {
+	    System.err.println("Can't render query: " + ex.getMessage());
+	    System.exit(5);
 	}
     }
 }

@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.3 2002-11-03 16:49:38 mike Exp $
+// $Id: CQLGenerator.java,v 1.4 2002-11-06 00:05:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.3 2002-11-03 16:49:38 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.4 2002-11-06 00:05:58 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -125,11 +125,11 @@ public class CQLGenerator {
      *	method, or decompiled into CQL using its <TT>toCQL</TT>
      *	method.
      */
-    public CQLNode generate() throws ParameterMissingException {
+    public CQLNode generate() throws MissingParameterException {
 	return generate_cql_query();
     }
 
-    private CQLNode generate_cql_query() throws ParameterMissingException {
+    private CQLNode generate_cql_query() throws MissingParameterException {
 	if (!maybe("complexQuery")) {
 	    return generate_search_clause();
 	}
@@ -149,7 +149,7 @@ public class CQLGenerator {
 	return generate_search_clause();
     }
 
-    private CQLNode generate_search_clause() throws ParameterMissingException {
+    private CQLNode generate_search_clause() throws MissingParameterException {
 	if (maybe("complexClause")) {
 	    return generate_cql_query();
 	}
@@ -183,14 +183,14 @@ public class CQLGenerator {
 	return qualifier;
     }
 
-    private CQLRelation generate_relation() throws ParameterMissingException {
+    private CQLRelation generate_relation() throws MissingParameterException {
 	String base = generate_base_relation();
 	CQLRelation rel = new CQLRelation(base);
 	// ### should generate modifiers too
 	return rel;
     }
 
-    private String generate_base_relation() throws ParameterMissingException {
+    private String generate_base_relation() throws MissingParameterException {
 	if (maybe("equalsRelation")) {
 	    return "=";
 	} else if (maybe("numericRelation")) {
@@ -242,10 +242,10 @@ public class CQLGenerator {
 	return "";		// shut up compiler warning
     }
 
-    boolean maybe(String param) throws ParameterMissingException {
+    boolean maybe(String param) throws MissingParameterException {
 	String probability = params.getProperty(param);
 	if (probability == null)
-	    throw new ParameterMissingException(param);
+	    throw new MissingParameterException(param);
 
 	double dice = rnd.nextDouble();
 	double threshhold = new Double(probability).doubleValue();
@@ -301,8 +301,7 @@ public class CQLGenerator {
 	String configFile = args[0];
 	InputStream f = new FileInputStream(configFile);
 	if (f == null)
-	    throw new FileNotFoundException("getResourceAsStream(" +
-					    configFile + ")");
+	    throw new FileNotFoundException(configFile);
 
 	Properties params = new Properties();
 	params.load(f);

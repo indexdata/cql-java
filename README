@@ -1,4 +1,4 @@
-$Id: README,v 1.13 2002-11-05 17:20:30 mike Exp $
+$Id: README,v 1.14 2002-11-06 00:05:58 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -114,12 +114,13 @@ All the other free CQL compilers everyone's going to write  :-)
 THINGS TO DO
 ------------
 
-* ### Make necessary parts of CQLNode etc. public.
-
 * ### Fix bug where "9x" is parsed as two tokens, a TT_NUMBER followed
   by a TT_WORD.  The problem here is that I don't think it's actually
   possible to fix this without throwing out StreakTokenizer and
   rolling our own, which we absolutely _don't_ want to do.
+
+* Write javadoc comments for CQLRelation, ModifierSet and the
+  Exception classes.
 
 * Allow keywords to be used unquoted as search terms.
 

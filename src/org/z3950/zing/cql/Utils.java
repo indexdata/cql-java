@@ -1,13 +1,13 @@
-// $Id: Utils.java,v 1.1 2002-10-31 22:23:19 mike Exp $
+// $Id: Utils.java,v 1.2 2002-11-06 00:05:58 mike Exp $
 
 package org.z3950.zing.cql;
 
 
 /**
  * Utility functions for the org.z3950.zing.cql package.
- * ##
+ * Not intended for use outside this package.
  *
- * @version	$Id: Utils.java,v 1.1 2002-10-31 22:23:19 mike Exp $
+ * @version	$Id: Utils.java,v 1.2 2002-11-06 00:05:58 mike Exp $
  */
 class Utils {
     static String indent(int level) {

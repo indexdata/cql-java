@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.2 2002-10-31 22:22:01 mike Exp $
+// $Id: CQLRelation.java,v 1.3 2002-11-06 00:05:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
  * Represents a relation between a CQL qualifier and term.
  * ##
  *
- * @version	$Id: CQLRelation.java,v 1.2 2002-10-31 22:22:01 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.3 2002-11-06 00:05:58 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -17,9 +17,15 @@ public class CQLRelation extends CQLNode {
 	ms = new ModifierSet(base);
     }
 
+    public String getBase() {
+	return ms.getBase();
+    }
+
     public void addModifier(String modifier) {
 	ms.addModifier(null, modifier);
     }
+
+    // ### should have a public method to retrieve all modifiers
 
     public String toXCQL(int level) {
 	return ms.toXCQL(level, "relation");
@@ -27,5 +33,10 @@ public class CQLRelation extends CQLNode {
 
     public String toCQL() {
 	return ms.toCQL();
+    }
+
+    public String toPQF(Properties config)
+	throws UnknownQualifierException, UnknownRelationException {
+	throw Error("CQLRelation.toPQF() can never be called");
     }
 }
