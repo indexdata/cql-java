@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.8 2002-11-06 20:13:45 mike Exp $
+# $Id: Makefile,v 1.9 2002-11-08 13:50:17 mike Exp $
 
 DOCDIR = ../../../../../docs
 
@@ -15,24 +15,22 @@ OBJ = Utils.class \
 ../../../../../lib/cql-java.jar: $(OBJ)
 	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class
 
+# Your Java compiler will require that this source directory is on the
+# classpath.  Generally, you can use the rules below, which set the
+# classpath suitably.  But that will break if you need other elements
+# in the CLASSPATH too.  If that's the situation you're in, take the
+# "-classpath ../../../.." flag out of the rules below, and set your
+# CLASSPATH environment variable to include
+#	/where/ever/you/unpacked/it/cql-java-VERSION/src
+#
+%.class: %.java
+	javac -classpath ../../../.. $<
+
 docs: $(DOCDIR)/overview-tree.html
 
 $(DOCDIR)/overview-tree.html: *.java
-	nice javadoc -d $(DOCDIR) -author -version \
+	nice javadoc -classpath ../../../.. -d $(DOCDIR) -author -version \
 		-windowtitle cql-java org.z3950.zing.cql
-
-# Your Java compiler will require that this source directory is on the
-# CLASSPATH.  You can either set your CLASSPATH environment variable
-# to include /where/ever/you/unpacked/it/cql-java-VERSION/src or try
-# changing the rule below to:
-#
-#	javac -classpath ../../../.. $<
-#
-# (But that will break if you need other elements in the CLASSPATH
-# too, for the Java library -- as, for example, Jikes does.)
-#
-%.class: %.java
-	javac $<
 
 clean:
 	rm -f $(OBJ) 'CQLLexer$$Keyword.class'
