@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: showtest,v 1.5 2002-11-26 15:51:48 mike Exp $
+# $Id: showtest,v 1.6 2002-11-28 11:56:55 mike Exp $
 
 if [ $# != 1 ]; then
 	echo "Usage: $0 <test-name>" >&2
@@ -10,7 +10,7 @@ fi
 
 ### Warning: nasty hard-coded choices
 ( echo "=== Adam ==="
-  ../../../srw/cql/cqlshell < sections/$1.cql ) > /tmp/adam
+  ../../../srw/cql/cql2xcql < sections/$1.cql ) > /tmp/adam
 ( echo "=== Mike ==="
   ../../bin/CQLParser < sections/$1.cql ) > /tmp/mike
 sdiff -w 80 /tmp/adam /tmp/mike

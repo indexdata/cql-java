@@ -1,7 +1,14 @@
-$Id: Changes,v 1.21 2002-11-24 17:42:26 mike Exp $
+$Id: Changes,v 1.22 2002-11-28 11:56:55 mike Exp $
 
 Revision history for the "cql-java" package.
 See the bottom of this file for a list of things still to do.
+
+0.5  (IN PROGRESS)
+	- Change regression-test rules for Adam's compiler to use his
+	  new front-end cql2xcql instead of the old cqlparse3.
+	- Fix comment in etc/pqf.properties (claimed that the Type-1
+	  "string" attribute was "phrase").  Just a documentation
+	  error.
 
 0.4  Thu Nov 21 10:09:26 2002
 	- Add support for the new "phonetic" relation modifier,
