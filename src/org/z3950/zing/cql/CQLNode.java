@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.20 2002-12-11 17:14:20 mike Exp $
+// $Id: CQLNode.java,v 1.21 2002-12-12 10:24:25 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,10 +8,20 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.20 2002-12-11 17:14:20 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.21 2002-12-12 10:24:25 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
+
+    /**
+     * Returns the name of the result-set to which this query is a
+     * reference, if and only if the entire query consists only of a
+     * result-set reference.  If it's anything else, including a
+     * boolean combination of a result-set reference with something
+     * else, then null is returned instead.
+     * @return the name of the referenced result-set
+     */
+    public String getResultSetName() { return null; }
 
     /**
      * Translates a parse-tree into an XCQL document.
