@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.4 2002-11-20 01:15:15 mike Exp $
+# $Id: Makefile,v 1.5 2002-11-20 17:55:46 mike Exp $
 
 XMLCANONICALISER = ./xmlpp.pl
 # Change this to "cat" if you want to check byte-for-byte identicality
@@ -27,6 +27,6 @@ sections: mktests queries.raw
 clean:
 	@echo "Nothing to do to 'make clean'"
 
-totally-clean:
+reference-clean:
 	rm -rf sections
 

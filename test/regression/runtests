@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: runtests,v 1.4 2002-11-20 01:15:15 mike Exp $
+# $Id: runtests,v 1.5 2002-11-20 17:55:46 mike Exp $
 
 use IO::File;
 use strict;
@@ -23,12 +23,14 @@ while (<sections/*>) {
 	my $query = read_file($qfile);
 	my $afile = $qfile;
 	$afile =~ s/\.cql$/.xcql/;
-	print "  query $_ - $query\n";
+	print "  query $_ - $query  ";
 	my $correct = read_file("$norman < $afile |");
 	my $tested = read_file("$compiler < $qfile | $norman |")
-	    or warn "test compiler exited non-zero";
-	if ($tested ne $correct) {
-	    print "    *** different XCQL output\n";
+	    or print "\n    *** test compiler exited non-zero\n";
+	if ($tested eq $correct) {
+	    print "OK\n";
+	} else {
+	    print "\n    *** different XCQL output\n";
 	    print "=== correct ===\n$correct";
 	    print "=== tested ===\n$tested";
 	}
