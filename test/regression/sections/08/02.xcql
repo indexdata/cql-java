@@ -1,0 +1,12 @@
+<searchClause>
+  <prefixes>
+    <prefix>
+      <identifier>http://www.loc.gov/zing/cql/dc-indexes/</identifier>
+    </prefix>
+  </prefixes>
+  <index>title</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>fish</term>
+</searchClause>

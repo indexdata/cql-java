@@ -1,0 +1,10 @@
+<searchClause>
+  <index>dc.title</index>
+  <relation>
+    <value>any</value>
+    <modifiers>
+      <modifier><value>stem</value></modifier>
+    </modifiers>
+  </relation>
+  <term>frog pond</term>
+</searchClause>

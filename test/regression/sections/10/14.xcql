@@ -1,0 +1,29 @@
+<triple>
+  <boolean>
+    <value>and</value>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>srw.serverChoice</index>
+      <relation>
+        <value>scr</value>
+      </relation>
+      <term>fish</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <prefixes>
+        <prefix>
+          <name>illegal</name>
+          <identifier>urn:invalidPrefixLocation</identifier>
+        </prefix>
+      </prefixes>
+      <index>srw.serverChoice</index>
+      <relation>
+        <value>scr</value>
+      </relation>
+      <term>chips</term>
+    </searchClause>
+  </rightOperand>
+</triple>

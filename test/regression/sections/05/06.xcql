@@ -1,0 +1,28 @@
+<triple>
+  <boolean>
+    <value>prox</value>
+    <modifiers>
+      <modifier><type>relation</type><value>&lt;</value></modifier>
+      <modifier><type>distance</type><value>5</value></modifier>
+      <modifier><type>unit</type><value>element</value></modifier>
+    </modifiers>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>dc.author</index>
+      <relation>
+        <value>exact</value>
+      </relation>
+      <term>jones</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>title</index>
+      <relation>
+        <value>&gt;=</value>
+      </relation>
+      <term>smith</term>
+    </searchClause>
+  </rightOperand>
+</triple>

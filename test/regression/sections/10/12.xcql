@@ -1,0 +1,7 @@
+<searchClause>
+  <index>quoted</index>
+  <relation>
+    <value>any</value>
+  </relation>
+  <term>illegal quotes</term>
+</searchClause>

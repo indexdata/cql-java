@@ -1,0 +1,26 @@
+<triple>
+  <boolean>
+    <value>prox</value>
+    <modifiers>
+      <modifier><type>unit</type><value>sentence</value></modifier>
+    </modifiers>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>srw.serverChoice</index>
+      <relation>
+        <value>scr</value>
+      </relation>
+      <term>fish food</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>srw.serverChoice</index>
+      <relation>
+        <value>scr</value>
+      </relation>
+      <term>and</term>
+    </searchClause>
+  </rightOperand>
+</triple>

@@ -1,0 +1,7 @@
+<searchClause>
+  <index>srw.serverChoice</index>
+  <relation>
+    <value>scr</value>
+  </relation>
+  <term>=</term>
+</searchClause>
