@@ -1,4 +1,4 @@
-$Id: Changes,v 1.9 2002-11-14 22:12:19 mike Exp $
+$Id: Changes,v 1.10 2002-11-15 11:35:53 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
@@ -64,6 +64,10 @@ See the bottom of this file for a list of things still to do.
 	  think it's actually possible to fix this without throwing
 	  out StreakTokenizer and rolling our own, which we absolutely
 	  _don't_ want to do.
+	- Describe prefix-mapping in the CQL tutorial (not really
+	  anything to do with cql-java, but this note will remind me
+	  to do it.)
+	- Add support for the new "phonetic" relation modifier.
 	- Write javadoc comments for CQLRelation and ModifierSet.
 	- Write "overview" file for the javadoc documentation.
 	- Some niceties for the cql-decompiling back-end:
