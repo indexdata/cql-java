@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.14 2002-12-09 16:55:19 mike Exp $
+// $Id: CQLTermNode.java,v 1.15 2002-12-09 17:01:03 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.14 2002-12-09 16:55:19 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.15 2002-12-09 17:01:03 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -134,6 +134,12 @@ public class CQLTermNode extends CQLNode {
     }
 
     public String toPQF(Properties config) throws PQFTranslationException {
+	if (qualifier.equals("srw.resultSet")) {
+	    // Special case: ignore relation, modifiers, wildcards, etc.
+	    // ### Parallel code is required in toType1()
+	    return "@set " + maybeQuote(term);
+	}
+
 	Vector attrs = getAttrs(config);
 
 	String attr, s = "";

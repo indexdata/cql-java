@@ -1,4 +1,4 @@
-$Id: Changes,v 1.25 2002-12-09 16:56:07 mike Exp $
+$Id: Changes,v 1.26 2002-12-09 17:01:03 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
@@ -24,9 +24,9 @@ See the bottom of this file for a list of things still to do.
 	  difference to anything: in particular, file-names such as
 	  "cql-java.jar" remain the same.
 	- Recreate last-in-field support
-	- ### Add srw.resultSet support to the toPFQ() method.
-	- ### Fix term-to-PQF translation to omit empty properties
-	  (for the broken Korean server)
+	- Add srw.resultSet support to the toPFQ() method.  I've not
+	  attempted this for the toType1() method: Ralph will have to
+	  do it.
 
 0.4  Thu Nov 21 10:09:26 2002
 	- Add support for the new "phonetic" relation modifier,
@@ -118,6 +118,8 @@ See the bottom of this file for a list of things still to do.
 	  followed by a TT_WORD.  The problem here is that I don't
 	  think it's actually possible to fix this without throwing
 	  out StreamTokenizer and rolling our own, which we absolutely
+	- Fix term-to-PQF translation to omit empty properties
+	  (for the broken Korean server)
 	- Write "package.html" file for the javadoc documentation.
 	- Some niceties for the cql-decompiling back-end:
 	  * Don't emit redundant parentheses.
