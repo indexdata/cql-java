@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.18 2002-11-08 01:10:55 mike Exp $
+// $Id: CQLParser.java,v 1.19 2002-11-08 16:38:47 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.18 2002-11-08 01:10:55 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.19 2002-11-08 16:38:47 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -130,7 +130,7 @@ public class CQLParser {
 		    lexer.ttype != lexer.TT_STEM)
 		    throw new CQLParseException("expected relation modifier, "
 						+ "got " + lexer.render());
-		relation.addModifier(lexer.sval);
+		relation.addModifier(lexer.sval.toLowerCase());
 		match(lexer.ttype);
 	    }
 
