@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.2 2002-11-06 22:03:58 mike Exp $
+# $Id: Makefile,v 1.3 2002-11-08 16:31:24 mike Exp $
 
 sections/01/01.xcql: sections
 	./mkanswers CQLParser
@@ -16,8 +16,5 @@ rob-tests: sections/01/01.xcql
 	./runtests ../../../rob/CQLParser.py cat
 
 clean:
-	find sections -name '*.xcql' -print | xargs rm -f
-
-distclean:
 	rm -rf sections
 
