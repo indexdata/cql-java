@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.5 2002-10-25 16:01:26 mike Exp $
+// $Id: CQLParser.java,v 1.6 2002-10-25 16:11:05 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -13,7 +13,7 @@ import java.io.StreamTokenizer;
  * Compiles a CQL string into a parse tree ...
  * ###
  *
- * @version	$Id: CQLParser.java,v 1.5 2002-10-25 16:01:26 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.6 2002-10-25 16:11:05 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -156,9 +156,15 @@ public class CQLParser {
 	    System.err.println("Can't read query: " + ex);
 	    System.exit(2);
 	}
-	String cql = String(bytes);
+	String cql = new String(bytes);
 	CQLParser parser = new CQLParser();
-	CQLNode root = parser.parse(cql);
-	System.out.println(root.toXCQL());
+	CQLNode root;
+	try {
+	    root = parser.parse(cql);
+	    System.out.println(root.toXCQL(0));
+	} catch (java.io.IOException ex) {
+	    System.err.println("Can't compile query: " + ex);
+	    System.exit(3);
+	}
     }
 }
