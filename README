@@ -1,4 +1,4 @@
-$Id: README,v 1.8 2002-11-01 23:45:28 mike Exp $
+$Id: README,v 1.9 2002-11-02 01:24:41 mike Exp $
 
 cql-java -- a free CQL compiler for Java
 
@@ -44,7 +44,7 @@ Library:
 	// Parsing a CQL query
 	CQLParser parser = new CQLParser();
 	CQLNode root = parser.parse("title=dinosaur");
-	System.out.println(root.toXCQL(0));
+	System.out.print(root.toXCQL(0));
 	System.out.println(root.toCQL());
 	System.out.println(root.toPQF(qualSet));
 	// ... where `qualSet' specifies CQL-qualfier => Z-attr mapping
@@ -95,6 +95,9 @@ All the other free CQL compilers everyone's going to write  :-)
 
 TO DO
 -----
+
+* ### Fix bug where "9x" is parsed as two tokens, a NUMBER and a
+  WORD.  (And why is "x9" OK?)
 
 * Allow CQLGenerate test-harness to take some of its configuration
   parameters on the command-line as well as or instead of a file.
