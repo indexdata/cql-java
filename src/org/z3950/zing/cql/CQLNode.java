@@ -1,13 +1,13 @@
-// $Id: CQLNode.java,v 1.6 2002-10-29 10:15:58 mike Exp $
+// $Id: CQLNode.java,v 1.7 2002-10-30 09:19:26 mike Exp $
 
 package org.z3950.zing.cql;
 
 
 /**
- * Represents a node in a CQL parse-tree ...
+ * Represents a node in a CQL parse-tree.
  * ###
  *
- * @version	$Id: CQLNode.java,v 1.6 2002-10-29 10:15:58 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.7 2002-10-30 09:19:26 mike Exp $
  */
 public abstract class CQLNode {
     abstract String toXCQL(int level);
@@ -35,7 +35,8 @@ public abstract class CQLNode {
 	return str;
     }
 
-    String replace(String str, String from, String to) {
+    // I can't _believe_ I have to write this by hand in 2002 ...
+    protected static String replace(String str, String from, String to) {
 	StringBuffer sb = new StringBuffer();
 	int ix;			// index of next `from'
 	int offset = 0;		// index of previous `from' + length(from)

@@ -1,13 +1,15 @@
-$Id: README,v 1.4 2002-10-29 10:15:58 mike Exp $
+$Id: README,v 1.5 2002-10-30 09:19:26 mike Exp $
 
 cql-java -- a free CQL compiler for Java
 
 
 This project provides a set of classes for representing a CQL parse
-tree (CQLBooleanNode, CQLTermNode, etc.) and a Compiler class which
+tree (CQLBooleanNode, CQLTermNode, etc.) and a CQLCompiler class which
 builds a parse tree given a CQL query as input.  It also provides
-compiler back-ends to render out the parse tree either as XCQL or
-Yaz-style Prefix Query Format (PQF).
+compiler back-ends to render out the parse tree as XCQL (the XML
+representation), as PQF (Yaz-style Prefix Query Format) and as CQL
+(i.e. decompiling the parse-tree).  Oh, and there's a random query
+generator, too.
 
 CQL is "Common Query Language", a new query language designed under
 the umbrella of the ZING initiative (Z39.59-International Next
@@ -75,30 +77,42 @@ SEE ALSO
 
 Adam Dickmeiss's CQL compiler, written in C.
 Rob Sanderson's CQL compiler, written in Python.
-All the other free CQL compilers everyone's going to write.
+All the other free CQL compilers everyone's going to write  :-)
 
 
 TO DO
 -----
 
-### Finish the parser:
-###	* multi-character relations		DONE but ### single "<" fails!
-###	* word relations
-###	* relation modifiers
-###	* proximity, 
+* Add proximity support to parser
 
-### Finish the CXQL-rendering back end (mostly a matter of quoting
-    characters to be emitted as part of an XML document).
-	DONE
+* Some niceties for the CQL-decompiling back-end:
+	* Don't emit redundant parentheses.
+	* Don't put spaces around relations that don't need them.
 
-### Finish CQL-decompiling back end (mostly a matter of quoting)
+* Write PQN-generating back-end (will need to be driven from a
+  configuation file specifying how to represent the qualifiers,
+  relations, relation modifiers and wildcard characters as Z39.50
+  attributes.)
 
-### Write PQN-generating back end (will need to be driven from a
-    configuation file specifying how to represent the qualifiers,
-    relations, relation modifiers and wildcard characters as Z39.50
-    attributes.)
+* Consider the utility of yet another back-end that translates a
+  CQLNode tree into a Type-1 query tree using the JZKit data
+  structures.  That would be nice so that CQL could become a JZKit
+  query-type, but you could achieve the same effect by generating PQN,
+  and running that through JZKit's existing PQN-to-Type-1 compiler.
 
-### Write stochastic query generator, driven off MA grammar.
+* Refinements to random query generator:
+	* Fix to handle new, structured, relation representation
+	* Generate relation modifiers
+	* Proximity support
+	* Better selection of qualifier (configurable?)
+	* Better selection of terms (from a dictionary file?)
+	* Introduce wildcard characters into generated terms
+	* Generate multi-word terms
 
-### Write "javadoc" comments.
+* Write fuller "javadoc" comments.
+
+* Write generic test suite.
+
+* Fix CQLParser test harness to read query from command-line
+  arguments, if any, falling back to stdin if there are none.
 

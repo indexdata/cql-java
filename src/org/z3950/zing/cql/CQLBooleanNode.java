@@ -1,13 +1,13 @@
-// $Id: CQLBooleanNode.java,v 1.4 2002-10-25 19:44:31 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.5 2002-10-30 09:19:26 mike Exp $
 
 package org.z3950.zing.cql;
 
 
 /**
- * Represents a boolean node in a CQL parse-tree ...
+ * Represents a boolean node in a CQL parse-tree.
  * ###
  *
- * @version	$Id: CQLBooleanNode.java,v 1.4 2002-10-25 19:44:31 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.5 2002-10-30 09:19:26 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
     protected CQLNode left;
@@ -24,6 +24,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     }
 
     String toCQL() {
+	// ### We don't always need parens around the operands
 	return "(" + left.toCQL() + ") " + op() + " (" + right.toCQL() + ")";
     }
 }
