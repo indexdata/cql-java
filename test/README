@@ -1,0 +1,11 @@
+$Id: README,v 1.1 2002-11-01 23:45:28 mike Exp $
+
+"raw" is the file of test queries as provided by Rob.
+"mktests" parses the raw file into sections and individual queries
+"sections" is the top-level directory created by that program.
+  "01", "02" etc. represent the sections within the raw file
+    "01/name", "02/name", etc. contain the names of the sections.
+    "01/01.cql", "01/02.cql" etc. are the CQL queries themselves.
+"mkanswers" uses a trusted CQL compiler to generate corresponding XCQL.
+    "01/01.xcql", "01/02.xcql" etc. are the compiled XCQL queries.
+"Makefile" controls the building of all this.

@@ -1,0 +1,87 @@
+# Simple
+
+cat
+"cat"
+comp.os.linux
+xml:element
+"<xml:element>"
+"="
+"prox/word/>=/5"
+("cat")
+((dog))
+
+# index relation term
+
+title = "fish"
+title exact fish
+title any fish
+title all fish
+title > 9
+title >= 23
+dc.title any "fish chips"
+dc.title any/stem fish
+dc.fish all/stem/fuzzy "fish chips"
+(title any frog)
+((dc.title any/stem "frog pond"))
+
+# Simple Boolean
+
+cat or dog
+cat and fish
+cat not frog
+(cat not frog)
+"cat" not "fish food"
+xml and "prox/word/"
+fred and any
+((fred or all))
+a or b and c not d
+
+# I/R/T plus Boolean
+
+bath.author any fish and dc.title all "cat dog"
+(title any/stem "fish dog" or and)
+
+# Prox
+
+cat prox hat
+cat prox/word/=/3/ordered hat
+cat prox///3 hat
+"fish food" prox/sentence and
+title all "chips frog" prox/word//5 any
+(dc.author exact "jones" prox///5 title >= "smith")
+((cat prox hat))
+
+# Special characters
+(cat^)
+"cat"
+"^cat says \"fish\""
+"cat*fish"
+cat?dog
+(("^cat*fishdog\"horse?"))
+
+# Nesting Parens
+
+(((cat or dog) or horse) and frog)
+(cat and dog) or (horse and frog)
+(cat and (horse or frog)) and chips
+
+# Lame searches
+
+any or all:stem and all exact any prox/word prox=fuzzy
+(((((((((any)))))))))
+
+
+# Invalid searches [should error]
+
+^
+>
+===
+cat or
+index any
+index any/wrong term
+a prox/wrong b
+()
+(a
+index any fish)
+(cat any dog or ())
+sorry = (mike)

@@ -1,4 +1,4 @@
-$Id: README,v 1.7 2002-10-31 22:22:01 mike Exp $
+$Id: README,v 1.8 2002-11-01 23:45:28 mike Exp $
 
 cql-java -- a free CQL compiler for Java
 
@@ -72,6 +72,19 @@ licence to use.  Be good.  Assume I'm going with the GPL (most
 restrictive) until I say otherwise.
 
 
+TESTING
+-------
+
+Ways of testing the parser and other components include:
+
+* Generate a random tree with CQLGenerate, take a copy, and
+  canonicalise it with CQLparser -c.  Since the CQLGenerate output is
+  in canonical form anyway, the before-and-after versions should be
+  identical.
+
+* ... others :-)
+
+
 SEE ALSO
 --------
 
@@ -83,25 +96,8 @@ All the other free CQL compilers everyone's going to write  :-)
 TO DO
 -----
 
-* Add proximity support to parser -- just the back-ends left to do.
-
-* Relation modifiers could be limited to known modifiers only.
-
-* Fix CQLParser and CQLLexer shell-script front-ends to elegantly
-  handle their classes' test harnesses' ability to read the query from
-  the command-line arguments, if any, falling back to stdin if there
-  are none.
-
-* Add CQLGenerate shell-script.  Allow CQLGenerate test-harness to
-  take some arguments on command-line as well as or instead of a
-  file.
-
-* Trivial CQLCanonicalise application, which renders out its source
-  tree in a canonical form, enabling queries to be diffed for
-  semantically significant differences only.  Tests can be run by
-  generating random trees, canonicalising them, then canonicalising
-  them _again_ and checking that the before-and-after results are the
-  same.
+* Allow CQLGenerate test-harness to take some of its configuration
+  parameters on the command-line as well as or instead of a file.
 
 * Some niceties for the cql-decompiling back-end:
 	* don't emit redundant parentheses.
@@ -113,9 +109,9 @@ TO DO
   attributes.)
 
 * Consider the utility of yet another back-end that translates a
-  cqlnode tree into a type-1 query tree using the jzkit data
+  CQLNode tree into a Type-1 query tree using the JZKit data
   structures.  That would be nice so that CQL could become a JZKit
-  query-type, but you could achieve the same effect by generating PQN,
+  query-type; but you could achieve the same effect by generating PQN,
   and running that through JZKit's existing PQN-to-Type-1 compiler.
 
 * Refinements to random query generator:

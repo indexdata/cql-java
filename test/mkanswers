@@ -1,0 +1,49 @@
+#!/usr/bin/perl -w
+
+use IO::File;
+use strict;
+
+if (@ARGV == 0) {
+    print STDERR "Usage: $0 <trusted-CQL-compiler>\n";
+    exit(1);
+}
+my $compiler = $ARGV[0];
+
+while (<sections/*>) {
+    my $sdir = $_;
+    s@sections/@@;
+    print "answering section $_ - ", read_file("$sdir/name"), "\n";
+
+    while (<$sdir/*>) {
+	next if /\/name$/;
+	my $qfile = $_;
+	s@sections/([0-9]+/.*)\.cql@$1@;
+	my $query = read_file($qfile);
+	my $afile = $qfile;
+	$afile =~ s/\.cql$/.cxql/;
+	print "  query $_ - $query\n";
+	my $fh = new IO::File("| $compiler > $afile")
+	    or die "can't run compiler '$compiler': $!";
+	print $fh $query;
+	$fh->close();
+    }
+}
+
+sub read_file {
+    my($name) = @_;
+
+    my $fh = new IO::File("<$name")
+	or die "can't read '$name': $!";
+    my $contents = join('', <$fh>);
+    $fh->close();
+    return $contents;
+}
+
+sub write_file {
+    my($name, $contents) = @_;
+
+    my $fh = new IO::File(">$name")
+	or die "can't create '$name': $!";
+    $fh->print($contents);
+    $fh->close();
+}

@@ -1,0 +1,42 @@
+#!/usr/bin/perl -w
+
+use IO::File;
+use strict;
+
+mkdir "sections";
+my $section = 0;
+my $dir;
+my $query;
+
+while (<>) {
+    chomp();
+    s/[ \t]+$//;
+    next if /^$/;
+
+    if (s/^#[ \t]*//) {
+	$section++;
+	$query = 0;
+	$dir = "sections/" . substr("0$section", -2);
+	mkdir $dir;
+	write_file("$dir/name", $_);
+	print "created section $section ($dir) - $_\n";
+	next;
+    }
+
+    die "query before first section header"
+	if !defined $dir;
+
+    $query++;
+    my $filename = $dir . "/" . substr("0$query", -2) . ".cql";
+    write_file($filename, $_);
+    print "  added query $query ($filename) - $_\n";
+}
+
+sub write_file {
+    my($name, $contents) = @_;
+
+    my $fh = new IO::File(">$name")
+	or die "can't create '$name': $!";
+    $fh->print($contents);
+    $fh->close();
+}

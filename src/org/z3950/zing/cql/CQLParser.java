@@ -1,14 +1,15 @@
-// $Id: CQLParser.java,v 1.11 2002-10-31 22:22:01 mike Exp $
+// $Id: CQLParser.java,v 1.12 2002-11-01 23:45:28 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
+import java.util.Vector;
 
 
 /**
  * Compiles a CQL string into a parse tree.
  * ##
  *
- * @version	$Id: CQLParser.java,v 1.11 2002-10-31 22:22:01 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.12 2002-11-01 23:45:28 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -100,12 +101,13 @@ public class CQLParser {
 
 	    while (lexer.ttype == '/') {
 		match('/');
-		// ### could insist on known modifiers only
-		if (lexer.ttype != lexer.TT_WORD)
+		if (lexer.ttype != lexer.TT_RELEVANT &&
+		    lexer.ttype != lexer.TT_FUZZY &&
+		    lexer.ttype != lexer.TT_STEM)
 		    throw new CQLParseException("expected relation modifier, "
 						+ "got " + lexer.render());
 		relation.addModifier(lexer.sval);
-		match(lexer.TT_WORD);
+		match(lexer.ttype);
 	    }
 
 	    debug("qualifier='" + qualifier + ", " +
@@ -241,15 +243,26 @@ public class CQLParser {
     //	</triple>
     //
     public static void main (String[] args) {
-	if (args.length > 1) {
-	    System.err.println("Usage: CQLParser [<CQL-query>]");
+	boolean canonicalise = false;
+	Vector argv = new Vector();
+	for (int i = 0; i < args.length; i++) {
+	    argv.add(args[i]);
+	}
+
+	if (argv.size() > 0 && argv.get(0).equals("-c")) {
+	    canonicalise = true;
+	    argv.remove(0);
+	}
+
+	if (argv.size() > 1) {
+	    System.err.println("Usage: CQLParser [-c] [<CQL-query>]");
 	    System.err.println("If unspecified, query is read from stdin");
 	    System.exit(1);
 	}
 
 	String cql;
-	if (args.length == 1) {
-	    cql = args[0];
+	if (argv.size() == 1) {
+	    cql = (String) argv.get(0);
 	} else {
 	    byte[] bytes = new byte[10000];
 	    try {
@@ -267,7 +280,11 @@ public class CQLParser {
 	try {
 	    root = parser.parse(cql);
 	    debug("root='" + root + "'");
-	    System.out.println(root.toCQL());
+	    if (canonicalise) {
+		System.out.println(root.toCQL());
+	    } else {
+		System.out.println(root.toXCQL(0));
+	    }
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
 	    System.exit(3);

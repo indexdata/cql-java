@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: CQLParser,v 1.1 2002-10-31 22:22:01 mike Exp $
+# $Id: CQLParser,v 1.2 2002-11-01 23:45:28 mike Exp $
 # Trivial script to invoke the CQLParser test-harness
 
-cat | java org.z3950.zing.cql.CQLParser ${@+"$@"}
+java org.z3950.zing.cql.CQLParser ${@+"$@"}

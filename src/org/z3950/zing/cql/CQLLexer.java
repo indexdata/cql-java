@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.2 2002-10-31 22:22:01 mike Exp $
+// $Id: CQLLexer.java,v 1.3 2002-11-01 23:45:28 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -26,12 +26,15 @@ class CQLLexer extends StreamTokenizer {
     static int TT_ANY       = 1007;	// The "any" relation
     static int TT_ALL       = 1008;	// The "all" relation
     static int TT_EXACT     = 1009;	// The "exact" relation
-    static int TT_pWORD      = 1010;	// The "word" proximity unit
+    static int TT_pWORD     = 1010;	// The "word" proximity unit
     static int TT_SENTENCE  = 1011;	// The "sentence" proximity unit
     static int TT_PARAGRAPH = 1012;	// The "paragraph" proximity unit
     static int TT_ELEMENT   = 1013;	// The "element" proximity unit
     static int TT_ORDERED   = 1014;	// The "ordered" proximity ordering
     static int TT_UNORDERED = 1015;	// The "unordered" proximity ordering
+    static int TT_RELEVANT  = 1016;	// The "relevant" relation modifier
+    static int TT_FUZZY     = 1017;	// The "fuzzy" relation modifier
+    static int TT_STEM      = 1018;	// The "stem" relation modifier
 
     // Support for keywords.  It would be nice to compile this linear
     // list into a Hashtable, but it's hard to store ints as hash
@@ -61,6 +64,9 @@ class CQLLexer extends StreamTokenizer {
 	new Keyword(TT_ELEMENT, "element"),
 	new Keyword(TT_ORDERED, "ordered"),
 	new Keyword(TT_UNORDERED, "unordered"),
+	new Keyword(TT_RELEVANT, "relevant"),
+	new Keyword(TT_FUZZY, "fuzzy"),
+	new Keyword(TT_STEM, "stem"),
     };
 
     // For halfDecentPushBack() and the code at the top of nextToken()
