@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.3 2002-10-24 16:06:34 mike Exp $
+// $Id: CQLParser.java,v 1.4 2002-10-25 07:38:16 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -13,42 +13,27 @@ import java.io.StreamTokenizer;
  * Compiles a CQL string into a parse tree ...
  * ###
  *
- * @version	$Id: CQLParser.java,v 1.3 2002-10-24 16:06:34 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.4 2002-10-25 07:38:16 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
-class CQLCompiler {
+class CQLParser {
     private String cql;
-    private String qualset;
-    private Properties qualsetProperties;
     private StreamTokenizer st;
 
     private class CQLParseException extends Exception {
 	CQLParseException(String s) { super(s); }
     }
 
-    public CQLCompiler(String cql, String qualset) {
-	this.cql = cql;
-	this.qualset = qualset;
+    public CQLParser() {
+	// Nothing to do: do we need this constructor, then?
     }
 
-    public String convertToPQN()
+    public CQLNode parse(String cql)
 	throws FileNotFoundException, IOException {
-
-	if (qualsetProperties == null) {
-	    //      ###	Could think about caching named qualifier sets
-	    //		across compilations (i.e. shared, in a static
-	    //		Hashtable, between multiple CQLCompiler
-	    //		instances.)  Probably not worth it.
-	    InputStream is = this.getClass().getResourceAsStream(qualset);
-	    if (is == null)
-		throw new FileNotFoundException("getResourceAsStream(" +
-						qualset + ")");
-	    qualsetProperties = new Properties();
-	    qualsetProperties.load(is);
-	}
-
+	this.cql = cql;
 	st = new StreamTokenizer(new StringReader(cql));
+	// ### these settings are wrong
 	st.wordChars('/', '/');
 	st.wordChars('0', '9');	// ### but 1 is still recognised as TT_NUM
 	st.wordChars('.', '.');
@@ -66,9 +51,9 @@ class CQLCompiler {
 //	}
 
 	st.nextToken();
-	String ret;
+	CQLNode root;
 	try {
-	    ret = parse_expression();
+	    root = parse_expression();
 	} catch (CQLParseException ex) {
 	    System.err.println("### Oops: " + ex);
 	    return null;
@@ -79,70 +64,44 @@ class CQLCompiler {
 	    return null;
 	}
 
-	// Interpret attributes as BIB-1 unless otherwise specified
-	return "@attrset bib-1 " + ret;
+	return root;
     }
 
-    private String parse_expression()
+    private CQLNode parse_expression()
 	throws CQLParseException, IOException {
-	String term = parse_term();
+	CQLNode term = parse_term();
 
 	while (st.ttype == st.TT_WORD) {
 	    String op = st.sval.toLowerCase();
-	    if (!st.sval.equals("and") &&
-		!st.sval.equals("or") &&
-		!st.sval.equals("not"))
-		break;
-	    match(st.TT_WORD);
-	    String term2 = parse_term();
-	    term = "@" + op + " " + term + " " + term2;
+	    if (st.sval.equals("and")) {
+		match(st.TT_WORD);
+		CQLNode term2 = parse_term();
+		term = new CQLAndNode(term, term2);
+	    } else if (st.sval.equals("or")) {
+		match(st.TT_WORD);
+		CQLNode term2 = parse_term();
+		term = new CQLOrNode(term, term2);
+	    } else if (st.sval.equals("not")) {
+		match(st.TT_WORD);
+		CQLNode term2 = parse_term();
+		term = new CQLNotNode(term, term2);
+	    }
 	}
 
 	return term;
     }
 
-    private String parse_term()
+    private CQLNode parse_term()
 	throws CQLParseException, IOException {
 	if (st.ttype == '(') {
 	    match('(');
-	    String expr = parse_expression();
+	    CQLNode expr = parse_expression();
 	    match(')');
 	    return expr;
 	}
 
-	String word = null;
-	String attrs = "";
-
-	// ### We treat ',' and '=' equivalently here, which isn't quite right.
-	while (st.ttype == st.TT_WORD) {
-	    word = st.sval;
-	    match(st.TT_WORD);
-	    if (st.ttype != '=' && st.ttype != ',') {
-		// end of qualifer list
-		break;
-	    }
-
-	    String attr = qualsetProperties.getProperty(word);
-	    if (attr == null) {
-		throw new CQLParseException("unrecognised qualifier: " + word);
-	    }
-	    attrs = attrs + attr + " ";
-	    match(st.ttype);
-	    word = null;	// mark as not-yet-read
-	}
-
-	if (word == null) {
-	    // got to the end of a "foo,bar=" sequence
-	    word = st.sval;
-	    if (st.ttype != '\'' || st.ttype != '"') {
-		word = "\"" + word + "\"";
-		match(st.ttype);
-	    } else {
-		match(st.TT_WORD);
-	    }
-	}
-
-	return attrs + word;
+	String word = st.sval;
+	return new CQLTermNode("x", "=", word);
     }
 
     private void match(int token)
@@ -161,47 +120,45 @@ class CQLCompiler {
     private static String render(StreamTokenizer st, int token, String str) {
 	String ret;
 
-	switch (token) {
-	case st.TT_EOF: return "EOF";
-	case st.TT_EOL: return "EOL";
-	case st.TT_NUMBER: return "number";
-	case st.TT_WORD: ret = "word"; break;
-	case '"': case '\'': ret = "string"; break;
-	default: return "'" + String.valueOf((char) token) + "'";
+	if (token == st.TT_EOF) {
+	    return "EOF";
+	} else if (token == st.TT_EOL) {
+	    return "EOL";
+	} else if (token == st.TT_NUMBER) {
+	    return "number";
+	} else if (token == st.TT_WORD) {
+	    return "word";
+	} else if (token == '"' && token == '\'') {
+	    return "string";
 	}
 
-	if (str != null)
-	    ret += "(\"" + str + "\")";
-	return ret;
+        return "'" + String.valueOf((char) token) + "'";
     }
 
-    // ### Not really the right place for this test harness.
+
+    // Test harness.
     //
-    // e.g. java uk.org.miketaylor.zoom.CQLCompiler
-    //		'(au=Kerninghan or au=Ritchie) and ti=Unix' qualset.properties
+    // e.g. echo '(au=Kerninghan or au=Ritchie) and ti=Unix' |
+    //				java org.z3950.zing.cql.CQLParser
     // yields:
-    //	@and
-    //		@or
-    //			@attr 1=1 @attr 4=1 Kerninghan
-    //			@attr 1=1 @attr 4=1 Ritchie
-    //		@attr 1=4 @attr 4=1 Unix
+    //	###
     //
     public static void main (String[] args) {
-	if (args.length != 2) {
-	    System.err.println("Usage: CQLQuery <cql> <qualset>");
+	if (args.length != 0) {
+	    System.err.println("Usage: " + args[0]);
 	    System.exit(1);
 	}
 
-	CQLCompiler cc = new CQLCompiler(args[0], args[1]);
+	byte[] bytes = new byte[1000];
 	try {
-	    String pqn = cc.convertToPQN();
-	    System.out.println(pqn);
-	} catch (FileNotFoundException ex) {
-	    System.err.println("Can't find qualifier set: " + ex);
-	    System.exit(2);
-	} catch (IOException ex) {
-	    System.err.println("Can't read qualifier set: " + ex);
+	    int nbytes = System.in.read(bytes);
+	} catch (java.io.IOException ex) {
+	    System.err.println("Can't read query: " + ex);
 	    System.exit(2);
 	}
+	String cql = String(bytes);
+	CQLParser parser = new CQLParser();
+	CQLNode root = parser.parse(cql);
+	System.out.println(root.toXCQL());
     }
 }

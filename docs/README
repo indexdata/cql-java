@@ -1,0 +1,2 @@
+Automatically-generated documentation should appear here.
+cd ../src/org/z3950/zing/cql && make javadocs
