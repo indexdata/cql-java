@@ -1,4 +1,4 @@
-$Id: README,v 1.11 2002-11-03 17:37:14 mike Exp $
+$Id: README,v 1.12 2002-11-04 23:42:30 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -118,6 +118,8 @@ THINGS TO DO
   by a TT_WORD.  The problem here is that I don't think it's actually
   possible to fix this without throwing out StreakTokenizer and
   rolling our own, which we absolutely _don't_ want to do.
+
+* Allow keywords to be used unquoted as search terms.
 
 * Some niceties for the cql-decompiling back-end:
 	* don't emit redundant parentheses.
