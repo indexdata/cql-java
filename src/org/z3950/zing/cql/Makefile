@@ -1,4 +1,6 @@
-# $Id: Makefile,v 1.5 2002-11-03 17:02:48 mike Exp $
+# $Id: Makefile,v 1.6 2002-11-04 12:55:23 mike Exp $
+
+DOCDIR = ../../../../../docs
 
 OBJ = Utils.class \
 	CQLNode.class CQLTermNode.class CQLBooleanNode.class \
@@ -10,12 +12,22 @@ OBJ = Utils.class \
 ../../../../../lib/cql-java.jar: $(OBJ)
 	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class
 
-docs: ../../../../../docs/overview-tree.html
+docs: $(DOCDIR)/overview-tree.html
 
-../../../../../docs/overview-tree.html: *.java
-	nice javadoc -d ../../../../../docs -author -version \
+$(DOCDIR)/overview-tree.html: *.java
+	nice javadoc -d $(DOCDIR) -author -version \
 		-windowtitle cql-java org.z3950.zing.cql
 
+# Your Java compiler will require that this source directory is on the
+# CLASSPATH.  You can either set your CLASSPATH environment variable
+# to include /where/ever/you/unpacked/it/cql-java-VERSION/src or try
+# changing the rule below to:
+#
+#	javac -classpath ../../../.. $<
+#
+# (But that will break if you need other elements in the CLASSPATH
+# too, for the Java library -- as, for example, Jikes does.)
+#
 %.class: %.java
 	javac $<
 
@@ -23,15 +35,14 @@ clean:
 	rm -f $(OBJ) 'CQLLexer$$Keyword.class'
 
 cleandocs:
-	rm -rf \
-		../../../../../docs/allclasses-frame.html \
-		../../../../../docs/deprecated-list.html \
-		../../../../../docs/help-doc.html \
-		../../../../../docs/index-all.html \
-		../../../../../docs/index.html \
-		../../../../../docs/org \
-		../../../../../docs/overview-tree.html \
-		../../../../../docs/package-list \
-		../../../../../docs/packages.html \
-		../../../../../docs/serialized-form.html \
-		../../../../../docs/stylesheet.css
+	rm -rf	$(DOCDIR)/allclasses-frame.html \
+		$(DOCDIR)/deprecated-list.html \
+		$(DOCDIR)/help-doc.html \
+		$(DOCDIR)/index-all.html \
+		$(DOCDIR)/index.html \
+		$(DOCDIR)/org \
+		$(DOCDIR)/overview-tree.html \
+		$(DOCDIR)/package-list \
+		$(DOCDIR)/packages.html \
+		$(DOCDIR)/serialized-form.html \
+		$(DOCDIR)/stylesheet.css
