@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.8 2002-10-27 00:46:25 mike Exp $
+// $Id: CQLParser.java,v 1.9 2002-10-29 10:15:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,14 +12,14 @@ import java.io.StreamTokenizer;
  * Compiles a CQL string into a parse tree ...
  * ###
  *
- * @version	$Id: CQLParser.java,v 1.8 2002-10-27 00:46:25 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.9 2002-10-29 10:15:58 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
 public class CQLParser {
     private CQLLexer lexer;
     static private boolean PARSEDEBUG = false;
-    static private boolean LEXDEBUG = false;
+    static private boolean LEXDEBUG = true;
 
     private class CQLParseException extends Exception {
 	CQLParseException(String s) { super(s); }
@@ -100,6 +100,7 @@ public class CQLParser {
 
 	    qualifier = word;
 	    relation = lexer.render(false);
+	    debug("got relation '" + relation + "'");
 	    match(lexer.ttype);
 	    debug("qualifier='" + qualifier + ", relation='" + relation + "'");
 	}
@@ -110,10 +111,13 @@ public class CQLParser {
     }
 
     boolean isRelation() {
-	// ### Also need to handle <=, >=, <>
+	// ### Handle any, all and exact
 	return (lexer.ttype == '<' ||
 		lexer.ttype == '>' ||
-		lexer.ttype == '=');
+		lexer.ttype == '=' ||
+		lexer.ttype == lexer.TT_LE ||
+		lexer.ttype == lexer.TT_GE ||
+		lexer.ttype == lexer.TT_NE);
     }
 
     private void match(int token)
@@ -191,7 +195,15 @@ public class CQLParser {
 // a render() method.  Used only by CQLParser.
 //
 class CQLLexer extends StreamTokenizer {
-    private static boolean lexdebug;
+    private static boolean LEXDEBUG;
+    static int TT_LE = 1000;	// The token "<="
+    static int TT_GE = 1001;	// The token ">="
+    static int TT_NE = 1002;	// The token "<>"
+
+    static void debug(String str) {
+	if (LEXDEBUG)
+	    System.err.println("LEXDEBUG: " + str);
+    }
 
     CQLLexer(String cql, boolean lexdebug) {
 	super(new StringReader(cql));
@@ -202,16 +214,39 @@ class CQLLexer extends StreamTokenizer {
 	this.ordinaryChar('(');
 	this.ordinaryChar(')');
 	this.wordChars('\'', '\''); // prevent this from introducing strings
-	this.lexdebug = lexdebug;
+	this.LEXDEBUG = lexdebug;
     }
 
     public int nextToken() throws java.io.IOException {
 	int token = super.nextToken();
-	if (lexdebug)
-	    System.out.println("LEXDEBUG: " +
-			       "token=" + token + ", " +
-			       "nval=" + this.nval + ", " +
-			       "sval=" + this.sval);
+
+	if (token == '<') {
+	    debug("token starts with '<' ...");
+	    int t2 = super.nextToken();
+	    if (t2 == '=') {
+		debug("token continues with '=' - it's '<='");
+		this.ttype = token = TT_LE;
+	    } else if (t2 == '>') {
+		debug("token continues with '>' - it's '<>'");
+		this.ttype = token = TT_NE;
+	    } else {
+		debug("next token is " + token + " (pushed back)");
+		//this.pushBack();
+	    }
+	} else if (token == '>') {
+	    debug("token starts with '>' ...");
+	    int t2 = super.nextToken();
+	    if (t2 == '=') {
+		debug("token continues with '=' - it's '>='");
+		this.ttype = token = TT_GE;
+	    } else {
+		debug("next token is " + token + " (pushed back)");
+		//this.pushBack();
+	    }
+	}
+
+	debug("token=" + token + ", " +
+	      "nval=" + this.nval + ", " + "sval=" + this.sval);
 
 	return token;
     }
@@ -234,9 +269,15 @@ class CQLLexer extends StreamTokenizer {
 	} else if (token == this.TT_NUMBER) {
 	    return "number: " + this.nval;
 	} else if (token == this.TT_WORD) {
-	    return "word: \"" + this.sval + "\"";
+	    return "word: " + this.sval;
 	} else if (token == '"') {
 	    return "string: \"" + this.sval + "\"";
+	} else if (token == TT_LE) {
+	    return "<=";
+	} else if (token == TT_GE) {
+	    return ">=";
+	} else if (token == TT_NE) {
+	    return "<>";
 	}
 
 	String res = String.valueOf((char) token);
