@@ -1,4 +1,4 @@
-$Id: README,v 1.19 2002-11-18 14:41:02 mike Exp $
+$Id: README,v 1.20 2002-11-18 15:05:49 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -98,8 +98,8 @@ stories and, of course, large cash donations.
 LICENCE
 -------
 
-The cql-java suite is Free Software, which is legally -- though not
-morally -- equivalent to Open Source.  See
+The cql-java suite is Free Software, which is pretty much legally
+equivalent -- though not morally equivalent -- to Open Source.  See
 	http://www.gnu.org/philosophy/free-software-for-freedom.html
 for a detailed if somewhat one-sided discussion of the differences,
 and particularly of why Free Software is an important idea.
