@@ -1,56 +1,21 @@
-// $Id: CQLNode.java,v 1.8 2002-10-30 11:13:18 mike Exp $
+// $Id: CQLNode.java,v 1.9 2002-10-31 22:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 
 
 /**
  * Represents a node in a CQL parse-tree.
- * ###
+ * ##
  *
- * @version	$Id: CQLNode.java,v 1.8 2002-10-30 11:13:18 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.9 2002-10-31 22:22:01 mike Exp $
  */
 public abstract class CQLNode {
     abstract String toXCQL(int level);
     abstract String toCQL();
 
-    protected String indent(int level) {
-	String x = "";
-	while (level-- > 0) {
-	    x += "  ";
-	}
-	return x;
-    }
-
-    // XML Quote --
-    //	s/&/&amp;/g;
-    //	s/</&lt;/g;
-    //	s/>/&gt;/g;
-    // This is hideously inefficient, but I just don't see a better
-    // way using the standard JAVA library.
-    //
-    protected String xq(String str) {
-	str = replace(str, "&", "&amp;");
-	str = replace(str, "<", "&lt;");
-	str = replace(str, ">", "&gt;");
-	return str;
-    }
-
-    // I can't _believe_ I have to write this by hand in 2002 ...
-    protected static String replace(String str, String from, String to) {
-	StringBuffer sb = new StringBuffer();
-	int ix;			// index of next `from'
-	int offset = 0;		// index of previous `from' + length(from)
-
-	while ((ix = str.indexOf(from, offset)) != -1) {
-	    sb.append(str.substring(offset, ix));
-	    sb.append(to);
-	    offset = ix + from.length();
-	}
-
-	// End of string: append last bit and we're done
-	sb.append(str.substring(offset));
-	return sb.toString();
-    }
+    // Utility-function abbreviations for the use of subclasses
+    protected static String indent(int level) { return Utils.indent(level); }
+    protected static String xq(String str) { return Utils.xq(str); }
 
     // Test harness
     public static void main (String[] args) {

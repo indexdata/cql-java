@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.10 2002-10-30 09:19:26 mike Exp $
+// $Id: CQLParser.java,v 1.11 2002-10-31 22:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -6,9 +6,9 @@ import java.io.IOException;
 
 /**
  * Compiles a CQL string into a parse tree.
- * ###
+ * ##
  *
- * @version	$Id: CQLParser.java,v 1.10 2002-10-30 09:19:26 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.11 2002-10-31 22:22:01 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -55,7 +55,12 @@ public class CQLParser {
 		CQLNode term2 = parse_term(qualifier, relation);
 		term = new CQLNotNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_PROX) {
-		// ### Handle "prox"
+		match(lexer.TT_PROX);
+		CQLProxNode proxnode = new CQLProxNode(term);
+		gatherProxParameters(proxnode);
+		CQLNode term2 = parse_term(qualifier, relation);
+		proxnode.addSecondSubterm(term2);
+		term = (CQLNode) proxnode;
 	    } else {
 		throw new CQLParseException("expected boolean, got " +
 					    lexer.render());
@@ -112,18 +117,86 @@ public class CQLParser {
 	return node;
     }
 
+    private void gatherProxParameters(CQLProxNode node)
+	throws CQLParseException, IOException {
+	for (int i = 0; i < 4; i++) {
+	    if (lexer.ttype != '/')
+		return;		// end of proximity parameters
+
+	    match('/');
+	    if (lexer.ttype != '/') {
+		// not an omitted default
+		switch (i) {
+		    // Assumes order is: relation/distance/unit/ordering
+		case 0: gatherProxRelation(node); break;
+		case 1: gatherProxDistance(node); break;
+		case 2: gatherProxUnit(node); break;
+		case 3: gatherProxOrdering(node); break;
+		}
+	    }
+	}
+    }
+
+    private void gatherProxRelation(CQLProxNode node)
+	throws CQLParseException, IOException {
+	if (!isProxRelation())
+	    throw new CQLParseException("expected proximity relation, got " +
+					lexer.render());
+	node.addModifier("relation", lexer.render(lexer.ttype, false));
+	match(lexer.ttype);
+	debug("gPR matched " + lexer.render(lexer.ttype, false));
+    }
+
+    private void gatherProxDistance(CQLProxNode node)
+	throws CQLParseException, IOException {
+	if (lexer.ttype != lexer.TT_NUMBER)
+	    throw new CQLParseException("expected proximity distance, got " +
+					lexer.render());
+	node.addModifier("distance", lexer.render(lexer.ttype, false));
+	match(lexer.ttype);
+	debug("gPD matched " + lexer.render(lexer.ttype, false));
+    }
+
+    private void gatherProxUnit(CQLProxNode node)
+	throws CQLParseException, IOException {
+	if (lexer.ttype != lexer.TT_pWORD &&
+	    lexer.ttype != lexer.TT_SENTENCE &&
+	    lexer.ttype != lexer.TT_PARAGRAPH &&
+	    lexer.ttype != lexer.TT_ELEMENT)
+	    throw new CQLParseException("expected proximity unit, got " +
+					lexer.render());
+	node.addModifier("unit", lexer.render());
+	match(lexer.ttype);
+    }
+
+    private void gatherProxOrdering(CQLProxNode node)
+	throws CQLParseException, IOException {
+	if (lexer.ttype != lexer.TT_ORDERED &&
+	    lexer.ttype != lexer.TT_UNORDERED)
+	    throw new CQLParseException("expected proximity ordering, got " +
+					lexer.render());
+	node.addModifier("ordering", lexer.render());
+	match(lexer.ttype);
+    }
+
     boolean isBaseRelation() {
 	debug("isBaseRelation: checking ttype=" + lexer.ttype +
+	      " (" + lexer.render() + ")");
+	return (isProxRelation() ||
+		lexer.ttype == lexer.TT_ANY ||
+		lexer.ttype == lexer.TT_ALL ||
+		lexer.ttype == lexer.TT_EXACT);
+    }
+
+    boolean isProxRelation() {
+	debug("isProxRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
 	return (lexer.ttype == '<' ||
 		lexer.ttype == '>' ||
 		lexer.ttype == '=' ||
 		lexer.ttype == lexer.TT_LE ||
 		lexer.ttype == lexer.TT_GE ||
-		lexer.ttype == lexer.TT_NE ||
-		lexer.ttype == lexer.TT_ANY ||
-		lexer.ttype == lexer.TT_ALL ||
-		lexer.ttype == lexer.TT_EXACT);
+		lexer.ttype == lexer.TT_NE);
     }
 
     private void match(int token)
@@ -168,26 +241,33 @@ public class CQLParser {
     //	</triple>
     //
     public static void main (String[] args) {
-	if (args.length != 0) {
-	    System.err.println("Usage: " + args[0]);
+	if (args.length > 1) {
+	    System.err.println("Usage: CQLParser [<CQL-query>]");
+	    System.err.println("If unspecified, query is read from stdin");
 	    System.exit(1);
 	}
 
-	byte[] bytes = new byte[10000];
-	try {
-	    // Read in the whole of standard input in one go
-	    int nbytes = System.in.read(bytes);
-	} catch (java.io.IOException ex) {
-	    System.err.println("Can't read query: " + ex.getMessage());
-	    System.exit(2);
+	String cql;
+	if (args.length == 1) {
+	    cql = args[0];
+	} else {
+	    byte[] bytes = new byte[10000];
+	    try {
+		// Read in the whole of standard input in one go
+		int nbytes = System.in.read(bytes);
+	    } catch (java.io.IOException ex) {
+		System.err.println("Can't read query: " + ex.getMessage());
+		System.exit(2);
+	    }
+	    cql = new String(bytes);
 	}
-	String cql = new String(bytes);
+
 	CQLParser parser = new CQLParser();
 	CQLNode root;
 	try {
 	    root = parser.parse(cql);
 	    debug("root='" + root + "'");
-	    System.out.println(root.toXCQL(0));
+	    System.out.println(root.toCQL());
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
 	    System.exit(3);

@@ -1,8 +1,9 @@
-# $Id: Makefile,v 1.2 2002-10-30 09:19:26 mike Exp $
+# $Id: Makefile,v 1.3 2002-10-31 22:22:01 mike Exp $
 
-all: CQLNode.class CQLTermNode.class CQLBooleanNode.class \
+all: Utils.class \
+	CQLNode.class CQLTermNode.class CQLBooleanNode.class \
 	CQLAndNode.class CQLOrNode.class CQLNotNode.class \
-	CQLRelation.class \
+	CQLRelation.class CQLProxNode.class ModifierSet.class \
 	CQLParser.class CQLLexer.class CQLParseException.class \
 	CQLGenerator.class ParameterMissingException.class
 

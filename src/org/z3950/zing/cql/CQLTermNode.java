@@ -1,13 +1,13 @@
-// $Id: CQLTermNode.java,v 1.5 2002-10-30 09:19:26 mike Exp $
+// $Id: CQLTermNode.java,v 1.6 2002-10-31 22:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 
 
 /**
  * Represents a terminal node in a CQL parse-tree.
- * ###
+ * ##
  *
- * @version	$Id: CQLTermNode.java,v 1.5 2002-10-30 09:19:26 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.6 2002-10-31 22:22:01 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -31,9 +31,14 @@ public class CQLTermNode extends CQLNode {
     String toCQL() {
 	String quotedQualifier = maybeQuote(qualifier);
 	String quotedTerm = maybeQuote(term);
+	String res = quotedTerm;
 
-	// ### We don't always need spaces around `relation'.
-	return quotedQualifier + " " + relation.toCQL() + " " + quotedTerm;
+	if (!qualifier.equalsIgnoreCase("srw.serverChoice")) {
+	    // ### We don't always need spaces around `relation'.
+	    res = quotedQualifier + " " + relation.toCQL() + " " + quotedTerm;
+	}
+
+	return res;
     }
 
     static String maybeQuote(String str) {
@@ -48,7 +53,7 @@ public class CQLTermNode extends CQLNode {
 	    str.indexOf('/') != -1 ||
 	    str.indexOf('(') != -1 ||
 	    str.indexOf(')') != -1) {
-	    str = '"' + replace(str, "\"", "\\\"") + '"';
+	    str = '"' + Utils.replaceString(str, "\"", "\\\"") + '"';
 	}
 
 	return str;

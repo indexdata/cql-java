@@ -1,4 +1,4 @@
-$Id: README,v 1.6 2002-10-30 11:13:18 mike Exp $
+$Id: README,v 1.7 2002-10-31 22:22:01 mike Exp $
 
 cql-java -- a free CQL compiler for Java
 
@@ -53,8 +53,8 @@ Library:
 DESCRIPTION
 -----------
 
-Se the automatically generated class documentation in the "doc"
-subdirectory.  (### It's not there yet, of course)
+See the automatically generated class documentation in the "doc"
+subdirectory.  (It's not all there yet, but it's coming.)
 
 
 AUTHOR
@@ -83,19 +83,37 @@ All the other free CQL compilers everyone's going to write  :-)
 TO DO
 -----
 
-* Add proximity support to parser
+* Add proximity support to parser -- just the back-ends left to do.
 
-* Some niceties for the CQL-decompiling back-end:
-	* Don't emit redundant parentheses.
-	* Don't put spaces around relations that don't need them.
+* Relation modifiers could be limited to known modifiers only.
 
-* Write PQN-generating back-end (will need to be driven from a
+* Fix CQLParser and CQLLexer shell-script front-ends to elegantly
+  handle their classes' test harnesses' ability to read the query from
+  the command-line arguments, if any, falling back to stdin if there
+  are none.
+
+* Add CQLGenerate shell-script.  Allow CQLGenerate test-harness to
+  take some arguments on command-line as well as or instead of a
+  file.
+
+* Trivial CQLCanonicalise application, which renders out its source
+  tree in a canonical form, enabling queries to be diffed for
+  semantically significant differences only.  Tests can be run by
+  generating random trees, canonicalising them, then canonicalising
+  them _again_ and checking that the before-and-after results are the
+  same.
+
+* Some niceties for the cql-decompiling back-end:
+	* don't emit redundant parentheses.
+	* don't put spaces around relations that don't need them.
+
+* Write pqn-generating back-end (will need to be driven from a
   configuation file specifying how to represent the qualifiers,
-  relations, relation modifiers and wildcard characters as Z39.50
+  relations, relation modifiers and wildcard characters as z39.50
   attributes.)
 
 * Consider the utility of yet another back-end that translates a
-  CQLNode tree into a Type-1 query tree using the JZKit data
+  cqlnode tree into a type-1 query tree using the jzkit data
   structures.  That would be nice so that CQL could become a JZKit
   query-type, but you could achieve the same effect by generating PQN,
   and running that through JZKit's existing PQN-to-Type-1 compiler.
@@ -112,7 +130,4 @@ TO DO
 * Write fuller "javadoc" comments.
 
 * Write generic test suite.
-
-* Fix CQLParser test harness to read query from command-line
-  arguments, if any, falling back to stdin if there are none.
 
