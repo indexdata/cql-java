@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.9 2002-10-31 22:22:01 mike Exp $
+// $Id: CQLNode.java,v 1.10 2002-11-05 17:21:30 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -7,11 +7,11 @@ package org.z3950.zing.cql;
  * Represents a node in a CQL parse-tree.
  * ##
  *
- * @version	$Id: CQLNode.java,v 1.9 2002-10-31 22:22:01 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.10 2002-11-05 17:21:30 mike Exp $
  */
 public abstract class CQLNode {
-    abstract String toXCQL(int level);
-    abstract String toCQL();
+    abstract public String toXCQL(int level);
+    abstract public String toCQL();
 
     // Utility-function abbreviations for the use of subclasses
     protected static String indent(int level) { return Utils.indent(level); }
