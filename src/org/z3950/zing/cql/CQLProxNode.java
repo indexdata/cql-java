@@ -1,4 +1,4 @@
-// $Id: CQLProxNode.java,v 1.4 2002-11-20 01:15:15 mike Exp $
+// $Id: CQLProxNode.java,v 1.5 2002-11-20 17:26:42 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -10,7 +10,7 @@ import java.util.Vector;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.4 2002-11-20 01:15:15 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.5 2002-11-20 17:26:42 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     ModifierSet ms;
@@ -71,7 +71,8 @@ public class CQLProxNode extends CQLBooleanNode {
 	return ms.toCQL();
     }
 
-    String opXQL(int level, Vector prefixes) {
+    String opXCQL(int level) {
+	System.err.println("in CQLProxNode.opXCQL()");
 	return ms.toXCQL(level, "boolean");
     }
 

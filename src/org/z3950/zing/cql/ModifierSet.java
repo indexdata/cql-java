@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.5 2002-11-17 23:29:02 mike Exp $
+// $Id: ModifierSet.java,v 1.6 2002-11-20 17:26:42 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.lang.StringBuffer;
  * zero or more <I>type</I>=<I>value</I> pairs, where both type and
  * value are strings.  Types may be null, values may not.
  *
- * @version $Id: ModifierSet.java,v 1.5 2002-11-17 23:29:02 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.6 2002-11-20 17:26:42 mike Exp $
  */
 public class ModifierSet {
     String base;
@@ -79,6 +79,7 @@ public class ModifierSet {
     }
 
     public String toXCQL(int level, String topLevelElement) {
+	System.err.println("in ModifierSet.toXCQL()");
 	StringBuffer buf = new StringBuffer();
 	buf.append (Utils.indent(level) + "<" + topLevelElement + ">\n" +
 		    Utils.indent(level+1) + "<value>" + Utils.xq(base) +
