@@ -1,6 +1,6 @@
-$Id: README,v 1.5 2002-11-21 09:57:28 mike Exp $
+$Id: README,v 1.6 2002-12-09 16:29:44 mike Exp $
 
-cql-java's regression-testing framework
+CQL-Java's regression-testing framework
 ---------------------------------------
 
 "queries.raw" is the file of test queries as provided by Rob.
@@ -21,7 +21,7 @@ contain the trusted compiler output of your choice.
 
 "runtests" compares the output of a nominated CQL compiler with
 existing XCQL files.  Most often, you'll use this to compare the
-results of your own build of cql-java with those of my build.  I'll
+results of your own build of CQL-Java with those of my build.  I'll
 use it to test new versions, and people who've written other compilers
 can use it to test their code.
 
@@ -34,7 +34,7 @@ whatever CQL and/or XCQL files it needs; if you do "make refclean"
 first, then the next "make" will rebuild the reference results.
 
 So, for example, if you think Rob Sanderson's parser, CQLParser.py, is
-reliable, and you want to test my parser, cql-java's CQLParser class,
+reliable, and you want to test my parser, CQL-Java's CQLParser class,
 against its results, do this:
 
 	make refclean

@@ -1,7 +1,7 @@
-# $Id: Makefile,v 1.12 2002-11-17 23:29:02 mike Exp $
+# $Id: Makefile,v 1.13 2002-12-09 16:29:44 mike Exp $
 #
 # Your Java compiler will require that this source directory is on the
-# classpath.  The best way to do that is just to add the cql-java
+# classpath.  The best way to do that is just to add the CQL-Java
 # distribution's "src" subdirectory to your CLASSPATH environment
 # variable, like this:
 #	CLASSPATH=$CLASSPATH:/where/ever/you/unpacked/it/cql-java-VERSION/src
