@@ -1,9 +1,14 @@
-$Id: Changes,v 1.22 2002-11-28 11:56:55 mike Exp $
+$Id: Changes,v 1.23 2002-12-04 16:55:45 mike Exp $
 
 Revision history for the "cql-java" package.
 See the bottom of this file for a list of things still to do.
 
 0.5  (IN PROGRESS)
+	- Add an extra back-end method,
+		byte[] toType1(Properties config)
+	  which generates an opaque BER-encoded PDU suitable for
+	  forwarding to Z39.50 server as a pasrt of a searchRequest
+	  APDU.  This was contributed by Ralph Levan <levan@oclc.org>
 	- Change regression-test rules for Adam's compiler to use his
 	  new front-end cql2xcql instead of the old cqlparse3.
 	- Fix comment in etc/pqf.properties (claimed that the Type-1
