@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.12 2002-11-01 23:45:28 mike Exp $
+// $Id: CQLParser.java,v 1.13 2002-11-02 01:24:14 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.Vector;
  * Compiles a CQL string into a parse tree.
  * ##
  *
- * @version	$Id: CQLParser.java,v 1.12 2002-11-01 23:45:28 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.13 2002-11-02 01:24:14 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -84,13 +84,19 @@ public class CQLParser {
 		CQLNode expr = parse_query(qualifier, relation);
 		match(')');
 		return expr;
-	    } else if (lexer.ttype != lexer.TT_WORD && lexer.ttype != '"') {
+	    } else if (lexer.ttype != lexer.TT_WORD &&
+		       lexer.ttype != lexer.TT_NUMBER &&
+		       lexer.ttype != '"') {
 		throw new CQLParseException("expected qualifier or term, " +
 					    "got " + lexer.render());
 	    }
 
 	    debug("non-parenthesised term");
-	    word = lexer.sval;
+	    if (lexer.ttype == lexer.TT_NUMBER) {
+		word = lexer.render();
+	    } else {
+		word = lexer.sval;
+	    }
 	    match(lexer.ttype);
 	    if (!isBaseRelation())
 		break;
@@ -129,10 +135,11 @@ public class CQLParser {
 	    if (lexer.ttype != '/') {
 		// not an omitted default
 		switch (i) {
-		    // Assumes order is: relation/distance/unit/ordering
-		case 0: gatherProxRelation(node); break;
-		case 1: gatherProxDistance(node); break;
-		case 2: gatherProxUnit(node); break;
+		    // Order should be: relation/distance/unit/ordering
+		    // For now, use MA's: unit/relation/distance/ordering
+		case 1: gatherProxRelation(node); break;
+		case 2: gatherProxDistance(node); break;
+		case 0: gatherProxUnit(node); break;
 		case 3: gatherProxOrdering(node); break;
 		}
 	    }
@@ -283,7 +290,7 @@ public class CQLParser {
 	    if (canonicalise) {
 		System.out.println(root.toCQL());
 	    } else {
-		System.out.println(root.toXCQL(0));
+		System.out.print(root.toXCQL(0));
 	    }
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
