@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.8 2002-11-06 20:13:45 mike Exp $
+// $Id: CQLTermNode.java,v 1.9 2002-11-20 01:15:15 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.8 2002-11-06 20:13:45 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.9 2002-11-20 01:15:15 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -34,11 +34,13 @@ public class CQLTermNode extends CQLNode {
     public CQLRelation getRelation() { return relation; }
     public String getTerm() { return term; }
 
-    public String toXCQL(int level) {
+    public String toXCQL(int level, Vector prefixes) {
 	return (indent(level) + "<searchClause>\n" +
+		renderPrefixes(level+1, prefixes) +
 		indent(level+1) + "<index>" + xq(qualifier) + "</index>\n" +
-		relation.toXCQL(level+1) +
-		indent(level+1) + "<term>" + xq(term) + "</term>\n" +
+		relation.toXCQL(level+1, new Vector()) +
+		indent(level+2) + "<term>" + xq(term) + "</term>\n" +
+		// ######### ^-- this should be "1"
 		indent(level) + "</searchClause>\n");
     }
 

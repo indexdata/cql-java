@@ -1,4 +1,7 @@
-$Id: README,v 1.2 2002-11-19 12:11:48 mike Exp $
+$Id: README,v 1.3 2002-11-20 01:15:15 mike Exp $
+
+cql-java's regression-testing framework
+---------------------------------------
 
 "queries.raw" is the file of test queries as provided by Rob.
 "mktests" parses the raw file into sections and individual queries
@@ -8,13 +11,26 @@ $Id: README,v 1.2 2002-11-19 12:11:48 mike Exp $
     "01/01.cql", "01/02.cql" etc. are the CQL queries themselves.
 "mkanswers" uses a trusted CQL compiler to generate corresponding XCQL.
     "01/01.xcql", "01/02.xcql" etc. are the compiled XCQL queries.
-"runtests" compares the output of a CQL compiler with existing XCQL files.
+
+All of the files described to this point are included in the
+distribution, with the "trusted" outpout produced by my own compiler,
+and used to for regression testing of new versions.  But you're
+welcome to "rm -r sections" and rebuild it to contain the trusted
+compiler output of your choice.
+
+"runtests" compares the output of a CQL compiler with existing XCQL
+files.  In general, use this to compare the results of your own build
+of cql-java with those of my build.  (I'll use it to test new
+versions, and people who've written other compilers can use it to test
+their code.)
 
 "Makefile" controls the building of all this.  You'll need to edit it
 if you want to use different compilers and suchlike from what's
 written into it, so it may be easier to run the tests by hand -- but
 it's a useful reference for the kinds of commands you might need,
-anyway.
+anyway.  In general, "make" will run the regression tests, and "make
+reference" will rebuild the reference results should you wish to do
+that.
 
 So, for example, if you think Rob Sanderson's parser, CQLParser.py, is
 reliable, and you want to test my parser, cql-java's CQLParser class,
@@ -23,13 +39,13 @@ against its results, do this:
 	rm -rf sections
 	./mktests queries.raw
 	./mkanswers CQLParser.py
-	./runtests CQLParser sgmlnorm
+	./runtests CQLParser ./xmlpp.pl
 
-(Except that sgmlnorm is useless -- gotta find something better.)
-(That something better is xmlpp from DecisionSoft, found at
+The second argument to ./runtests is the name of a program to use to
+normalise XML, so that the trusted output and the output being tested
+can be compared for equivalence rather than just for being
+byte-identical.  (If you want to test for byte-identical XCQL, then
+use "cat" as the second argument.)  xmlpp.pl is a fine XML
+pretty-printer from DecisionSoft, found at
 	http://software.decisionsoft.com/tools.html
-which I will probably distribute along with cql-java.)
 
-Also: there's a nasty hack here called "showtest" which, when run like
-``./showtest 07/03'', will show you the ways in which my output
-differs from Adam's.  I'll probably delete it soon.

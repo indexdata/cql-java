@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.21 2002-11-17 23:29:02 mike Exp $
+// $Id: CQLParser.java,v 1.22 2002-11-20 01:15:15 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.21 2002-11-17 23:29:02 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.22 2002-11-20 01:15:15 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -34,8 +34,10 @@ public class CQLParser {
      * data structure) or, more often, simply rendered out in the
      * desired form using one of the back-ends.  <TT>toCQL()</TT>
      * returns a decompiled CQL query equivalent to the one that was
-     * compiled in the first place; and <TT>toXCQL()</TT> returns an
-     * XML snippet representing the query.
+     * compiled in the first place; <TT>toXCQL()</TT> returns an
+     * XML snippet representing the query; and <TT>toPQF()</TT>
+     * returns the query rendered in Index Data's Prefix Query
+     * Format.
      *
      * @param cql	The query
      * @return		A CQLNode object which is the root of a parse

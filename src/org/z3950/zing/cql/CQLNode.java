@@ -1,13 +1,14 @@
-// $Id: CQLNode.java,v 1.14 2002-11-17 23:29:02 mike Exp $
+// $Id: CQLNode.java,v 1.15 2002-11-20 01:15:15 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
+import java.util.Vector;
 
 
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.14 2002-11-17 23:29:02 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.15 2002-11-20 01:15:15 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -24,7 +25,27 @@ public abstract class CQLNode {
      *	A String containing an XCQL document equivalent to the
      *	parse-tree whose root is this node.
      */
-    abstract public String toXCQL(int level);
+    public String toXCQL(int level) {
+	return toXCQL(level, new Vector());
+    }
+
+    abstract public String toXCQL(int level, Vector prefixes);
+
+    protected static String renderPrefixes(int level, Vector prefixes) {
+	if (prefixes.size() == 0)
+	    return "";
+	String res = indent(level) + "<prefixes>\n";
+	for (int i = 0; i < prefixes.size(); i++) {
+	    CQLPrefix p = (CQLPrefix) prefixes.get(i);
+	    res += indent(level+1) + "<prefix>\n";
+	    if (p.name != null)
+		res += indent(level+2) + "<name>" + p.name + "</name>\n";
+	    res += indent(level+2) +
+		"<identifier>" + p.identifier + "</identifier>\n";
+	    res += indent(level+1) + "</prefix>\n";
+	}
+	return res + indent(level) + "</prefixes>\n";
+    }
 
     /**
      * Decompiles a parse-tree into a CQL query.

@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.4 2002-11-06 00:05:58 mike Exp $
+// $Id: CQLGenerator.java,v 1.5 2002-11-20 01:15:14 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.4 2002-11-06 00:05:58 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.5 2002-11-20 01:15:14 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -136,6 +136,7 @@ public class CQLGenerator {
 
 	CQLNode node1 = generate_cql_query();
 	CQLNode node2 = generate_search_clause();
+	// ### should generate prefix-mapping nodes
 	if (maybe("proxOp")) {
 	    // ### generate proximity nodes
 	} else {

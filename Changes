@@ -1,4 +1,4 @@
-$Id: Changes,v 1.15 2002-11-19 17:23:26 mike Exp $
+$Id: Changes,v 1.16 2002-11-20 01:15:14 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
@@ -9,13 +9,20 @@ See the bottom of this file for a list of things still to do.
 	- Make prefix-maps bind loosely, so that ``>dc=x a and b''
 	  applies the dc=x binding to both the ``a'' and ``b''
 	  sub-queries.
+	- Change the XCQL output to include the nasty and redundant
+	  (but official) <leftOperand> and <rightOperand> wrapper
+	  elements.
+	- Change the XCQL output to use the nasty (but official)
+	  rendition of prefix-mapping: a <prefixes> element,
+	  containing one of more <prefix>es may appear at the top
+	  level of either a <searchClause> or a <triple>.
 	- Change build process so that javadoc documentation is built
 	  by "make" in the "docs" directory.
 	- Write javadoc comments for CQLRelation and ModifierSet.
 	- Other improvements to javadoc comments (e.g. describe the
 	  `config' parameter to the toPQF() method.)
-	- Include test/regression/xmlpp.pl in the distribution: will
-	  be used for testing whether a CQL compiler produces
+	- Include test/regression/xmlpp.pl in the distribution: this
+	  is now used for testing whether a CQL compiler produces
 	  _equivalent_ XCQL to the what's in the regression test,
 	  rather than requiring byte-identical output.
 	- Sort out the licence: I've settled on the LGPL.
@@ -103,4 +110,5 @@ See the bottom of this file for a list of things still to do.
 	  * Better selection of terms (from a dictionary file?)
 	  * Introduce wildcard characters into generated terms
 	  * Generate multi-word terms
+	  * Generate prefix-mappings
 
