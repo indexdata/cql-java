@@ -1,4 +1,4 @@
-// $Id: CQLPrefix.java,v 1.3 2002-11-15 12:08:56 mike Exp $
+// $Id: CQLPrefix.java,v 1.4 2002-11-20 09:49:29 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -6,7 +6,7 @@ import java.lang.String;
 /**
  * Represents a CQL prefix mapping from short name to long identifier.
  *
- * @version	$Id: CQLPrefix.java,v 1.3 2002-11-15 12:08:56 mike Exp $
+ * @version	$Id: CQLPrefix.java,v 1.4 2002-11-20 09:49:29 mike Exp $
  */
 public class CQLPrefix {
     /**
@@ -19,7 +19,7 @@ public class CQLPrefix {
     /**
      * The full identifier name of the prefix mapping.  That is,
      * typically, a URI permanently allocated to a specific qualifier
-     * set, such as <TT>http://zthes.z3950.org/cql/<TT>.
+     * set, such as <TT>http://zthes.z3950.org/cql/1.0<TT>.
      */
     public String identifier;
 

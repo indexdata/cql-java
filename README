@@ -1,4 +1,4 @@
-$Id: README,v 1.20 2002-11-18 15:05:49 mike Exp $
+$Id: README,v 1.21 2002-11-20 09:49:28 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -20,13 +20,15 @@ cql-java is a Free Software project that provides:
 
 CQL is "Common Query Language", a new query language designed under
 the umbrella of the ZING initiative (Z39.59-International Next
-Generation).  More information at
+Generation).  The official specification is at
+	http://www.loc.gov/z3950/agency/zing/cql/cql-syntax.html
+and there's more (and friendlier) information at
 	http://zing.z3950.org/cql/index.html
 
 XCQL is "XML CQL", a representation of CQL-equivalent queries in XML
-which is supposed to be easier to parse.  More information at
+which is supposed to be easier to parse.  The specification is at
 	http://www.loc.gov/z3950/agency/zing/cql/xcql.html
-include an XML Schema.
+and includes an XML Schema.
 
 But if you didn't know that, why are you even reading this?  :-)
 

@@ -1,4 +1,4 @@
-$Id: Changes,v 1.16 2002-11-20 01:15:14 mike Exp $
+$Id: Changes,v 1.17 2002-11-20 09:49:28 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
@@ -9,13 +9,12 @@ See the bottom of this file for a list of things still to do.
 	- Make prefix-maps bind loosely, so that ``>dc=x a and b''
 	  applies the dc=x binding to both the ``a'' and ``b''
 	  sub-queries.
-	- Change the XCQL output to include the nasty and redundant
-	  (but official) <leftOperand> and <rightOperand> wrapper
-	  elements.
+	- Change the XCQL output to include the nasty (but official)
+	  <leftOperand> and <rightOperand> wrapper elements.
 	- Change the XCQL output to use the nasty (but official)
 	  rendition of prefix-mapping: a <prefixes> element,
 	  containing one of more <prefix>es may appear at the top
-	  level of either a <searchClause> or a <triple>.
+	  of either a <searchClause> or a <triple>.
 	- Change build process so that javadoc documentation is built
 	  by "make" in the "docs" directory.
 	- Write javadoc comments for CQLRelation and ModifierSet.
@@ -26,14 +25,17 @@ See the bottom of this file for a list of things still to do.
 	  _equivalent_ XCQL to the what's in the regression test,
 	  rather than requiring byte-identical output.
 	- Sort out the licence: I've settled on the LGPL.
+	- Remove the redundant and misleading etc/Grammar file.
+	- Fix up various Maintenance Agency web addresses that have
+	  moved in the great ZING-release shake-up.
 
 0.3  Fri Nov 15 12:04:04 2002
 	- Allow keywords to be used unquoted as search terms.
 	- Add support for serverChoiceRelation (scr).
 	- Add support for prefix-mapping, as in
-		>dc="http://dublincore.org/ dc.title=fish
+		>dc="http://www.loc.gov/zing/cql/dc-indexes/" dc.title=fish
 	  and
-		>"http://dublincore.org/ title=fish
+		>"http://www.loc.gov/zing/cql/dc-indexes/" dc.title=fish
 	  The XCQL generated corresponds to Adam's suggested format
 	  rather than Rob's, not so much because I prefer it (although
 	  I do) as because it's what fell out when I just Coded What
