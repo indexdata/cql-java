@@ -1,0 +1,13 @@
+$Id: README,v 1.1 2004-12-13 16:35:11 mike Exp $
+
+The XSLT files in this directory are supposed to allow you to make
+a thin-client for SRU using only an XSLT-enabled web browser.  It
+looks like an HTML file is also required to get you started, though.
+
+These were sent to the ZNG mailing list by
+	Hedzer Westra <hedzer@NL.ADLIBSOFT.COM>
+in a message entitled
+	"Re: CQL implementation details"
+on Monday 13th December 2004.  They are modified versions of files
+that he says he get in the CQL-Java distributed he downloaded from
+OCLC.  I know (as yet) of no such distribution.
