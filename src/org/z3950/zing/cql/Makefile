@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.9 2002-11-08 13:50:17 mike Exp $
+# $Id: Makefile,v 1.10 2002-11-12 22:38:35 mike Exp $
 
 DOCDIR = ../../../../../docs
 
@@ -15,6 +15,7 @@ OBJ = Utils.class \
 ../../../../../lib/cql-java.jar: $(OBJ)
 	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class
 
+# ### FIX THIS COMMENT!
 # Your Java compiler will require that this source directory is on the
 # classpath.  Generally, you can use the rules below, which set the
 # classpath suitably.  But that will break if you need other elements
@@ -24,12 +25,12 @@ OBJ = Utils.class \
 #	/where/ever/you/unpacked/it/cql-java-VERSION/src
 #
 %.class: %.java
-	javac -classpath ../../../.. $<
+	javac $<
 
 docs: $(DOCDIR)/overview-tree.html
 
 $(DOCDIR)/overview-tree.html: *.java
-	nice javadoc -classpath ../../../.. -d $(DOCDIR) -author -version \
+	nice javadoc -d $(DOCDIR) -author -version \
 		-windowtitle cql-java org.z3950.zing.cql
 
 clean:
