@@ -1,7 +1,14 @@
-$Id: Changes,v 1.32 2003-07-29 22:53:02 mike Exp $
+$Id: Changes,v 1.33 2003-09-04 21:56:46 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
+
+0.7  Thu Sep  4 22:51:11 2003
+	- Support for profiled relations and relation modifiers:
+	  recognise any non-key word as a relation or modifier, 
+	  rejecting those that are not of the form <prefix>.<name>
+	  since these must be explicitly tied to a "context" (what
+	  used to be called a qualifier-set or index-set).
 
 0.6  Tue Jul 29 23:33:56 2003
 	- Include Ralph's fix for CQLTermNode::toType1BER() to prevent

@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.10 2002-12-11 17:14:20 mike Exp $
+// $Id: CQLRelation.java,v 1.11 2003-09-04 21:56:46 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL qualifier and term.
  *
- * @version	$Id: CQLRelation.java,v 1.10 2002-12-11 17:14:20 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.11 2003-09-04 21:56:46 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -17,8 +17,9 @@ public class CQLRelation extends CQLNode {
      * Creates a new CQLRelation with the specified base relation.
      * Typical base relations include the usual six ordering relations
      * (<TT>&lt;=</TT>, <TT>&gt</TT>, <I>etc.</I>), the text
-     * relations <TT>any</TT>, <TT>all</TT> and <TT>exact</TT> and the
-     * server-choice relation <TT>scr</TT>.
+     * relations <TT>any</TT>, <TT>all</TT> and <TT>exact</TT>, the
+     * server-choice relation <TT>scr</TT> and profiled relations of
+     * the form <TT><I>prefix</I>.<I>name</I></TT>.
      */
     public CQLRelation(String base) {
 	ms = new ModifierSet(base);
