@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.16 2002-12-04 16:56:06 mike Exp $
+// $Id: CQLNode.java,v 1.17 2002-12-06 12:35:15 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.16 2002-12-04 16:56:06 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.17 2002-12-06 12:35:15 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -96,6 +96,7 @@ public abstract class CQLNode {
 
     /**
      * ### Document this!
+     * ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc
      */
     abstract public byte[] toType1(Properties config)
 	throws PQFTranslationException;
