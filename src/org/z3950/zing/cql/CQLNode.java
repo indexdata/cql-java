@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.12 2002-11-06 20:13:45 mike Exp $
+// $Id: CQLNode.java,v 1.13 2002-11-08 16:32:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.12 2002-11-06 20:13:45 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.13 2002-11-08 16:32:01 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -38,26 +38,14 @@ public abstract class CQLNode {
 
     /**
      * Renders a parse-tree into a Yaz-style PQF string.
+     * PQF, or Prefix Query Format, is a cryptic but powerful notation
+     * that can be trivially mapped, one-to-one, int Z39.50 Type-1 and
+     * Type-101 queries.  A specification for the format can be found
+     * in
+     * <A href="http://indexdata.dk/yaz/doc/tools.php#PQF"
+     *	>Chapter 7 (Supporting Tools)</A> of the
+     * <A href="http://indexdata.dk/yaz/">YAZ</A> manual.
      * <P>
-     * <PRE>
-	query ::= top-set query-struct.
-	top-set ::= [ '@attrset' string ]
-	query-struct ::= attr-spec | simple | complex | '@term' term-type
-	attr-spec ::= '@attr' [ string ] string query-struct
-	complex ::= operator query-struct query-struct.
-	operator ::= '@and' | '@or' | '@not' | '@prox' proximity.
-	simple ::= result-set | term.
-	result-set ::= '@set' string.
-	term ::= string.
-	proximity ::= exclusion distance ordered relation which-code unit-code.
-	exclusion ::= '1' | '0' | 'void'.
-	distance ::= integer.
-	ordered ::= '1' | '0'.
-	relation ::= integer.
-	which-code ::= 'known' | 'private' | integer.
-	unit-code ::= integer.
-	term-type ::= 'general' | 'numeric' | 'string' | 'oid' | 'datetime' | 'null'.
-     * </PRE>
      * @return
      *	A String containing a PQF query equivalent to the parse-tree
      *	whose root is this node.  This may be fed into the tool of
