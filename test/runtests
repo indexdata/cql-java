@@ -3,16 +3,17 @@
 use IO::File;
 use strict;
 
-if (@ARGV != 1) {
-    print STDERR "Usage: $0 <trusted-CQL-compiler>\n";
+if (@ARGV != 2) {
+    print STDERR "Usage: $0 <CQL-compiler> <XML-normaliser>\n";
     exit(1);
 }
 my $compiler = $ARGV[0];
+my $norman = $ARGV[1];
 
 while (<sections/*>) {
     my $sdir = $_;
     s@sections/@@;
-    print "answering section $_ - ", read_file("$sdir/name"), "\n";
+    print "testing section $_ - ", read_file("$sdir/name"), "\n";
 
     while (<$sdir/*.cql>) {
 	my $qfile = $_;
@@ -21,17 +22,19 @@ while (<sections/*>) {
 	my $afile = $qfile;
 	$afile =~ s/\.cql$/.xcql/;
 	print "  query $_ - $query\n";
-	my $fh = new IO::File("| $compiler > $afile")
-	    or die "can't run compiler '$compiler': $!";
-	print $fh $query;
-	$fh->close();
+	my $correct = read_file("$norman < $afile |");
+	my $tested = read_file("$compiler < $qfile | $norman |")
+	    or die "can't run test compiler '$compiler | $norman': $!";
+	print "    *** different XCQL output\n"
+	    if $tested ne $correct;
     }
 }
 
 sub read_file {
     my($name) = @_;
 
-    my $fh = new IO::File("<$name")
+    $name = "<$name" if $name !~ /\|$/;
+    my $fh = new IO::File("$name")
 	or die "can't read '$name': $!";
     my $contents = join('', <$fh>);
     $fh->close();

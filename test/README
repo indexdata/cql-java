@@ -1,4 +1,4 @@
-$Id: README,v 1.1 2002-11-01 23:45:28 mike Exp $
+$Id: README,v 1.2 2002-11-02 01:19:23 mike Exp $
 
 "raw" is the file of test queries as provided by Rob.
 "mktests" parses the raw file into sections and individual queries
@@ -8,4 +8,25 @@ $Id: README,v 1.1 2002-11-01 23:45:28 mike Exp $
     "01/01.cql", "01/02.cql" etc. are the CQL queries themselves.
 "mkanswers" uses a trusted CQL compiler to generate corresponding XCQL.
     "01/01.xcql", "01/02.xcql" etc. are the compiled XCQL queries.
-"Makefile" controls the building of all this.
+"runtests" compares the output of a CQL compiler with existing XCQL files.
+
+"Makefile" controls the building of all this.  You'll need to edit it
+if you want to use different compilers and suchlike from what's
+written into it, so it may be easier to run the tests by hand -- but
+it's a useful reference for the kinds of commands you might need,
+anyway.
+
+So, for example, if you think Rob Sanderson's parser, CQLParser.py, is
+reliable, and you want to test my parser, cql-java's CQLParser class,
+against its results, do this:
+
+	rm -rf sections
+	./mktests raw
+	./mkanswers CQLParser.py
+	./runtests CQLParser sgmlnorm
+
+(Except that sgmlnorm is useless -- gotta find something better.)
+
+Also: there's a nasty hacl here called "showtest" which, when run like
+``./showtest 07/03'', will show you the ways in which my output
+differs from Adam's.  I'll probably delete it soon.

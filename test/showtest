@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ $# != 1 ]; then
+	echo "Usage: $0 <test-name>" >&2
+	echo "	e.g. $0 01/02" >&2
+	exit 1
+fi
+
+### Warning: nasty hard-coded choices
+( echo "=== Adam ==="
+  ../../srw/cql/cqlparse3 < sections/$1.cql ) > /tmp/adam
+( echo "=== Mike ==="
+  ../bin/CQLParser < sections/$1.cql ) > /tmp/mike
+sdiff -w 80 /tmp/adam /tmp/mike

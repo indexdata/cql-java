@@ -1,8 +1,11 @@
-# $Id: Makefile,v 1.1 2002-11-01 23:45:28 mike Exp $
+# $Id: Makefile,v 1.2 2002-11-02 01:19:23 mike Exp $
+
+tests: sections/01/01.xcql
+	./runtests CQLParser cat
 
 sections/01/01.xcql: sections
-#	./mkanswers ../../rob/CQLParser.py
 	./mkanswers ../../srw/cql/cqlparse3
+# OR	./mkanswers ../../rob/CQLParser.py
 
 sections: mktests raw
 	rm -rf sections
