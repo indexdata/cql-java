@@ -1,4 +1,4 @@
-$Id: Changes,v 1.28 2002-12-12 15:03:50 mike Exp $
+$Id: Changes,v 1.29 2002-12-13 17:46:52 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
@@ -113,6 +113,18 @@ See the bottom of this file for a list of things still to do.
 --
 
 ### Still to do
+	- Test-harness option to use Type1 BER back-end.
+	- Case-insensitive matching for serverChoice and any other
+	  special-case qualifiers.  (Are the configured qualifiers
+	  matched case-insensitively?  They should be.)
+	- Prefix-aware matching for serverChoice, so that
+	  >x="http://www.loc.gov/zing/srw/dc-indexes/v1.0/" x.resultSet=foo
+	  does the right thing.
+	- Extend test-suite for PQF and BER renderers.
+	- Additional test-suite entries for things like
+	  case-sensitivity.
+	- Add a new configuration file that allows arbitrary new
+	  relations and relation modifiers to be defined.
 	- Fix the bug where "9x" is parsed as two tokens, a TT_NUMBER
 	  followed by a TT_WORD.  The problem here is that I don't
 	  think it's actually possible to fix this without throwing
@@ -132,4 +144,5 @@ See the bottom of this file for a list of things still to do.
 	  * Introduce wildcard characters into generated terms
 	  * Generate multi-word terms
 	  * Generate prefix-mappings
+
 
