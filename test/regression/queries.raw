@@ -6,7 +6,7 @@ comp.os.linux
 xml:element
 "<xml:element>"
 "="
-"prox/word/>=/5"
+"prox/>=/5/word"
 ("cat")
 ((dog))
 
@@ -31,7 +31,7 @@ cat and fish
 cat not frog
 (cat not frog)
 "cat" not "fish food"
-xml and "prox/word/"
+xml and "prox///word/"
 a or b and c not d
 
 # I/R/T plus Boolean
@@ -42,11 +42,11 @@ bath.author any fish and dc.title all "cat dog"
 # Prox
 
 cat prox hat
-cat prox/word/=/3/ordered hat
-cat prox///3 hat
-"fish food" prox/sentence "and"
-title all "chips frog" prox/word//5 "any"
-(dc.author exact "jones" prox///5 title >= "smith")
+cat prox/=/3/word/ordered hat
+cat prox//3 hat
+"fish food" prox///sentence "and"
+title all "chips frog" prox//5/word "any"
+(dc.author exact "jones" prox//5 title >= "smith")
 ((cat prox hat))
 
 # Special characters
@@ -65,7 +65,7 @@ cat?dog
 
 # Lame searches
 
-"any" or "all:stem" and "all" exact "any" prox/word "prox"="fuzzy"
+"any" or "all:stem" and "all" exact "any" prox///word "prox"="fuzzy"
 ((((((((("any")))))))))
 
 

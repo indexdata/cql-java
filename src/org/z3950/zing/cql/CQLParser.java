@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.16 2002-11-06 20:13:45 mike Exp $
+// $Id: CQLParser.java,v 1.17 2002-11-06 22:03:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.16 2002-11-06 20:13:45 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.17 2002-11-06 22:03:58 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -46,7 +46,8 @@ public class CQLParser {
 
 	lexer.nextToken();
 	debug("about to parse_query()");
-	CQLNode root = parse_query("srw.serverChoice", new CQLRelation("="));
+	CQLNode root = parse_query("srw.serverChoice", new CQLRelation("scr"));
+	// ### "scr" above should arguably be "="
 	if (lexer.ttype != lexer.TT_EOF)
 	    throw new CQLParseException("junk after end: " + lexer.render());
 
@@ -360,7 +361,8 @@ public class CQLParser {
 		f.close();
 		System.out.println(root.toPQF(config));
 	    } else {
-		System.out.print(root.toXCQL(0));
+		System.out.println(root.toXCQL(0));
+		// ### should be print (no ~ln)
 	    }
 	} catch (IOException ex) {
 	    System.err.println("Can't render query: " + ex.getMessage());

@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2002-11-03 16:53:04 mike Exp $
+# $Id: Makefile,v 1.2 2002-11-06 22:03:58 mike Exp $
 
 sections/01/01.xcql: sections
 	./mkanswers CQLParser
@@ -10,10 +10,10 @@ sections: mktests queries.raw
 	./mktests queries.raw
 
 adam-tests: sections/01/01.xcql
-	./runtests ../../srw/cql/cqlparse3
+	./runtests ../../../srw/cql/cqlparse3 cat
 
 rob-tests: sections/01/01.xcql
-	./runtests ../../rob/CQLParser.py
+	./runtests ../../../rob/CQLParser.py cat
 
 clean:
 	find sections -name '*.xcql' -print | xargs rm -f
