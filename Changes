@@ -1,4 +1,4 @@
-$Id: Changes,v 1.13 2002-11-17 23:29:02 mike Exp $
+$Id: Changes,v 1.14 2002-11-18 14:41:02 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
@@ -14,6 +14,7 @@ See the bottom of this file for a list of things still to do.
 	- Write javadoc comments for CQLRelation and ModifierSet.
 	- Other improvements to javadoc comments (e.g. describe the
 	  `config' parameter to the toPQF() method.)
+	- Sort out the licence: I've settled on the LGPL.
 
 0.3  Fri Nov 15 12:04:04 2002
 	- Allow keywords to be used unquoted as search terms.

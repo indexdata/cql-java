@@ -1,4 +1,4 @@
-$Id: README,v 1.18 2002-11-14 22:04:16 mike Exp $
+$Id: README,v 1.19 2002-11-18 14:41:02 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -25,8 +25,8 @@ Generation).  More information at
 
 XCQL is "XML CQL", a representation of CQL-equivalent queries in XML
 which is supposed to be easier to parse.  More information at
-	http://www.loc.gov/z3950/agency/zing/srwu/xcql.html
-(not much more, though)
+	http://www.loc.gov/z3950/agency/zing/cql/xcql.html
+include an XML Schema.
 
 But if you didn't know that, why are you even reading this?  :-)
 
@@ -52,6 +52,8 @@ SYNOPSIS
 Using the test-harnesses:
 
 	$ CQLParser 'title=foo and author=(bar or baz)'
+	$ CQLParser -c 'title=foo and author=(bar or baz)'
+	$ CQLParser -p /etc/pqf.properties 'title=foo and author=(bar or baz)'
 	$ CQLLexer 'title=foo and author=(bar or baz)'
 		(not very interesting unless you're debugging)
 	$ CQLGenerator etc/generate.properties seed 18
@@ -96,11 +98,18 @@ stories and, of course, large cash donations.
 LICENCE
 -------
 
-This software is Open Source, but I've not yet decided exactly what
-licence to use.  Be good.  Assume I'm going with the GPL (most
-restrictive) until I say otherwise.  For what it's worth, I think the
-most likely licence is the LGPL (GNU's Lesser General Public Licence)
-which lets you deploy cql-java as a part of a non-free larger work.
+The cql-java suite is Free Software, which is legally -- though not
+morally -- equivalent to Open Source.  See
+	http://www.gnu.org/philosophy/free-software-for-freedom.html
+for a detailed if somewhat one-sided discussion of the differences,
+and particularly of why Free Software is an important idea.
+
+cql-java is distributed under version 2.1 of the LGPL (GNU LESSER
+GENERAL PUBLIC LICENSE).  A copy of the licence is included in this
+distribution, as the file LGPL-2.1.  This licence does not allow you
+to restrict the freedom of others to use derived versions of cql-java
+(i.e. you must share your enhancements), but does let you deploy
+cql-java as a part of a non-free larger work.
 
 
 SEE ALSO
@@ -109,10 +118,4 @@ SEE ALSO
 Adam Dickmeiss's CQL compiler, written in C.
 Rob Sanderson's CQL compiler, written in Python.
 All the other free CQL compilers everyone's going to write  :-)
-
-
-THINGS TO DO
-------------
-
-[See the final "Still to do" section of the "Changes" file.]
-
+The "Changes" file, including the "Still to do" section.
