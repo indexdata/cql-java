@@ -1,10 +1,11 @@
-$Id: Changes,v 1.5 2002-11-08 16:30:52 mike Exp $
+$Id: Changes,v 1.6 2002-11-08 16:40:04 mike Exp $
 
 Revision history for "cql-java"
 
 0.3  (IN PROGRESS)
 	- Fix the CQLParser test harness not to emit an extraneous
 	  blank line at end of XCQL output.
+	- Fix the parser to normalise relation modifiers to lower case.
 	- Fix CQLNode documentation to contain a link to YAZ's
 	  documentation of Prefix Query Format (PQF) rather than
 	  containing a rather unhelpful chunk of BNF.
