@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
+// $Id: CQLTermNode.java,v 1.13 2002-12-06 12:35:42 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.13 2002-12-06 12:35:42 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -103,12 +103,13 @@ public class CQLTermNode extends CQLNode {
 	    attrs.add(attr);
 	}
 
-	String pos = "unanchored";
+	String pos = "any";
 	String text = term;
 	if (text.length() > 0 && text.substring(0, 1).equals("^")) {
 	    text = text.substring(1);
-	    pos = "anchored";
+	    pos = "first";
 	}
+	// ### add back the last-in-field stuff
 	attr = config.getProperty("position." + pos);
 	if (attr == null)
 	    throw new UnknownPositionException(pos);
