@@ -1,4 +1,4 @@
-$Id: README,v 1.15 2002-11-06 20:13:45 mike Exp $
+$Id: README,v 1.16 2002-11-08 09:50:58 mike Exp $
 
 cql-java - a free CQL compiler, and other CQL tools, for Java
 
@@ -119,11 +119,13 @@ THINGS TO DO
   possible to fix this without throwing out StreakTokenizer and
   rolling our own, which we absolutely _don't_ want to do.
 
+* Allow keywords to be used unquoted as search terms.
+
+* Add support for serverChoiceRelation (scr).
+
 * Write javadoc comments for CQLRelation and ModifierSet.
 
 * Write "overview" file for the javadoc documentation.
-
-* Allow keywords to be used unquoted as search terms.
 
 * Some niceties for the cql-decompiling back-end:
 	* don't emit redundant parentheses.
