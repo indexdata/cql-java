@@ -1,4 +1,4 @@
-$Id: Changes,v 1.6 2002-11-08 16:40:04 mike Exp $
+$Id: Changes,v 1.7 2002-11-12 22:37:48 mike Exp $
 
 Revision history for "cql-java"
 
@@ -11,6 +11,7 @@ Revision history for "cql-java"
 	  containing a rather unhelpful chunk of BNF.
 	- Change the source directory's Makefile so that it specifies
 	  the appropriate -classpath by default.
+	  ### undo this change!
 	- Change the test/regression Makefile so that "make clean" now
 	  does what "make distclean" used to do - the distinction
 	  between them is pointless.
