@@ -1,4 +1,4 @@
-// $Id: CQLBooleanNode.java,v 1.11 2002-11-20 17:56:22 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.11 2002-11-20 17:56:22 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
     CQLBooleanNode() {}		// prevent javadoc from documenting this
@@ -58,4 +58,29 @@ public abstract class CQLBooleanNode extends CQLNode {
     String opPQF() { return op(); }
 
     abstract String op();
+
+    public byte[] toType1(Properties config) throws PQFTranslationException {
+        System.out.println("in CQLBooleanNode.toType101(): PQF=" +
+			   toPQF(config));
+        byte[] rpn1 = left.toType1(config);
+        byte[] rpn2 = right.toType1(config);
+        byte[] op = opType1();
+        byte[] rpnStructure = new byte[rpn1.length+rpn2.length+op.length+4];
+        
+	// rpnRpnOp
+        int offset = putTag(CONTEXT, 1, CONSTRUCTED, rpnStructure, 0);
+
+        rpnStructure[offset++] = (byte)(0x80&0xff); // indefinite length
+        System.arraycopy(rpn1, 0, rpnStructure, offset, rpn1.length);
+        offset += rpn1.length;
+        System.arraycopy(rpn2, 0, rpnStructure, offset, rpn2.length);
+        offset += rpn2.length;
+        System.arraycopy(op, 0, rpnStructure, offset, op.length);
+        offset += op.length;
+        rpnStructure[offset++] = 0x00; // end rpnRpnOp
+        rpnStructure[offset++] = 0x00;
+        return rpnStructure;
+    }
+
+    abstract byte[] opType1();
 }

@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.11 2002-11-29 16:43:23 mike Exp $
+// $Id: CQLTermNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.11 2002-11-29 16:43:23 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.12 2002-12-05 17:14:52 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -56,7 +56,10 @@ public class CQLTermNode extends CQLNode {
 	return res;
     }
 
-    public String toPQF(Properties config) throws PQFTranslationException {
+    // ### Interaction between this and its callers is not good as
+    //	regards truncation of the term and generation of truncation
+    //	attributes.  Change the interface to fix this.
+    private Vector getAttrs(Properties config) throws PQFTranslationException {
 	Vector attrs = new Vector();
 
 	// Do this first so that if any other truncation or
@@ -100,27 +103,12 @@ public class CQLTermNode extends CQLNode {
 	    attrs.add(attr);
 	}
 
-	String pos = "any";
+	String pos = "unanchored";
 	String text = term;
-	//System.err.println("before check: text='" + text + "'");
 	if (text.length() > 0 && text.substring(0, 1).equals("^")) {
-	    //System.err.println("first in field");
 	    text = text.substring(1);
-	    pos = "first";
+	    pos = "anchored";
 	}
-	//System.err.println("between checks: text='" + text + "'");
-	int len = text.length();
-	if (len > 0 && text.substring(len-1, len).equals("^")) {
-	    //System.err.println("last in field");
-	    text = text.substring(0, len-1);
-	    pos = pos.equals("first") ? "firstAndLast" : "last";
-	    // ### in the firstAndLast case, the standard
-	    //	pqf.properties file specifies that we generate a
-	    //	completeness=whole-field attributem, which means that
-	    //	we don't generate a position attribute at all.  Do we
-	    //	care?  Does it matter?
-	}
-	//System.err.println("after checks: text='" + text + "'");
 	attr = config.getProperty("position." + pos);
 	if (attr == null)
 	    throw new UnknownPositionException(pos);
@@ -131,12 +119,21 @@ public class CQLTermNode extends CQLNode {
 	    attr = config.getProperty("structure.*");
 	attrs.add(attr);
 
-	String s = "";
+	return attrs;
+    }
+
+    public String toPQF(Properties config) throws PQFTranslationException {
+	Vector attrs = getAttrs(config);
+
+	String attr, s = "";
 	for (int i = 0; i < attrs.size(); i++) {
 	    attr = (String) attrs.get(i);
 	    s += "@attr " + Utils.replaceString(attr, " ", " @attr ") + " ";
 	}
 
+	String text = term;
+	if (text.length() > 0 && text.substring(0, 1).equals("^"))
+	    text = text.substring(1);
 	return s + maybeQuote(text);
     }
 
@@ -156,5 +153,64 @@ public class CQLTermNode extends CQLNode {
 	}
 
 	return str;
+    }
+
+    /**
+     * ### Document this!
+     */
+    public byte[] toType1(Properties config) throws PQFTranslationException {
+	String text = term;
+	if (text.length() > 0 && text.substring(0, 1).equals("^"))
+	    text = text.substring(1);
+	String attr, attrList, term = maybeQuote(text);
+	System.out.println("in CQLTermNode.toType101(): PQF=" + toPQF(config));
+	byte[] operand = new byte[text.length()+100];
+	int i, j, offset, type, value;
+	offset = putTag(CONTEXT, 0, CONSTRUCTED, operand, 0); // op
+	operand[offset++]=(byte)(0x80&0xff); // indefinite length
+	offset = putTag(CONTEXT, 102, CONSTRUCTED, operand, offset); // AttributesPlusTerm
+	operand[offset++] = (byte)(0x80&0xff); // indefinite length
+	offset = putTag(CONTEXT, 44, CONSTRUCTED, operand, offset); // AttributeList
+	operand[offset++] = (byte)(0x80&0xff); // indefinite length
+	offset = putTag(UNIVERSAL, SEQUENCE, CONSTRUCTED, operand, offset);
+	operand[offset++] = (byte)(0x80&0xff);
+
+	Vector attrs = getAttrs(config);
+	for(i = 0; i < attrs.size(); i++) {
+	    attrList = (String) attrs.get(i);
+	    java.util.StringTokenizer st =
+		new java.util.StringTokenizer(attrList);
+	    while (st.hasMoreTokens()) {
+		attr = st.nextToken();
+		j = attr.indexOf('=');
+		offset = putTag(CONTEXT, 120, PRIMITIVE, operand, offset);
+		type = Integer.parseInt(attr.substring(0, j));
+		offset = putLen(numLen(type), operand, offset);
+		offset = putNum(type, operand, offset);
+
+		offset = putTag(CONTEXT, 121, PRIMITIVE, operand, offset);
+		value = Integer.parseInt(attr.substring(j+1));
+		offset = putLen(numLen(value), operand, offset);
+		offset = putNum(value, operand, offset);
+	    }
+	}
+	operand[offset++] = 0x00; // end of SEQUENCE
+	operand[offset++] = 0x00;
+	operand[offset++] = 0x00; // end of AttributeList
+	operand[offset++] = 0x00;
+
+	offset = putTag(CONTEXT, 45, PRIMITIVE, operand, offset); // general Term
+	byte[] t = term.getBytes();
+	offset = putLen(t.length, operand, offset);
+	System.arraycopy(t, 0, operand, offset, t.length);
+	offset += t.length;
+
+	operand[offset++] = 0x00; // end of AttributesPlusTerm
+	operand[offset++] = 0x00;
+	operand[offset++] = 0x00; // end of Operand
+	operand[offset++] = 0x00;
+	byte[] o = new byte[offset];
+	System.arraycopy(operand, 0, o, 0, offset);
+	return o;
     }
 }

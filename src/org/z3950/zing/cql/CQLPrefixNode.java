@@ -1,4 +1,4 @@
-// $Id: CQLPrefixNode.java,v 1.3 2002-11-20 01:15:15 mike Exp $
+// $Id: CQLPrefixNode.java,v 1.4 2002-12-05 17:14:52 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.3 2002-11-20 01:15:15 mike Exp $
+ * @version	$Id: CQLPrefixNode.java,v 1.4 2002-12-05 17:14:52 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
     /**
@@ -60,5 +60,10 @@ public class CQLPrefixNode extends CQLNode {
 	// including their prefixes if any, are instead wired into
 	// `config'.
 	return subtree.toPQF(config);
+    }
+
+    public byte[] toType1(Properties config) throws PQFTranslationException {
+	// See comment on toPQF()
+	return subtree.toType1(config);
     }
 }

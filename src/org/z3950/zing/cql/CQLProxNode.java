@@ -1,4 +1,4 @@
-// $Id: CQLProxNode.java,v 1.6 2002-11-20 17:56:22 mike Exp $
+// $Id: CQLProxNode.java,v 1.7 2002-12-05 17:14:52 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -10,7 +10,7 @@ import java.util.Vector;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.6 2002-11-20 17:56:22 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.7 2002-12-05 17:14:52 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     ModifierSet ms;
@@ -85,33 +85,8 @@ public class CQLProxNode extends CQLBooleanNode {
      * unit-code ::= integer.
      */
     String opPQF() {
-	String rel = ms.modifier("relation");
-	int relCode = 0;
-	if (rel.equals("<")) {
-	    relCode = 1;
-	} else if (rel.equals("<=")) {
-	    relCode = 2;
-	} else if (rel.equals("=")) {
-	    relCode = 3;
-	} else if (rel.equals(">=")) {
-	    relCode = 4;
-	} else if (rel.equals(">")) {
-	    relCode = 5;
-	} else if (rel.equals("<>")) {
-	    relCode = 6;
-	}
-
-	String unit = ms.modifier("unit");
-	int unitCode = 0;
-	if (unit.equals("word")) {
-	    unitCode = 2;
-	} else if (unit.equals("sentence")) {
-	    unitCode = 3;
-	} else if (unit.equals("paragraph")) {
-	    unitCode = 4;
-	} else if (unit.equals("element")) {
-	    unitCode = 8;
-	}
+	int relCode = getRelCode();
+	int unitCode = getProxUnitCode();
 
 	String res = "prox " +
 	    "0 " +
@@ -120,7 +95,88 @@ public class CQLProxNode extends CQLBooleanNode {
 	    relCode + " " +
 	    "1 " +
 	    unitCode;
-	
+
 	return res;
+    }
+
+    private int getRelCode() {
+	String rel = ms.modifier("relation");
+	if (rel.equals("<")) {
+	    return 1;
+	} else if (rel.equals("<=")) {
+	    return 2;
+	} else if (rel.equals("=")) {
+	    return 3;
+	} else if (rel.equals(">=")) {
+	    return 4;
+	} else if (rel.equals(">")) {
+	    return 5;
+	} else if (rel.equals("<>")) {
+	    return 6;
+	}
+	return 0;
+    }
+
+    private int getProxUnitCode() {
+	String unit = ms.modifier("unit");
+	if (unit.equals("word")) {
+	    return 2;
+	} else if (unit.equals("sentence")) {
+	    return 3;
+	} else if (unit.equals("paragraph")) {
+	    return 4;
+	} else if (unit.equals("element")) {
+	    return 8;
+	}
+	return 0;
+    }
+
+
+    byte[] opType1() {
+	byte[] op = new byte[100];
+	int offset, value;
+	offset = putTag(CONTEXT, 46, CONSTRUCTED, op, 0); // Operator
+	op[offset++] = (byte)(0x80&0xff); // indefinite length
+
+	offset = putTag(CONTEXT, 3, CONSTRUCTED, op, offset); // prox
+	op[offset++] = (byte)(0x80&0xff); // indefinite length
+
+	offset = putTag(CONTEXT, 1, PRIMITIVE, op, offset); // exclusion
+	value = 0; // false
+	offset = putLen(numLen(value), op, offset);
+	offset = putNum(value, op, offset);
+
+	offset = putTag(CONTEXT, 2, PRIMITIVE, op, offset); // distance
+	value = Integer.parseInt(ms.modifier("distance"));
+	offset = putLen(numLen(value), op, offset);
+	offset = putNum(value, op, offset);
+
+	offset = putTag(CONTEXT, 3, PRIMITIVE, op, offset); // ordered
+	value = ms.modifier("ordering").equals("ordered") ? 1 : 0;
+	offset = putLen(numLen(value), op, offset);
+	offset = putNum(value, op, offset);
+
+	offset = putTag(CONTEXT, 4, PRIMITIVE, op, offset); // relationType
+	value = getRelCode();
+	offset = putLen(numLen(value), op, offset);
+	offset = putNum(value, op, offset);
+
+	offset = putTag(CONTEXT, 5, CONSTRUCTED, op, offset); // proximityUnitCode
+	op[offset++] = (byte)(0x80&0xff); // indefinite length
+	offset = putTag(CONTEXT, 1, PRIMITIVE, op, offset); // known
+	value = getProxUnitCode();
+	offset = putLen(numLen(value), op, offset);
+	offset = putNum(value, op, offset);
+	op[offset++] = 0x00; // end of proximityUnitCode
+	op[offset++] = 0x00;
+
+	op[offset++] = 0x00; // end of prox
+	op[offset++] = 0x00;
+	op[offset++] = 0x00; // end of Operator
+	op[offset++] = 0x00;
+
+	byte[] o = new byte[offset];
+	System.arraycopy(op, 0, o, 0, offset);
+	return o;
     }
 }
