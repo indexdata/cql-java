@@ -1,4 +1,4 @@
-$Id: README,v 1.4 2002-11-20 22:50:45 mike Exp $
+$Id: README,v 1.5 2002-11-21 09:57:28 mike Exp $
 
 cql-java's regression-testing framework
 ---------------------------------------
@@ -40,7 +40,7 @@ against its results, do this:
 	make refclean
 	./mktests queries.raw
 	./mkanswers CQLParser.py
-	./runtests CQLParser ./xmlpp.pl
+	./runtests ../../bin/CQLParser ./xmlpp.pl
 
 The second argument to ./runtests is the name of a program to use to
 normalise XML, so that the trusted output and the output being tested

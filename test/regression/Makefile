@@ -1,10 +1,10 @@
-# $Id: Makefile,v 1.6 2002-11-20 22:50:45 mike Exp $
+# $Id: Makefile,v 1.7 2002-11-21 09:57:28 mike Exp $
 
 XMLCANONICALISER = cat
 # Change this to "./xmlpp.pl" if you want to check for equivalence
 
 test: sections/01/01.cql sections/01/01.xcql
-	./runtests CQLParser $(XMLCANONICALISER)
+	./runtests ../../bin/CQLParser $(XMLCANONICALISER)
 
 test-adam: sections/01/01.cql sections/01/01.xcql
 	./runtests ../../../srw/cql/cqlparse3 $(XMLCANONICALISER)
@@ -16,9 +16,9 @@ sections/01/01.cql: mktests queries.raw
 	./mktests queries.raw
 
 sections/01/01.xcql: mkanswers
-	./mkanswers CQLParser
-# OR	./mkanswers ../../srw/cql/cqlparse3
-# OR	./mkanswers ../../rob/CQLParser.py
+	./mkanswers ../../bin/CQLParser
+# OR	./mkanswers ../../../srw/cql/cqlparse3
+# OR	./mkanswers ../../../rob/CQLParser.py
 # Depending on which parser you want to use as your reference
 
 clean:

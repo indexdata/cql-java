@@ -1,16 +1,18 @@
 #!/usr/bin/perl -w
 
-# $Id: runtests,v 1.6 2002-11-20 23:10:17 mike Exp $
+# $Id: runtests,v 1.7 2002-11-21 09:57:28 mike Exp $
 
 use IO::File;
 use strict;
+
+$ENV{CLASSPATH} .= ":../../lib/cql-java.jar";
 
 if (@ARGV != 2) {
     print STDERR "Usage: $0 <CQL-compiler> <XML-normaliser>\n";
     exit(1);
 }
 my $compiler = $ARGV[0];
-my $norman = $ARGV[1];
+my $norman = $ARGV[1];		# name of XML normaliser program
 
 while (<sections/*>) {
     my $sdir = $_;

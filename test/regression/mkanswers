@@ -1,9 +1,11 @@
 #!/usr/bin/perl -w
 
-# $Id: mkanswers,v 1.4 2002-11-20 23:10:17 mike Exp $
+# $Id: mkanswers,v 1.5 2002-11-21 09:57:28 mike Exp $
 
 use IO::File;
 use strict;
+
+$ENV{CLASSPATH} .= ":../../lib/cql-java.jar";
 
 if (@ARGV != 1) {
     print STDERR "Usage: $0 <trusted-CQL-compiler>\n";
