@@ -1,9 +1,9 @@
-$Id: Changes,v 1.19 2002-11-20 23:11:15 mike Exp $
+$Id: Changes,v 1.20 2002-11-21 10:11:08 mike Exp $
 
 Revision history for the "cql-java" package.
 See the bottom of this file for a list of things still to do.
 
-0.4  Thu Nov 21 00:10:21 2002
+0.4  Thu Nov 21 10:09:26 2002
 	- Add support for the new "phonetic" relation modifier,
 	  including its mapping in "etc/pqf.properties".
 	- Make prefix-maps bind loosely, so that ``>dc=x a and b''
