@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.18 2002-12-12 10:24:25 mike Exp $
+// $Id: CQLTermNode.java,v 1.19 2003-01-13 13:08:59 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.18 2002-12-12 10:24:25 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.19 2003-01-13 13:08:59 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -34,8 +34,14 @@ public class CQLTermNode extends CQLNode {
     public CQLRelation getRelation() { return relation; }
     public String getTerm() { return term; }
 
+    private static boolean isResultSetQualifier(String qual) {
+	return (qual.equals("srw.resultSet") ||
+		qual.equals("srw.resultSetId") ||
+		qual.equals("srw.resultSetName"));
+    }
+
     public String getResultSetName() {
-	if (qualifier.equals("srw.resultSet"))
+	if (isResultSetQualifier(qualifier))
 	    return term;
 	else
 	    return null;
@@ -141,7 +147,7 @@ public class CQLTermNode extends CQLNode {
     }
 
     public String toPQF(Properties config) throws PQFTranslationException {
-	if (qualifier.equals("srw.resultSet")) {
+	if (isResultSetQualifier(qualifier)) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
 	    // There's parallel code in toType1BER()
 	    return "@set " + maybeQuote(term);
@@ -184,7 +190,7 @@ public class CQLTermNode extends CQLNode {
     }
 
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
-	if (qualifier.equals("srw.resultSet")) {
+	if (isResultSetQualifier(qualifier)) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
 	    // There's parallel code in toPQF()
 	    byte[] operand = new byte[term.length()+100];
@@ -220,8 +226,6 @@ public class CQLTermNode extends CQLNode {
 	operand[offset++] = (byte)(0x80&0xff); // indefinite length
 	offset = putTag(CONTEXT, 44, CONSTRUCTED, operand, offset); // AttributeList
 	operand[offset++] = (byte)(0x80&0xff); // indefinite length
-	offset = putTag(UNIVERSAL, SEQUENCE, CONSTRUCTED, operand, offset);
-	operand[offset++] = (byte)(0x80&0xff);
 
 	Vector attrs = getAttrs(config);
 	for(i = 0; i < attrs.size(); i++) {
@@ -231,6 +235,8 @@ public class CQLTermNode extends CQLNode {
 	    while (st.hasMoreTokens()) {
 		attr = st.nextToken();
 		j = attr.indexOf('=');
+		offset = putTag(UNIVERSAL, SEQUENCE, CONSTRUCTED, operand, offset);
+		operand[offset++] = (byte)(0x80&0xff);
 		offset = putTag(CONTEXT, 120, PRIMITIVE, operand, offset);
 		type = Integer.parseInt(attr.substring(0, j));
 		offset = putLen(numLen(type), operand, offset);
@@ -240,10 +246,10 @@ public class CQLTermNode extends CQLNode {
 		value = Integer.parseInt(attr.substring(j+1));
 		offset = putLen(numLen(value), operand, offset);
 		offset = putNum(value, operand, offset);
+		operand[offset++] = 0x00; // end of SEQUENCE
+		operand[offset++] = 0x00;
 	    }
 	}
-	operand[offset++] = 0x00; // end of SEQUENCE
-	operand[offset++] = 0x00;
 	operand[offset++] = 0x00; // end of AttributeList
 	operand[offset++] = 0x00;
 
