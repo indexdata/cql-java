@@ -1,9 +1,9 @@
-$Id: Changes,v 1.10 2002-11-15 11:35:53 mike Exp $
+$Id: Changes,v 1.11 2002-11-15 12:03:00 mike Exp $
 
 Revision history for "cql-java"
 See the bottom of this file for a list of things still to do.
 
-0.3  (IN PROGRESS)
+0.3  Fri Nov 15 12:04:04 2002
 	- Allow keywords to be used unquoted as search terms.
 	- Add support for serverChoiceRelation (scr).
 	- Add support for prefix-mapping, as in
