@@ -1,0 +1,195 @@
+From mike  Tue Aug 23 09:00:42 2005
+MIME-Version: 1.0
+Envelope-to: mike@indexdata.com
+Delivery-date: Mon, 22 Aug 2005 23:17:55 +0200
+Date: Mon, 22 Aug 2005 15:17:48 -0600
+From: Chris Hubick <chrish@athabascau.ca>
+Subject: CQL Java Distribution.
+To: Mike Taylor <mike@miketaylor.org.uk>
+Cc: mike@indexdata.com, mike@z3950.org
+Organization: Athabasca University
+X-Spam-Checker-Version: SpamAssassin 3.0.0 (2004-09-13) on bagel.indexdata.dk
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00 autolearn=ham 
+	version=3.0.0
+X-Spam-Level: 
+X-StripMime: Non-text section removed by stripmime
+Content-type: text/plain
+
+Hi.
+
+First off, I have been using your CQL Java parser in my Metadata
+Repository software for a few years now, and it's great!  Much Thanks!
+
+Second, sorry for CC spamming all the email addy's for you, I have no
+idea which still works and you use for this type of thing.
+
+Recently, we are moving our software into a production environment,
+which means, as per our internal policy, I need to create RPM's for all
+software involved (we use RedHat Enterprise Linux).  So, as part of this
+effort, I sat down to create an RPM for CQL-Java.  I *could* create an
+RPM spec file to just package up the lib/cql-java.jar file, but as part
+of good practice creating RPM's, the software should ideally be compiled
+from it's source into source and binary RPM's.  This led to a number of
+problems, and my eventual overhaul of your project structure.  Attached
+is a zip file which, compared to the original distribution, does the
+following:
+
+- Move from tar.gz to .zip for easier access on Windows.
+- Remove all binary and generated content from the distribution.
+- Refactor project directory structure to follow the more
+straightforward Maven 2 conventions:
+http://maven.apache.org/reference/conventions.html
+There is only one dir in the root of the source distribution, 'src', and
+ALL content is generated into subdirs of 'target'.  The src dir is
+further subdivided into 'main' and 'test', which are further divided by
+file type (java, resources, scripts), as per Maven guidelines (these are
+great, and are the future - more projects using them every day).
+- Remove all Makefiles!  Make is dead, everyone, and every IDE, uses Ant
+(http://ant.apache.org/) for building Java...
+- Include an Ant build.xml file.  This should make it possible to build
+on Windows or Unix, etc.
+- Rename documentation file base-name's to closer model GNU standards:
+http://www.gnu.org/prep/standards/html_node/Releases.html
+- Add extensions to ALL files in the distribution.  Make all shell
+scripts end in .sh, and Perl scripts in .pl.  Text files as .txt.
+- Rename all scripts to use lowercase unix naming, and prefix with
+cql-java, to avoid conflicts when installed in global system dirs
+(/bin).
+- Move to standard X.Y.Z-R three digit version-release versioning, to be
+more inline with every other package in the world.
+- Include a specfile to build RPMs.  This uses requirements and
+standards laid out by JPackage.org:  http://www.jpackage.org/ - which
+will be required by the RPM.  You get three RPM's, cql-java,
+cql-java-javadoc, and cql-java-scripts - which install to all the
+standard JPackage and Filesystem Hierarchy Standard locations.
+- Rewrite Parser/Lexer/Generator scripts to use JPackage utils and
+conventions.  (should work on multiple distros, using multiple Java
+VM's, and follow global installation guidelines now, etc).
+- Modify source code to fix many trivial Eclipse compiler warnings about
+non-static variable references and unused imports.
+- Include .cvsignore file to ignore Eclipse projects files and the
+target dir.
+
+
+Problems:
+- I only use the Parser Java classes in my code, and never mess with any
+of the test infrastructure code/scripts.  The test files were all
+renamed and put in better Maven'ized places, but this broke it all in a
+big BIG way.  These should either not be included in the general
+distribution, or rewritten to create and run tests in a system standard
+location-independent non-root fashion.  This is non-trivial, or I would
+have done it :)
+- The Parser (and other) classes main() functions are written in such a
+way as to not be tolerant of other command line arguments to the JVM,
+such as -classpath (which is required by the way JPackage does things).
+This is bad.  It means they don't work right with the rewritten scripts.
+The scripts are correct, but the Java should be fixed.  The scripts/code
+launch and work correctly with no arguments.  I never use the command
+line stuff, so I didn't bother to do this either.
+
+The BIG question: Do you even exist and work on this stuff anymore (last
+update was years ago:), and if so, do you care to integrate any of this
+work into the z3950.org distribution???  (I know I was quite disruptive
+in my changes)
+
+If not, I may just rewrite the spec to install the binary jar from your
+standard dist, and be done with it.
+
+Thanks :)
+
+-- 
+Chris Hubick
+mailto:chrish@athabascau.ca
+http://adlib.athabascau.ca/~hubick/
+
+
+__ 
+    This communication is intended for the use of the recipient to whom it
+    is addressed, and may contain confidential, personal, and or privileged
+    information. Please contact us immediately if you are not the intended
+    recipient of this communication, and do not copy, distribute, or take
+    action relying on it. Any communications received in error, or
+    subsequent reply, should be deleted or destroyed.
+---
+
+
+--- StripMime Report -- processed MIME parts ---
+multipart/mixed
+  text/plain (text body -- kept)
+  application/zip
+---
+
+
+From mike@miketaylor.org.uk  Mon Aug 29 16:45:11 2005
+Date: Mon, 29 Aug 2005 16:45:01 +0100
+From: Mike Taylor <mike@miketaylor.org.uk>
+To: chrish@athabascau.ca
+In-reply-to: message from Chris Hubick on Mon, 22 Aug 2005 15:17:48 -0600
+Subject: Re: CQL Java Distribution.
+
+> Date: Mon, 22 Aug 2005 15:17:48 -0600
+> From: Chris Hubick <chrish@athabascau.ca>
+>
+> Hi.
+
+Hi, Chris, sorry for the delay in replying.  We're in the middle of a
+complicated house-move, so I am less in contact that usual.
+
+> First off, I have been using your CQL Java parser in my Metadata
+> Repository software for a few years now, and it's great!  Much
+> Thanks!
+
+Thank _you_.  It's always nice to read this kind of thing.
+
+What is your software called?  I don't think we've heard of it, but if
+it support SRW/U (as I guess it does if you're using CQL), then it has
+the nice property of Just Working with our metasearch engine, Keystone
+-- a fact that may be to both of our advantages to mention to possible
+customers.
+
+> Second, sorry for CC spamming all the email addy's for you, I have
+> no idea which still works and you use for this type of thing.
+
+No problem -- they all worked :-)
+
+> Recently, we are moving our software into a production environment,
+> which means, as per our internal policy, I need to create RPM's for
+> all software involved (we use RedHat Enterprise Linux).  So, as part
+> of this effort, I sat down to create an RPM for CQL-Java.
+
+That's a nice development.  Thanks.
+
+> I *could* create an RPM spec file to just package up the
+> lib/cql-java.jar file, but as part of good practice creating RPM's,
+> the software should ideally be compiled from it's source into source
+> and binary RPM's.  This led to a number of problems, and my eventual
+> overhaul of your project structure.  Attached is a zip file which,
+> compared to the original distribution, does the following:
+> [snip snip snippety snap]
+> The BIG question: Do you even exist and work on this stuff anymore
+> (last update was years ago:), and if so, do you care to integrate
+> any of this work into the z3950.org distribution???  (I know I was
+> quite disruptive in my changes)
+
+Wow, that is a LOT of changes.
+
+To answer your questions: yes, I exist, but I don't really work with
+Java any more (though I hope to have a smallish Java project come in
+RSN).  I don't work on this stuff right now, but if the smallish job
+comes in as it promises to, then I will.
+
+I'm afraid I just don't have time to make changes of this volume to a
+project that I'm (currently) not being paid for.  I hate to discard
+what you've done when it was clearly so much work, but I just not in a
+position to do the additional work necessary to understand it.  Sorry.
+
+> If not, I may just rewrite the spec to install the binary jar from
+> your standard dist, and be done with it.
+
+If you can bear it, I think that might be the best solution.
+
+ _/|_	 ___________________________________________________________________
+/o ) \/  Mike Taylor  <mike@miketaylor.org.uk>  http://www.miketaylor.org.uk
+)_v__/\  "But I've _tested_ this code!  How can it go wrong?" -- Chris
+	 Martin.
+
