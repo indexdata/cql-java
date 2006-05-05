@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.6 2002-11-17 23:29:02 mike Exp $
+// $Id: CQLLexer.java,v 1.7 2006-05-05 21:39:14 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -188,7 +188,7 @@ class CQLLexer extends StreamTokenizer {
 	if (token == TT_EOF) {
 	    return "EOF";
 	} else if (token == TT_NUMBER) {
-	    return new Integer((int) nval).toString();
+	    return new Double((double) nval).toString();
 	} else if (token == TT_WORD) {
 	    return "word: " + sval;
 	} else if (token == '"') {
