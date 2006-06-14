@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.21 2003-07-29 22:53:02 mike Exp $
+// $Id: CQLTermNode.java,v 1.22 2006-06-14 14:36:36 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.21 2003-07-29 22:53:02 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.22 2006-06-14 14:36:36 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -61,7 +61,8 @@ public class CQLTermNode extends CQLNode {
 	String quotedTerm = maybeQuote(term);
 	String res = quotedTerm;
 
-	if (!qualifier.equalsIgnoreCase("srw.serverChoice")) {
+	if (qualifier != null &&
+	    !qualifier.equalsIgnoreCase("srw.serverChoice")) {
 	    // ### We don't always need spaces around `relation'.
 	    res = quotedQualifier + " " + relation.toCQL() + " " + quotedTerm;
 	}
@@ -172,6 +173,9 @@ public class CQLTermNode extends CQLNode {
     }
 
     static String maybeQuote(String str) {
+       if (str == null)
+          return null;
+
 	// There _must_ be a better way to make this test ...
 	if (str.length() == 0 ||
 	    str.indexOf('"') != -1 ||
