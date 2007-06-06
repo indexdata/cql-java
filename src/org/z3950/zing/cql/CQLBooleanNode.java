@@ -1,4 +1,4 @@
-// $Id: CQLBooleanNode.java,v 1.13 2002-12-11 17:14:20 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.14 2007-06-06 12:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.13 2002-12-11 17:14:20 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.14 2007-06-06 12:22:01 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
     CQLBooleanNode() {}		// prevent javadoc from documenting this
@@ -24,14 +24,15 @@ public abstract class CQLBooleanNode extends CQLNode {
     public CQLNode right;
 
     public String toXCQL(int level, Vector prefixes) {
+	// ### Should this use CQLNode.toXCQL(level+2, prefixes)?
 	return (indent(level) + "<triple>\n" +
 		renderPrefixes(level+1, prefixes) +
 		opXCQL(level+1) +
 		indent(level+1) + "<leftOperand>\n" +
-		left.toXCQL(level+2, new Vector()) +
+		left.toXCQL(level+2) +
 		indent(level+1) + "</leftOperand>\n" +
 		indent(level+1) + "<rightOperand>\n" +
-		right.toXCQL(level+2, new Vector()) +
+		right.toXCQL(level+2) +
 		indent(level+1) + "</rightOperand>\n" +
 		indent(level) + "</triple>\n");
     }

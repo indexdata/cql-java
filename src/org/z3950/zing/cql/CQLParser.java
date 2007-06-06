@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.23 2003-09-04 21:56:46 mike Exp $
+// $Id: CQLParser.java,v 1.24 2007-06-06 12:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.23 2003-09-04 21:56:46 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.24 2007-06-06 12:22:01 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -368,7 +368,7 @@ public class CQLParser {
 	char mode = 'x';	// x=XCQL, c=CQL, p=PQF
 	String pfile = null;
 
-	Vector argv = new Vector();
+	Vector<String> argv = new Vector<String>();
 	for (int i = 0; i < args.length; i++) {
 	    argv.add(args[i]);
 	}

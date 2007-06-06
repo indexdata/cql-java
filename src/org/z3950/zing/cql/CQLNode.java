@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.22 2002-12-12 15:03:50 mike Exp $
+// $Id: CQLNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.22 2002-12-12 15:03:50 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -38,10 +38,10 @@ public abstract class CQLNode {
      *	parse-tree whose root is this node.
      */
     public String toXCQL(int level) {
-	return toXCQL(level, new Vector());
+	return toXCQL(level, new Vector<CQLPrefix>());
     }
 
-    abstract public String toXCQL(int level, Vector prefixes);
+    abstract public String toXCQL(int level, Vector<CQLPrefix> prefixes);
 
     protected static String renderPrefixes(int level, Vector prefixes) {
 	if (prefixes.size() == 0)
@@ -245,8 +245,8 @@ public abstract class CQLNode {
     }
 
     // Used only by the makeOID() method
-    private static final java.util.Hashtable madeOIDs =
-	new java.util.Hashtable(10);
+    private static final java.util.Hashtable<String, byte[]> madeOIDs =
+	new java.util.Hashtable<String, byte[]>(10);
 
     protected static final byte[] makeOID(String oid) {
         byte[] o;

@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.22 2006-06-14 14:36:36 mike Exp $
+// $Id: CQLTermNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.22 2006-06-14 14:36:36 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -51,7 +51,7 @@ public class CQLTermNode extends CQLNode {
 	return (indent(level) + "<searchClause>\n" +
 		renderPrefixes(level+1, prefixes) +
 		indent(level+1) + "<index>" + xq(qualifier) + "</index>\n" +
-		relation.toXCQL(level+1, new Vector()) +
+		relation.toXCQL(level+1, new Vector<String>()) +
 		indent(level+1) + "<term>" + xq(term) + "</term>\n" +
 		indent(level) + "</searchClause>\n");
     }
@@ -74,7 +74,7 @@ public class CQLTermNode extends CQLNode {
     //	regards truncation of the term and generation of truncation
     //	attributes.  Change the interface to fix this.
     private Vector getAttrs(Properties config) throws PQFTranslationException {
-	Vector attrs = new Vector();
+	Vector<String> attrs = new Vector<String>();
 
 	// Do this first so that if any other truncation or
 	// completeness attributes are generated, they "overwrite"

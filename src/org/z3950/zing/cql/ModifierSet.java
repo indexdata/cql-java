@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.7 2002-11-20 17:56:22 mike Exp $
+// $Id: ModifierSet.java,v 1.8 2007-06-06 12:22:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -15,18 +15,18 @@ import java.lang.StringBuffer;
  * zero or more <I>type</I>=<I>value</I> pairs, where both type and
  * value are strings.  Types may be null, values may not.
  *
- * @version $Id: ModifierSet.java,v 1.7 2002-11-20 17:56:22 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.8 2007-06-06 12:22:01 mike Exp $
  */
 public class ModifierSet {
     String base;
-    Vector modifiers;
+    Vector<Vector> modifiers;
 
     /**
      * Creates a new ModifierSet with the specified base.
      */
     public ModifierSet(String base) {
 	this.base = base;
-	modifiers = new Vector();
+	modifiers = new Vector<Vector>();
     }
 
     /**
@@ -41,7 +41,7 @@ public class ModifierSet {
      * <TT>value</TT> to a ModifierSet.
      */
     public void addModifier(String type, String value) {
-	Vector modifier = new Vector();
+	Vector<String> modifier = new Vector<String>();
 	modifier.add(type);
 	modifier.add(value);
 	modifiers.add(modifier);
