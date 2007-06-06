@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.13 2002-12-09 16:29:44 mike Exp $
+# $Id: Makefile,v 1.14 2007-06-06 12:21:46 mike Exp $
 #
 # Your Java compiler will require that this source directory is on the
 # classpath.  The best way to do that is just to add the CQL-Java
@@ -21,7 +21,7 @@ OBJ = Utils.class \
 	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class
 
 %.class: %.java
-	javac $<
+	javac -Xlint:unchecked *.java
 
 clean:
 	rm -f $(OBJ) 'CQLLexer$$Keyword.class'
