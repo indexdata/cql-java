@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
+// $Id: CQLNode.java,v 1.24 2007-06-06 13:19:28 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.24 2007-06-06 13:19:28 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -171,7 +171,7 @@ public abstract class CQLNode {
     /**
      * Put a length directly into a BER record.
      *
-     * @param length length to put into record
+     * @param len length to put into record
      * @return the new, incremented value of the offset parameter.
      */
     public // ### shouldn't this be protected?
@@ -210,7 +210,7 @@ public abstract class CQLNode {
     /**
      * Get the length needed to represent the given number.
      *
-     * @param number determine length needed to encode this
+     * @param num determine length needed to encode this
      * @return length needed to encode given number
      */
     protected static final int numLen(long num) {
