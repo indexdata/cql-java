@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.5 2002-11-20 01:15:14 mike Exp $
+// $Id: CQLGenerator.java,v 1.6 2007-06-06 15:13:41 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -18,11 +18,11 @@ import java.io.FileNotFoundException;
  * the parser of your choice, and check that the XCQL it comes up with
  * is the same what you got from your initial rendering.
  * <P>
- * This code is based on the grammar in the <TT>Grammar</TT> file of
+ * This code is based on the same grammar as the <TT>CQLParser</TT> class in
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.5 2002-11-20 01:15:14 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.6 2007-06-06 15:13:41 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
