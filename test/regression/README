@@ -1,4 +1,10 @@
-$Id: README,v 1.6 2002-12-09 16:29:44 mike Exp $
+$Id: README,v 1.7 2007-06-07 16:17:04 mike Exp $
+
+If you just don't want to think about it
+----------------------------------------
+
+Just use "make" to run regression tests.
+
 
 CQL-Java's regression-testing framework
 ---------------------------------------
@@ -23,7 +29,9 @@ contain the trusted compiler output of your choice.
 existing XCQL files.  Most often, you'll use this to compare the
 results of your own build of CQL-Java with those of my build.  I'll
 use it to test new versions, and people who've written other compilers
-can use it to test their code.
+can use it to test their code.  (The code of "runtests" and
+"mkanswers" is worryingly similar: they should probably be the same
+program invoked with different command-line arguments.)
 
 "Makefile" controls the building of all this.  You'll need to edit it
 if you want to use different compilers and suchlike from what's
@@ -49,6 +57,10 @@ byte-identical.  (If you want to test for byte-identical XCQL, then
 use "cat" as the second argument.)  xmlpp.pl is a fine XML
 pretty-printer from DecisionSoft, found at
 	http://software.decisionsoft.com/tools.html
+
+"showtest" can be used to run a single test showing more details of
+what goes wrong, if anything.  You don't need it as part of the
+regression test, but it's useful when debugging.
 
 
 Appendix: queries that should fail
