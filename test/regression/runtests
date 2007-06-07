@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: runtests,v 1.7 2002-11-21 09:57:28 mike Exp $
+# $Id: runtests,v 1.8 2007-06-07 16:17:28 mike Exp $
 
 use IO::File;
 use strict;
@@ -13,6 +13,7 @@ if (@ARGV != 2) {
 }
 my $compiler = $ARGV[0];
 my $norman = $ARGV[1];		# name of XML normaliser program
+my($ntests, $ncorrect) = (0, 0);
 
 while (<sections/*>) {
     my $sdir = $_;
@@ -30,8 +31,10 @@ while (<sections/*>) {
 	my $correct = read_file("$norman < $afile |");
 	my $tested = read_file("$compiler < $qfile | $norman |")
 	    or print "\n    *** test compiler exited non-zero\n";
+	$ntests++;
 	if ($tested eq $correct) {
 	    print "OK\n";
+	    $ncorrect++;
 	} else {
 	    print "\n    *** different XCQL output\n";
 	    print "=== correct ===\n$correct";
@@ -39,6 +42,9 @@ while (<sections/*>) {
 	}
     }
 }
+
+print sprintf("%d of %d passed: %d%%\n",
+	      $ncorrect, $ntests, (100 * $ncorrect) / $ntests);
 
 sub read_file {
     my($name) = @_;
