@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><!-- InstanceBegin template="/Templates/sru-template.dwt" codeOutsideHTMLIsLocked="false" --><!-- InstanceBeginEditable name="doctitle" --><title>Next Version (SRU: Search and Retrieve via URL - Standards, Library of Congress)</title><!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+
+
+
+<meta name="keywords" content="sru srw protocol search retrieve via url search retrieve web services standards library of congress version">
+<meta name="description" content="Next Version: SRU (Search/Retrieve via URL) is a standard search protocol for Internet search queries, utilizing CQL (Common Query Language), a standard query syntax for representing queries. SRW (Search Retrieve Web Service) is a companion protocol to SRU."><!-- InstanceEndEditable -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="cql_files/sru.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="cql_files/triggerParams.js"></script><script type="text/javascript" src="cql_files/stdLauncher.js"></script><script type="text/javascript">Poll();</script></head><body alink="#660000" link="#663300" text="#333333" vlink="#996633">
+<div id="container">
+  <div id="header">
+    <div id="highlevel">
+      <div id="top-left"><a href="http://www.loc.gov/" class="white">The Library
+          of Congress</a><span class="white-text">&nbsp;»&nbsp;</span><a href="http://www.loc.gov/library/" class="white">Librarians,
+          Archivists</a><span class="white-text">&nbsp;»</span> <a href="http://www.loc.gov/standards/" class="white">Standards</a></div>
+      <div id="top-right">
+        <form action="http://search.loc.gov:8765/query.html" accept-charset="utf-8" name="seek1" method="get">
+          <input name="col" value="loc" type="hidden">
+          <input name="sc" value="0" type="hidden">
+          <input name="ws" value="0" type="hidden">
+          <input name="la" value="en" type="hidden">
+          <input name="qm" value="0" type="hidden">
+          <input name="st" value="1" type="hidden">
+          <input name="nh" value="10" type="hidden">
+          <input name="lk" value="1" type="hidden">
+          <input name="rf" value="0" type="hidden">
+          <input name="oq" value="" type="hidden">
+          <input name="si" value="0" type="hidden">
+          <input name="rq" value="0" type="hidden">
+          <input name="qc" value="" type="hidden">
+          <select name="qp" tabindex="1" class="drop-box">
+            <option value="url:/standards/sru/" selected="selected">SRU Pages</option>
+            <option value="url:/standards/">All Standards Pages</option>
+            <option value="">All Library Pages</option>
+          </select>
+          <input name="qt" id="keyword" size="16" value="" tabindex="2" class="drop-box" type="text">
+          <input class="button" id="search_button" name="search_button" value="SEARCH" tabindex="3" type="submit">
+        </form>
+      </div>
+    </div>
+    <h1 class="graphic"><img src="cql_files/sru-title.gif" alt="SRU: Search/Retrieve via URL - SRU Version 1.1 - 13th February 2004" height="60" width="740"></h1>
+  </div>
+  <div id="top-bread"> <a href="http://www.loc.gov/standards/sru/index.html">Home</a> &gt;&gt; <!-- InstanceBeginEditable name="topbreadcrumb" --><span class="selected">Next
+  Version</span><!-- InstanceEndEditable --></div>
+  <div id="body"> <!-- InstanceBeginEditable name="content" -->
+    <h2>Changes in SRU from Versions 1.1 to 1.2</h2>
+    <p>SRU Version 1.2    is in development and will be released soon.  This
+      page summarizes the differences from version 1.1. </p>
+    <h3>CQL Changes </h3>
+    <ol>
+      <li> CQL renamed the "contextual query language".</li>
+      <li>'scr' relation eliminated. '=' becomes (in effect) server choice. When
+        relation is omitted, '=' is assumed.</li>
+      <li> 'adj' relation defined for word adjacency.</li>
+      <li>'exact' relation eliminated. Replaced by '=='. </li>
+      <li>'regexp' relation modifier defined. </li>
+      <li>Sorting is added as a cql feature (the 'sortby' clause).</li>
+      <li>Proximity. Defaults are now server defined, not standard defined. Hence "prox" can
+        be anything the server wants to do proximately, not necessarily with
+        a default of adjacency.
+        <p>Proximity units (other than in cql set) are treated such that "unit" is
+          a value in a context set, rather than the unit value being a value
+          in a context set.&nbsp; Proximity units 'word', 'sentence', 'paragraph',
+          which are included in the cql set, are explicitly undefined.</p>
+      </li>
+    </ol>
+    <h3>Protocol Changes </h3>
+    <ol>
+      <li>Record identifier (optional) added to record structure.</li>
+      <li> XCQL parameter becomes optional.</li>
+      <li> XPath parameter dropped (will become an extension).</li>
+      <li> base url added to response.</li>
+      <li> record hits incorporated into xcql.</li>
+      <li> Z39.92 replaces explain.</li>
+      <li>Sorting is no longer a protocol function (see point 6 in CQL list). </li>
+    </ol>
+    <h3></h3>
+    <h1>&nbsp;</h1>
+    <!-- InstanceEndEditable -->
+    <div id="bottom-bread"> <a href="http://www.loc.gov/standards/sru/index.html">Home</a> &gt;&gt; <!-- InstanceBeginEditable name="bottombreadcrumb" --><a href="http://www.loc.gov/standards/sru/sru-resources.html"></a><span class="selected">Next
+          Version</span><!-- InstanceEndEditable --></div>
+  </div>
+  <div id="footer">
+    <div id="bottom-left"><a href="http://www.loc.gov/" class="white">The Library
+        of Congress</a><span class="white-text">&nbsp;»&nbsp;</span><a href="http://www.loc.gov/library/" class="white">Librarians,
+        Archivists</a><span class="white-text">&nbsp;»</span> <a href="http://www.loc.gov/standards/" class="white">Standards</a><br>
+          <span class="white-text">
+          <!-- #BeginDate format:Am1 -->January 25, 2007<!-- #EndDate -->
+        </span></div>
+    <div class="white-text" id="contactus"><a href="mailto:z3950@loc.gov" class="white">Contact
+        Us</a></div>
+  </div>
+</div>
+<script type="text/javascript" src="cql_files/s_code.js"></script><img src="cql_files/s6955176837255.gif" name="s_i_locgovprod" alt="" border="0" height="1" width="1"><!-- InstanceEnd --></body></html>
