@@ -5,7 +5,7 @@
       <identifier>http://www.loc.gov/zing/cql/dc-indexes/</identifier>
     </prefix>
   </prefixes>
-  <index>foo.title</index>
+  <index>dc.title</index>
   <relation>
     <value>=</value>
   </relation>

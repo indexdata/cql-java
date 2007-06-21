@@ -3,5 +3,5 @@
   <relation>
     <value>scr</value>
   </relation>
-  <term>prox/&gt;=/5/word</term>
+  <term>prox/distance&lt;3/unit=word</term>
 </searchClause>
