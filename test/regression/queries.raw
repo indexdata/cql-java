@@ -7,13 +7,13 @@ comp.os.linux
 xml:element
 "<xml:element>"
 "="
-"prox/>=/5/word"
+"prox/distance<3/unit=word"
 ("cat")
 ((dog))
 all
 prox
 
-# index relation term
+# Index Relation Term
 
 title = "fish"
 title exact fish
@@ -27,6 +27,8 @@ dc.fish all/stem/fuzzy "fish chips"
 (title any frog)
 ((dc.title any/stem "frog pond"))
 dc.title scr "fish frog chicken"
+dc.title =/rel.algorithm=CORI squid
+author any/f.foo/b.bar>1 "sanderson taylor"
 
 # Simple Boolean
 
@@ -48,14 +50,17 @@ bath.author any fish and dc.title all "cat dog"
 # Prox
 
 cat prox hat
-cat prox/=/3/word/ordered hat
-cat prox//3 hat
-"fish food" prox///sentence and
-title all "chips frog" prox/>=/5 exact
-(dc.author exact "jones" prox/</5/element title >= "smith")
+cat prox/distance=3/unit=word/ordered hat
+cat prox/distance<3 hat
+"fish food" prox/unit=sentence and
+title all "chips frog" prox/distance<=5 exact
+(dc.author exact "jones" prox/distance>5/unit=element title >= "smith")
 ((cat prox hat))
+a and/rel.SumOfScores b
+a and/rel.algorithm=CORI b
 
-# Special characters
+# Special Characters
+
 (cat^)
 "cat"
 "^cat says \"fish\""
@@ -63,7 +68,7 @@ title all "chips frog" prox/>=/5 exact
 cat?dog
 (("^cat*fishdog\"horse?"))
 
-# Nesting Parens
+# Nesting Parentheses
 
 (((cat or dog) or horse) and frog)
 (cat and dog) or (horse and frog)
@@ -71,11 +76,11 @@ cat?dog
 
 # Prefix Maps
 
-> foo="http://www.loc.gov/zing/cql/dc-indexes/" foo.title="fish"
+> foo="http://www.loc.gov/zing/cql/dc-indexes/" dc.title="fish"
 > "http://www.loc.gov/zing/cql/dc-indexes/" title="fish"
-> foo="http://www.loc.gov/zing/cql/dc-indexes" > ccg = "http://srw.o-r-g.org/indexSets/ccg/" foo.title="fish" and ccg.force=3
+> foo="http://www.loc.gov/zing/cql/dc-indexes" > ccg = "http://srw.o-r-g.org/cql/indexSets/ccg/" foo.title="fish" and ccg.force=3
 
-# Lame searches
+# Lame Searches
 
 any or all:stem and all exact any prox prox=fuzzy
 (((((((((any)))))))))
