@@ -1,4 +1,4 @@
-// $Id: CQLPrefixNode.java,v 1.6 2007-06-06 12:22:01 mike Exp $
+// $Id: CQLPrefixNode.java,v 1.7 2007-06-26 16:36:50 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.6 2007-06-06 12:22:01 mike Exp $
+ * @version	$Id: CQLPrefixNode.java,v 1.7 2007-06-26 16:36:50 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
     /**
@@ -49,9 +49,14 @@ public class CQLPrefixNode extends CQLNode {
     }
 
     public String toCQL() {
-	// ### We don't always need parens around the operand
-	return ">" + prefix.name + "=\"" + prefix.identifier + "\" " +
-	    "(" + subtree.toCQL() + ")";
+	// ### We don't always need parens around the subtree
+	if (prefix.name == null) {
+	    return ">\"" + prefix.identifier + "\" " +
+		"(" + subtree.toCQL() + ")";
+	} else {
+	    return ">" + prefix.name + "=\"" + prefix.identifier + "\" " +
+		"(" + subtree.toCQL() + ")";
+	}
     }
 
     public String toPQF(Properties config) throws PQFTranslationException {
