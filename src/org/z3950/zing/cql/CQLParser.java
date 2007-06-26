@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.24 2007-06-06 12:22:01 mike Exp $
+// $Id: CQLParser.java,v 1.25 2007-06-26 16:43:41 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.24 2007-06-06 12:22:01 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.25 2007-06-26 16:43:41 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -373,6 +373,11 @@ public class CQLParser {
 	    argv.add(args[i]);
 	}
 
+	if (argv.size() > 0 && argv.get(0).equals("-d")) {
+	    DEBUG = true;
+	    argv.remove(0);
+	}
+
 	if (argv.size() > 0 && argv.get(0).equals("-c")) {
 	    mode = 'c';
 	    argv.remove(0);
@@ -384,8 +389,7 @@ public class CQLParser {
 	}
 
 	if (argv.size() > 1) {
-	    System.err.println(
-		"Usage: CQLParser [-c] [-p <pqf-properties> [<CQL-query>]");
+	    System.err.println("Usage: CQLParser [-d] [-c] [-p <pqf-properties> [<CQL-query>]");
 	    System.err.println("If unspecified, query is read from stdin");
 	    System.exit(1);
 	}
