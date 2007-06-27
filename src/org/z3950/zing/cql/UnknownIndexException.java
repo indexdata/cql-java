@@ -1,4 +1,4 @@
-// $Id: UnknownQualifierException.java,v 1.3 2007-06-27 22:39:55 mike Exp $
+// $Id: UnknownIndexException.java,v 1.1 2007-06-27 22:41:41 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.Exception;
@@ -12,7 +12,7 @@ import java.lang.Exception;
  * that, because the PQF configuration doesn't know about a relation,
  * we throw one of these babies.
  *
- * @version $Id: UnknownQualifierException.java,v 1.3 2007-06-27 22:39:55 mike Exp $
+ * @version $Id: UnknownIndexException.java,v 1.1 2007-06-27 22:41:41 mike Exp $
  */
 public class UnknownQualifierException extends PQFTranslationException {
     /**
