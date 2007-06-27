@@ -1,4 +1,4 @@
-// $Id: Modifier.java,v 1.1 2007-06-27 17:01:23 mike Exp $
+// $Id: Modifier.java,v 1.2 2007-06-27 17:18:54 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -12,7 +12,7 @@ import java.lang.StringBuffer;
  * <P>
  * This class is used only by ModifierSet.
  *
- * @version $Id: Modifier.java,v 1.1 2007-06-27 17:01:23 mike Exp $
+ * @version $Id: Modifier.java,v 1.2 2007-06-27 17:18:54 mike Exp $
  */
 public class Modifier {
     String type;
@@ -27,14 +27,16 @@ public class Modifier {
 	this.type = type;
 	this.comparison = comparison;
 	this.value = value;
+	//System.err.println("Made new modifier with " + "type='" + type + "', " + "comparison='" + comparison + "', " + "value='" + value + "',\n");
     }
 
     /**
-     * Creates a new Modifier with the specified value but no
+     * Creates a new Modifier with the specified type but no
      * comparison or value.
      */
     public Modifier(String value) {
-	this.value = value;
+	this.type = type;
+	//System.err.println("Made new modifier of type '" + type + "'\n");
     }
 
     /**
