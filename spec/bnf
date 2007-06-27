@@ -1,0 +1,21 @@
+$Id: bnf,v 1.1 2007-06-27 23:36:19 mike Exp $
+
+Sort of derived from http://www.loc.gov/standards/sru/cql/
+
+cqlQuery ::= prefixAssignment cqlQuery | scopedClause
+prefixAssignment ::= '>' prefix '=' uri | '>' uri
+scopedClause ::= scopedClause booleanGroup searchClause | searchClause
+booleanGroup ::= boolean [modifierList]
+boolean ::= 'and' | 'or' | 'not' | 'prox'
+searchClause ::= '(' cqlQuery ')'
+	       | index relation searchTerm
+	       | searchTerm
+relation ::= comparitor [modifierList]
+comparitor ::= comparitorSymbol | namedComparitor
+comparitorSymbol ::= '=' | '>' | '<' | '>=' | '<=' | '<>'
+namedComparitor ::= identifier
+modifierList ::= modifierList modifier | modifier
+modifier ::= '/' modifierName [comparitorSymbol modifierValue]
+prefix, uri, modifierName, modifierValue, searchTerm, index ::= term
+term ::= identifier | 'and' | 'or' | 'not' | 'prox'
+identifier ::= charString1 | charString2
