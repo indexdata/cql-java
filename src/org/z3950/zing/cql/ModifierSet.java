@@ -1,32 +1,32 @@
-// $Id: ModifierSet.java,v 1.8 2007-06-06 12:22:01 mike Exp $
+// $Id: ModifierSet.java,v 1.9 2007-06-27 17:01:38 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
 import java.lang.StringBuffer;
 
 /**
- * Represents a base String and a set of modifier Strings.
+ * Represents a base String and a set of Modifiers.
  * <P>
  * This class is used as a workhorse delegate by both CQLRelation and
  * CQLProxNode - two functionally very separate classes that happen to
  * require similar data structures and functionality.
  * <P>
  * A ModifierSet consists of a ``base'' string together with a set of
- * zero or more <I>type</I>=<I>value</I> pairs, where both type and
- * value are strings.  Types may be null, values may not.
+ * zero or more <I>type</I> <I>comparison</I> <I>value</I> pairs,
+ * where type, comparison and value are all strings.
  *
- * @version $Id: ModifierSet.java,v 1.8 2007-06-06 12:22:01 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.9 2007-06-27 17:01:38 mike Exp $
  */
 public class ModifierSet {
     String base;
-    Vector<Vector> modifiers;
+    Vector<Modifier> modifiers;
 
     /**
      * Creates a new ModifierSet with the specified base.
      */
     public ModifierSet(String base) {
 	this.base = base;
-	modifiers = new Vector<Vector>();
+	modifiers = new Vector<Modifier>();
     }
 
     /**
@@ -41,9 +41,8 @@ public class ModifierSet {
      * <TT>value</TT> to a ModifierSet.
      */
     public void addModifier(String type, String value) {
-	Vector<String> modifier = new Vector<String>();
-	modifier.add(type);
-	modifier.add(value);
+	// ### Need to have comparison passed in
+	Modifier modifier = new Modifier(type, null, value);
 	modifiers.add(modifier);
     }
 
@@ -54,9 +53,9 @@ public class ModifierSet {
     public String modifier(String type) {
 	int n = modifiers.size();
 	for (int i = 0; i < n; i++) {
-	    Vector pair = (Vector) modifiers.get(i);
-	    if (pair.get(0).equals(type))
-		return (String) pair.get(1);
+	    Modifier mod = modifiers.get(i);
+	    if (mod.type.equals(type))
+		return mod.value;
 	}
 	return null;
     }
@@ -64,40 +63,21 @@ public class ModifierSet {
     /**
      * Returns an array of the modifiers in a ModifierSet.
      * @return
-     *	An array of modifiers, each represented by a two-element
-     *	<TT>Vector</TT>, in which element 0 is the modifier type and
-     *	element 1 is the associated value.
+     *	An array of Modifiers.
      */
-    public Vector[] getModifiers() {
-	int n = modifiers.size();
-	Vector[] res = new Vector[n];
-	for (int i = 0; i < n; i++) {
-	    res[i] = (Vector) modifiers.get(i);
-	}
-
-	return res;
+    public Vector<Modifier> getModifiers() {
+	return modifiers;
     }
 
     public String toXCQL(int level, String topLevelElement) {
 	StringBuffer buf = new StringBuffer();
-	buf.append (Utils.indent(level) + "<" + topLevelElement + ">\n" +
-		    Utils.indent(level+1) + "<value>" + Utils.xq(base) +
-		    "</value>\n");
-	Vector[] mods = getModifiers();
-	if (mods.length > 0) {
+	buf.append(Utils.indent(level) + "<" + topLevelElement + ">\n");
+	buf.append(Utils.indent(level+1) +
+		   "<value>" + Utils.xq(base) + "</value>\n");
+	if (modifiers.size() > 0) {
 	    buf.append(Utils.indent(level+1) + "<modifiers>\n");
-	    for (int i = 0; i < mods.length; i++) {
-		Vector modifier = mods[i];
-		buf.append(Utils.indent(level+2)).
-		    append("<modifier>");
-		if (modifier.get(0) != null)
-		    buf.append("<type>").
-			append(Utils.xq((String) modifier.get(0))).
-			append("</type>");
-		buf.append("<value>").
-		    append(Utils.xq((String) modifier.get(1))).
-		    append("</value>");
-		buf.append("</modifier>\n");
+	    for (int i = 0; i < modifiers.size(); i++) {
+		buf.append(modifiers.get(i).toXCQL(level+2, "relation"));
 	    }
 	    buf.append(Utils.indent(level+1) + "</modifiers>\n");
 	}
@@ -107,9 +87,8 @@ public class ModifierSet {
 
     public String toCQL() {
 	StringBuffer buf = new StringBuffer(base);
-	Vector[] mods = getModifiers();
-	for (int i = 0; i < mods.length; i++) {
-	    buf.append("/").append(mods[i].get(1));
+	for (int i = 0; i < modifiers.size(); i++) {
+	    buf.append("/" + modifiers.get(i).toCQL());
 	}
 
 	return buf.toString();
