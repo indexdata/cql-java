@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
+// $Id: CQLTermNode.java,v 1.24 2007-06-27 17:05:05 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have a qualifier without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.23 2007-06-06 12:22:01 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.24 2007-06-27 17:05:05 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String qualifier;
@@ -109,11 +109,12 @@ public class CQLTermNode extends CQLNode {
 	    throw new UnknownRelationException(rel);
 	attrs.add(attr);
 
-	String[] mods = relation.getModifiers();
-	for (int i = 0; i < mods.length; i++) {
-	    attr = config.getProperty("relationModifier." + mods[i]);
+	Vector<Modifier> mods = relation.getModifiers();
+	for (int i = 0; i < mods.size(); i++) {
+	    String type = mods.get(i).type;
+	    attr = config.getProperty("relationModifier." + type);
 	    if (attr == null)
-		throw new UnknownRelationModifierException(mods[i]);
+		throw new UnknownRelationModifierException(type);
 	    attrs.add(attr);
 	}
 
