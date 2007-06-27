@@ -8,7 +8,9 @@
       <relation>
         <value>any</value>
         <modifiers>
-          <modifier><value>stem</value></modifier>
+          <modifier>
+            <type>stem</type>
+          </modifier>
         </modifiers>
       </relation>
       <term>fish dog</term>

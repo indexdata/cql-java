@@ -3,8 +3,12 @@
   <relation>
     <value>all</value>
     <modifiers>
-      <modifier><value>stem</value></modifier>
-      <modifier><value>fuzzy</value></modifier>
+      <modifier>
+        <type>stem</type>
+      </modifier>
+      <modifier>
+        <type>fuzzy</type>
+      </modifier>
     </modifiers>
   </relation>
   <term>fish chips</term>
