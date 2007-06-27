@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.24 2007-06-27 17:05:05 mike Exp $
+// $Id: CQLTermNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,40 +8,41 @@ import java.util.Vector;
 /**
  * Represents a terminal node in a CQL parse-tree.
  * A term node consists of the term String itself, together with,
- * optionally, a qualifier string and a relation.  Neither or both of
- * these must be provided - you can't have a qualifier without a
+ * optionally, an index string and a relation.  Neither or both of
+ * these must be provided - you can't have an index without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.24 2007-06-27 17:05:05 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
-    private String qualifier;
+    private String index;
     private CQLRelation relation;
     private String term;
 
     /**
-     * Creates a new term node with the specified <TT>qualifier</TT>,
+     * Creates a new term node with the specified <TT>index</TT>,
      * <TT>relation</TT> and <TT>term</TT>.  The first two may be
      * <TT>null</TT>, but the <TT>term</TT> may not.
      */
-    public CQLTermNode(String qualifier, CQLRelation relation, String term) {
-	this.qualifier = qualifier;
+    public CQLTermNode(String index, CQLRelation relation, String term) {
+	this.index = index;
 	this.relation = relation;
 	this.term = term;
     }
 
-    public String getQualifier() { return qualifier; }
+    public String getIndex() { return index; }
+    public String getQualifier() { return getIndex(); } // for legacy applications
     public CQLRelation getRelation() { return relation; }
     public String getTerm() { return term; }
 
-    private static boolean isResultSetQualifier(String qual) {
+    private static boolean isResultSetIndex(String qual) {
 	return (qual.equals("srw.resultSet") ||
 		qual.equals("srw.resultSetId") ||
 		qual.equals("srw.resultSetName"));
     }
 
     public String getResultSetName() {
-	if (isResultSetQualifier(qualifier))
+	if (isResultSetIndex(index))
 	    return term;
 	else
 	    return null;
@@ -50,21 +51,21 @@ public class CQLTermNode extends CQLNode {
     public String toXCQL(int level, Vector prefixes) {
 	return (indent(level) + "<searchClause>\n" +
 		renderPrefixes(level+1, prefixes) +
-		indent(level+1) + "<index>" + xq(qualifier) + "</index>\n" +
+		indent(level+1) + "<index>" + xq(index) + "</index>\n" +
 		relation.toXCQL(level+1, new Vector<String>()) +
 		indent(level+1) + "<term>" + xq(term) + "</term>\n" +
 		indent(level) + "</searchClause>\n");
     }
 
     public String toCQL() {
-	String quotedQualifier = maybeQuote(qualifier);
+	String quotedIndex = maybeQuote(index);
 	String quotedTerm = maybeQuote(term);
 	String res = quotedTerm;
 
-	if (qualifier != null &&
-	    !qualifier.equalsIgnoreCase("srw.serverChoice")) {
+	if (index != null &&
+	    !index.equalsIgnoreCase("srw.serverChoice")) {
 	    // ### We don't always need spaces around `relation'.
-	    res = quotedQualifier + " " + relation.toCQL() + " " + quotedTerm;
+	    res = quotedIndex + " " + relation.toCQL() + " " + quotedTerm;
 	}
 
 	return res;
@@ -88,9 +89,9 @@ public class CQLTermNode extends CQLNode {
 	if (attr != null)
 	    attrs.add(attr);
 
-	attr = config.getProperty("qualifier." + qualifier);
+	attr = config.getProperty("index." + index);
 	if (attr == null)
-	    throw new UnknownQualifierException(qualifier);
+	    throw new UnknownQualifierException(index);
 	attrs.add(attr);
 
 	String rel = relation.getBase();
@@ -149,7 +150,7 @@ public class CQLTermNode extends CQLNode {
     }
 
     public String toPQF(Properties config) throws PQFTranslationException {
-	if (isResultSetQualifier(qualifier)) {
+	if (isResultSetIndex(index)) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
 	    // There's parallel code in toType1BER()
 	    return "@set " + maybeQuote(term);
@@ -195,7 +196,7 @@ public class CQLTermNode extends CQLNode {
     }
 
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
-	if (isResultSetQualifier(qualifier)) {
+	if (isResultSetIndex(index)) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
 	    // There's parallel code in toPQF()
 	    byte[] operand = new byte[term.length()+100];

@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.6 2007-06-06 15:13:41 mike Exp $
+// $Id: CQLGenerator.java,v 1.7 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.6 2007-06-06 15:13:41 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.7 2007-06-27 22:39:55 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -64,7 +64,7 @@ public class CQLGenerator {
      *	  [mandatory] A floating-point number between 0.0 and 1.0,
      *	  indicating the probability for each <TT>search-clause</TT>
      *	  node that it will be expanded into a full sub-query rather
-     *	  than a <TT>[ qualifier relation ] term</TT> triplet.
+     *	  than an <TT>[ index relation ] term</TT> triplet.
      *	  <P>
      *   </DD>
      *	 <DT><TT>proxOp</TT></DT>
@@ -155,33 +155,33 @@ public class CQLGenerator {
 	    return generate_cql_query();
 	}
 
-	// ### Should sometimes generate qualifier/relation-free terms
-	String qualifier = generate_qualifier();
+	// ### Should sometimes generate index/relation-free terms
+	String index = generate_index();
 	CQLRelation relation = generate_relation();
 	String term = generate_term();
 
-	return new CQLTermNode(qualifier, relation, term);
+	return new CQLTermNode(index, relation, term);
     }
 
     // ### Should probably be more configurable
-    private String generate_qualifier() {
-	String qualifier = "";	// shut up compiler warning
+    private String generate_index() {
+	String index = "";	// shut up compiler warning
 	if (rnd.nextInt(2) == 0) {
 	    switch (rnd.nextInt(3)) {
-	    case 0: qualifier = "dc.author"; break;
-	    case 1: qualifier = "dc.title"; break;
-	    case 2: qualifier = "dc.subject"; break;
+	    case 0: index = "dc.author"; break;
+	    case 1: index = "dc.title"; break;
+	    case 2: index = "dc.subject"; break;
 	    }
 	} else {
 	    switch (rnd.nextInt(4)) {
-	    case 0: qualifier = "bath.author"; break;
-	    case 1: qualifier = "bath.title"; break;
-	    case 2: qualifier = "bath.subject"; break;
-	    case 3: qualifier = "foo>bar"; break;
+	    case 0: index = "bath.author"; break;
+	    case 1: index = "bath.title"; break;
+	    case 2: index = "bath.subject"; break;
+	    case 3: index = "foo>bar"; break;
 	    }
 	}
 
-	return qualifier;
+	return index;
     }
 
     private CQLRelation generate_relation() throws MissingParameterException {

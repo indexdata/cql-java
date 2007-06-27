@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.24 2007-06-06 13:19:28 mike Exp $
+// $Id: CQLNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.24 2007-06-06 13:19:28 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -81,7 +81,7 @@ public abstract class CQLNode {
      * <P>
      * @param config
      *	A <TT>Properties</TT> object containing configuration
-     *	information that specifies the mapping from CQL qualifiers,
+     *	information that specifies the mapping from CQL indexes,
      *	relations, etc. to Type-1 attributes.  The mapping
      *	specification is described in the CQL-Java distribution's
      *	sample PQF-mapping configuration file,
@@ -113,7 +113,7 @@ public abstract class CQLNode {
      *
      * @param config
      *	A <TT>Properties</TT> object containing configuration
-     *	information that specifies the mapping from CQL qualifiers,
+     *	information that specifies the mapping from CQL indexes,
      *	relations, etc. to Type-1 attributes.  The mapping
      *	specification is described in the CQL-Java distribution's
      *	sample PQF-mapping configuration file,

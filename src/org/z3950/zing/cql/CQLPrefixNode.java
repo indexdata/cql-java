@@ -1,4 +1,4 @@
-// $Id: CQLPrefixNode.java,v 1.7 2007-06-26 16:36:50 mike Exp $
+// $Id: CQLPrefixNode.java,v 1.8 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.7 2007-06-26 16:36:50 mike Exp $
+ * @version	$Id: CQLPrefixNode.java,v 1.8 2007-06-27 22:39:55 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
     /**
@@ -25,7 +25,7 @@ public class CQLPrefixNode extends CQLNode {
 
     /**
      * Creates a new CQLPrefixNode inducing a mapping from the
-     * specified qualifier-set name to the specified identifier across
+     * specified index-set name to the specified identifier across
      * the specified subtree.
      */
     public CQLPrefixNode(String name, String identifier, CQLNode subtree) {
@@ -61,7 +61,7 @@ public class CQLPrefixNode extends CQLNode {
 
     public String toPQF(Properties config) throws PQFTranslationException {
 	// Prefixes and their identifiers don't actually play any role
-	// in PQF translation, since the meanings of the qualifiers,
+	// in PQF translation, since the meanings of the indexes,
 	// including their prefixes if any, are instead wired into
 	// `config'.
 	return subtree.toPQF(config);

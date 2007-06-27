@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.26 2007-06-27 22:16:23 mike Exp $
+// $Id: CQLParser.java,v 1.27 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.26 2007-06-27 22:16:23 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.27 2007-06-27 22:39:55 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -55,30 +55,30 @@ public class CQLParser {
 	return root;
     }
 
-    private CQLNode parseQuery(String qualifier, CQLRelation relation)
+    private CQLNode parseQuery(String index, CQLRelation relation)
 	throws CQLParseException, IOException {
 	debug("in parseQuery()");
 
-	CQLNode term = parseTerm(qualifier, relation);
+	CQLNode term = parseTerm(index, relation);
 	while (lexer.ttype != lexer.TT_EOF &&
 	       lexer.ttype != ')') {
 	    if (lexer.ttype == lexer.TT_AND) {
 		match(lexer.TT_AND);
-		CQLNode term2 = parseTerm(qualifier, relation);
+		CQLNode term2 = parseTerm(index, relation);
 		term = new CQLAndNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_OR) {
 		match(lexer.TT_OR);
-		CQLNode term2 = parseTerm(qualifier, relation);
+		CQLNode term2 = parseTerm(index, relation);
 		term = new CQLOrNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_NOT) {
 		match(lexer.TT_NOT);
-		CQLNode term2 = parseTerm(qualifier, relation);
+		CQLNode term2 = parseTerm(index, relation);
 		term = new CQLNotNode(term, term2);
 	    } else if (lexer.ttype == lexer.TT_PROX) {
 		match(lexer.TT_PROX);
 		CQLProxNode proxnode = new CQLProxNode(term);
 		gatherProxParameters(proxnode);
-		CQLNode term2 = parseTerm(qualifier, relation);
+		CQLNode term2 = parseTerm(index, relation);
 		proxnode.addSecondSubterm(term2);
 		term = (CQLNode) proxnode;
 	    } else {
@@ -91,7 +91,7 @@ public class CQLParser {
 	return term;
     }
 
-    private CQLNode parseTerm(String qualifier, CQLRelation relation)
+    private CQLNode parseTerm(String index, CQLRelation relation)
 	throws CQLParseException, IOException {
 	debug("in parseTerm()");
 
@@ -100,20 +100,20 @@ public class CQLParser {
 	    if (lexer.ttype == '(') {
 		debug("parenthesised term");
 		match('(');
-		CQLNode expr = parseQuery(qualifier, relation);
+		CQLNode expr = parseQuery(index, relation);
 		match(')');
 		return expr;
 	    } else if (lexer.ttype == '>') {
 		match('>');
-		return parsePrefix(qualifier, relation);
+		return parsePrefix(index, relation);
 	    }
 
 	    debug("non-parenthesised term");
-	    word = matchSymbol("qualifier or term");
+	    word = matchSymbol("index or term");
 	    if (!isBaseRelation())
 		break;
 
-	    qualifier = word;
+	    index = word;
 	    relation = new CQLRelation(lexer.ttype == lexer.TT_WORD ?
 				       lexer.sval :
 				       lexer.render(lexer.ttype, false));
@@ -138,16 +138,16 @@ public class CQLParser {
 		match(lexer.ttype);
 	    }
 
-	    debug("qualifier='" + qualifier + ", " +
+	    debug("index='" + index + ", " +
 		  "relation='" + relation.toCQL() + "'");
 	}
 
-	CQLTermNode node = new CQLTermNode(qualifier, relation, word);
+	CQLTermNode node = new CQLTermNode(index, relation, word);
 	debug("made term node " + node.toCQL());
 	return node;
     }
 
-    private CQLNode parsePrefix(String qualifier, CQLRelation relation)
+    private CQLNode parsePrefix(String index, CQLRelation relation)
 	throws CQLParseException, IOException {
 	debug("prefix mapping");
 
@@ -158,7 +158,7 @@ public class CQLParser {
 	    name = identifier;
 	    identifier = matchSymbol("prefix-identifer");
 	}
-	CQLNode term = parseQuery(qualifier, relation);
+	CQLNode term = parseQuery(index, relation);
 	return new CQLPrefixNode(name, identifier, term);
     }
 
@@ -277,7 +277,7 @@ public class CQLParser {
 	    lexer.ttype == '"' ||
 	    // The following is a complete list of keywords.  Because
 	    // they're listed here, they can be used unquoted as
-	    // qualifiers, terms, prefix names and prefix identifiers.
+	    // indexes, terms, prefix names and prefix identifiers.
 	    // ### Instead, we should ask the lexer whether what we
 	    // have is a keyword, and let the knowledge reside there.
 	    lexer.ttype == lexer.TT_AND ||
@@ -440,7 +440,7 @@ public class CQLParser {
 	    System.err.println("Can't render query: " + ex.getMessage());
 	    System.exit(5);
 	} catch (UnknownQualifierException ex) {
-	    System.err.println("Unknown qualifier: " + ex.getMessage());
+	    System.err.println("Unknown index: " + ex.getMessage());
 	    System.exit(6);
 	} catch (UnknownRelationException ex) {
 	    System.err.println("Unknown relation: " + ex.getMessage());

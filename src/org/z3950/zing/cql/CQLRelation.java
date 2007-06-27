@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.14 2007-06-27 22:14:46 mike Exp $
+// $Id: CQLRelation.java,v 1.15 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -6,9 +6,9 @@ import java.util.Properties;
 import java.lang.StringBuffer;
 
 /**
- * Represents a relation between a CQL qualifier and term.
+ * Represents a relation between a CQL index and term.
  *
- * @version	$Id: CQLRelation.java,v 1.14 2007-06-27 22:14:46 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.15 2007-06-27 22:39:55 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
