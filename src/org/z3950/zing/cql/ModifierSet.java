@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.9 2007-06-27 17:01:38 mike Exp $
+// $Id: ModifierSet.java,v 1.10 2007-06-27 22:14:03 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.lang.StringBuffer;
  * zero or more <I>type</I> <I>comparison</I> <I>value</I> pairs,
  * where type, comparison and value are all strings.
  *
- * @version $Id: ModifierSet.java,v 1.9 2007-06-27 17:01:38 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.10 2007-06-27 22:14:03 mike Exp $
  */
 public class ModifierSet {
     String base;
@@ -37,12 +37,12 @@ public class ModifierSet {
     }
 
     /**
-     * Adds a modifier of the specified <TT>type</TT> and
+     * Adds a modifier of the specified <TT>type</TT>, <TT>comparison</TT> and
      * <TT>value</TT> to a ModifierSet.
      */
-    public void addModifier(String type, String value) {
+    public void addModifier(String type, String comparison, String value) {
 	// ### Need to have comparison passed in
-	Modifier modifier = new Modifier(type, null, value);
+	Modifier modifier = new Modifier(type, comparison, value);
 	modifiers.add(modifier);
     }
 
@@ -96,13 +96,13 @@ public class ModifierSet {
 
     public static void main(String[] args) {
 	if (args.length < 1) {
-	    System.err.println("Usage: ModifierSet <base> [<type> <name>]...");
+	    System.err.println("Usage: ModifierSet <base> [<type> <comparison> <name>]...");
 	    System.exit(1);
 	}
 
 	ModifierSet res = new ModifierSet(args[0]);
-	for (int i = 1; i < args.length; i += 2) {
-	    res.addModifier(args[i], args[i+1]);
+	for (int i = 1; i < args.length; i += 3) {
+	    res.addModifier(args[i], args[i+1], args[i+2]);
 	}
 
 	System.out.println(res.toCQL());

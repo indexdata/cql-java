@@ -1,4 +1,4 @@
-// $Id: CQLProxNode.java,v 1.8 2007-06-27 17:02:01 mike Exp $
+// $Id: CQLProxNode.java,v 1.9 2007-06-27 22:15:04 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -10,7 +10,7 @@ import java.util.Vector;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.8 2007-06-27 17:02:01 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.9 2007-06-27 22:15:04 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     ModifierSet ms;
@@ -40,18 +40,11 @@ public class CQLProxNode extends CQLBooleanNode {
     }
 
     /**
-     * Adds a modifier of the specified <TT>type</TT> and
-     * <TT>value</TT> to a proximity node.  Valid types are
-     * <TT>relation</TT>, <TT>distance</TT>, <TT>unit</TT> and
-     * <TT>ordering</TT>.
-     * <P>
-     * For information on the semantics of these paramaters, see
-     * <A href="http://zing.z3950.org/cql/intro.html#3.1"
-     *	>section 3.1 (Proximity)</A> of
-     * <I>A Gentle Introduction to CQL</I></A>.
+     * Adds a modifier of the specified <TT>type</TT>,
+     * <TT>comparison</TT> and <TT>value</TT> to a proximity node.
      */
-    public void addModifier(String type, String value) {
-	ms.addModifier(type, value);
+    public void addModifier(String type, String comparison, String value) {
+	ms.addModifier(type, comparison, value);
     }
 
     /**
