@@ -1,4 +1,4 @@
-// $Id: UnknownIndexException.java,v 1.1 2007-06-27 22:41:41 mike Exp $
+// $Id: UnknownIndexException.java,v 1.2 2007-06-27 22:44:40 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.Exception;
@@ -12,15 +12,15 @@ import java.lang.Exception;
  * that, because the PQF configuration doesn't know about a relation,
  * we throw one of these babies.
  *
- * @version $Id: UnknownIndexException.java,v 1.1 2007-06-27 22:41:41 mike Exp $
+ * @version $Id: UnknownIndexException.java,v 1.2 2007-06-27 22:44:40 mike Exp $
  */
-public class UnknownQualifierException extends PQFTranslationException {
+public class UnknownIndexException extends PQFTranslationException {
     /**
-     * Creates a new <TT>UnknownQualifierException</TT>.
+     * Creates a new <TT>UnknownIndexException</TT>.
      * @param s
      *	The index for which there was no PQF configuration.
      */
-    public UnknownQualifierException(String s) {
+    public UnknownIndexException(String s) {
 	super(s);
     }
 }

@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
+// $Id: CQLTermNode.java,v 1.26 2007-06-27 22:44:40 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have an index without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.26 2007-06-27 22:44:40 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String index;
@@ -31,7 +31,6 @@ public class CQLTermNode extends CQLNode {
     }
 
     public String getIndex() { return index; }
-    public String getQualifier() { return getIndex(); } // for legacy applications
     public CQLRelation getRelation() { return relation; }
     public String getTerm() { return term; }
 
@@ -91,7 +90,7 @@ public class CQLTermNode extends CQLNode {
 
 	attr = config.getProperty("index." + index);
 	if (attr == null)
-	    throw new UnknownQualifierException(index);
+	    throw new UnknownIndexException(index);
 	attrs.add(attr);
 
 	String rel = relation.getBase();
