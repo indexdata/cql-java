@@ -1,4 +1,4 @@
-$Id: Changes,v 1.35 2007-06-27 22:16:08 mike Exp $
+$Id: Changes,v 1.36 2007-06-27 22:44:13 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
@@ -12,6 +12,12 @@ See the bottom of this file for a list of things still to do.
 	  numbering increases to the next major version.
 	- "Qualifiers" renamed as "indexes" throughout, to match what
 	  is now universal CQL terminology.
+
+	PLEASE NOTE THE FOLLOWING INCOMPATIBLE API CHANGES
+	- The class UnknownQualifierException is replaced by
+	  UnknownIndexException.
+	- The CQLTermNode method getQualifier() is replaced by
+	  getIndex().
 
 0.7  Thu Sep  4 22:51:11 2003
 	- Support for profiled relations and relation modifiers:
