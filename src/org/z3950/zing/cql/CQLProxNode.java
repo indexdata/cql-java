@@ -1,4 +1,4 @@
-// $Id: CQLProxNode.java,v 1.7 2002-12-05 17:14:52 mike Exp $
+// $Id: CQLProxNode.java,v 1.8 2007-06-27 17:02:01 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -10,7 +10,7 @@ import java.util.Vector;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.7 2002-12-05 17:14:52 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.8 2007-06-27 17:02:01 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     ModifierSet ms;
@@ -58,12 +58,9 @@ public class CQLProxNode extends CQLBooleanNode {
      * Returns an array of the modifiers associated with a proximity
      * node.
      * @return
-     *	An array of modifiers, each represented by a two-element
-     *	<TT>Vector</TT>, in which element 0 is the modifier type
-     *	(e.g. <TT>distance</TT> or <TT>ordering</TT>) and element 1 is
-     *	the associated value (e.g. <TT>3</TT> or <TT>unordered</TT>).
+     *	An array of Modifier objects.
      */
-    public Vector[] getModifiers() {
+    public Vector<Modifier> getModifiers() {
 	return ms.getModifiers();
     }
 

@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.11 2003-09-04 21:56:46 mike Exp $
+// $Id: CQLRelation.java,v 1.12 2007-06-27 17:03:17 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL qualifier and term.
  *
- * @version	$Id: CQLRelation.java,v 1.11 2003-09-04 21:56:46 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.12 2007-06-27 17:03:17 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -47,17 +47,10 @@ public class CQLRelation extends CQLNode {
     /**
      * Returns an array of the modifiers associated with a CQLRelation.
      * @return
-     *	An array of zero or more <TT>String</TT>s, each representing a
-     *	modifier associated with the specified CQLRelation.
+     *	An array of Modifier objects.
      */
-    public String[] getModifiers() {
-	Vector[] v = ms.getModifiers();
-	int n = v.length;
-	String[] s = new String[n];
-	for (int i = 0; i < n; i++) {
-	    s[i] = (String) v[i].get(1);
-	}
-	return s;
+    public Vector<Modifier> getModifiers() {
+	return ms.getModifiers();
     }
 
     public String toXCQL(int level, Vector prefixes) {
