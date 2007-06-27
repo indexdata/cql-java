@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.25 2007-06-26 16:43:41 mike Exp $
+// $Id: CQLParser.java,v 1.26 2007-06-27 22:16:23 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.25 2007-06-26 16:43:41 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.26 2007-06-27 22:16:23 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -188,7 +188,7 @@ public class CQLParser {
 	if (!isProxRelation())
 	    throw new CQLParseException("expected proximity relation, got " +
 					lexer.render());
-	node.addModifier("relation", lexer.render(lexer.ttype, false));
+	node.addModifier("relation", null, lexer.render(lexer.ttype, false));
 	match(lexer.ttype);
 	debug("gPR matched " + lexer.render(lexer.ttype, false));
     }
@@ -198,7 +198,7 @@ public class CQLParser {
 	if (lexer.ttype != lexer.TT_NUMBER)
 	    throw new CQLParseException("expected proximity distance, got " +
 					lexer.render());
-	node.addModifier("distance", lexer.render(lexer.ttype, false));
+	node.addModifier("distance", null, lexer.render(lexer.ttype, false));
 	match(lexer.ttype);
 	debug("gPD matched " + lexer.render(lexer.ttype, false));
     }
@@ -211,7 +211,7 @@ public class CQLParser {
 	    lexer.ttype != lexer.TT_ELEMENT)
 	    throw new CQLParseException("expected proximity unit, got " +
 					lexer.render());
-	node.addModifier("unit", lexer.render());
+	node.addModifier("unit", null, lexer.render());
 	match(lexer.ttype);
     }
 
@@ -221,7 +221,7 @@ public class CQLParser {
 	    lexer.ttype != lexer.TT_UNORDERED)
 	    throw new CQLParseException("expected proximity ordering, got " +
 					lexer.render());
-	node.addModifier("ordering", lexer.render());
+	node.addModifier("ordering", null, lexer.render());
 	match(lexer.ttype);
     }
 
