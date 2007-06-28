@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.9 2007-06-07 16:15:22 mike Exp $
+// $Id: CQLLexer.java,v 1.10 2007-06-28 00:00:31 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -23,20 +23,12 @@ class CQLLexer extends StreamTokenizer {
     static int TT_OR        = 1004;	// The "or" boolean
     static int TT_NOT       = 1005;	// The "not" boolean
     static int TT_PROX      = 1006;	// The "prox" boolean
-    static int TT_ANY       = 1007;	// The "any" relation
-    static int TT_ALL       = 1008;	// The "all" relation
-    static int TT_EXACT     = 1009;	// The "exact" relation
     static int TT_pWORD     = 1010;	// The "word" proximity unit
     static int TT_SENTENCE  = 1011;	// The "sentence" proximity unit
     static int TT_PARAGRAPH = 1012;	// The "paragraph" proximity unit
     static int TT_ELEMENT   = 1013;	// The "element" proximity unit
     static int TT_ORDERED   = 1014;	// The "ordered" proximity ordering
     static int TT_UNORDERED = 1015;	// The "unordered" proximity ordering
-    static int TT_RELEVANT  = 1016;	// The "relevant" relation modifier
-    static int TT_FUZZY     = 1017;	// The "fuzzy" relation modifier
-    static int TT_STEM      = 1018;	// The "stem" relation modifier
-    static int TT_SCR       = 1019;	// The server choice relation
-    static int TT_PHONETIC  = 1020;	// The "phonetic" relation modifier
 
     // Support for keywords.  It would be nice to compile this linear
     // list into a Hashtable, but it's hard to store ints as hash
@@ -57,20 +49,12 @@ class CQLLexer extends StreamTokenizer {
 	new Keyword(TT_OR,  "or"),
 	new Keyword(TT_NOT, "not"),
 	new Keyword(TT_PROX, "prox"),
-	new Keyword(TT_ANY, "any"),
-	new Keyword(TT_ALL, "all"),
-	new Keyword(TT_EXACT, "exact"),
 	new Keyword(TT_pWORD, "word"),
 	new Keyword(TT_SENTENCE, "sentence"),
 	new Keyword(TT_PARAGRAPH, "paragraph"),
 	new Keyword(TT_ELEMENT, "element"),
 	new Keyword(TT_ORDERED, "ordered"),
 	new Keyword(TT_UNORDERED, "unordered"),
-	new Keyword(TT_RELEVANT, "relevant"),
-	new Keyword(TT_FUZZY, "fuzzy"),
-	new Keyword(TT_STEM, "stem"),
-	new Keyword(TT_SCR, "scr"),
-	new Keyword(TT_PHONETIC, "phonetic"),
     };
 
     // For halfDecentPushBack() and the code at the top of nextToken()
