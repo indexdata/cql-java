@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.15 2007-06-27 22:39:55 mike Exp $
+// $Id: CQLRelation.java,v 1.16 2007-06-28 00:23:43 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL index and term.
  *
- * @version	$Id: CQLRelation.java,v 1.15 2007-06-27 22:39:55 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.16 2007-06-28 00:23:43 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -40,8 +40,15 @@ public class CQLRelation extends CQLNode {
      * whole, these modifiers have a meaningful interpretation only
      * for the text relations.
      */
-    public void addModifier(String modifier) {
-	ms.addModifier(modifier, null, null);
+    public void addModifier(String type) {
+	ms.addModifier(type, null, null);
+    }
+
+    /**
+     * Adds a new complex relation modifier to the specified CQLRelation.
+     */
+    public void addModifier(String type, String comparison, String value) {
+	ms.addModifier(type, comparison, value);
     }
 
     /**
