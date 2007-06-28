@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.10 2007-06-27 22:14:03 mike Exp $
+// $Id: ModifierSet.java,v 1.11 2007-06-28 00:23:17 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.lang.StringBuffer;
  * zero or more <I>type</I> <I>comparison</I> <I>value</I> pairs,
  * where type, comparison and value are all strings.
  *
- * @version $Id: ModifierSet.java,v 1.10 2007-06-27 22:14:03 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.11 2007-06-28 00:23:17 mike Exp $
  */
 public class ModifierSet {
     String base;
@@ -77,7 +77,7 @@ public class ModifierSet {
 	if (modifiers.size() > 0) {
 	    buf.append(Utils.indent(level+1) + "<modifiers>\n");
 	    for (int i = 0; i < modifiers.size(); i++) {
-		buf.append(modifiers.get(i).toXCQL(level+2, "relation"));
+		buf.append(modifiers.get(i).toXCQL(level+2, "comparison"));
 	    }
 	    buf.append(Utils.indent(level+1) + "</modifiers>\n");
 	}
