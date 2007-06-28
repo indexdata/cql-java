@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.29 2007-06-28 00:00:53 mike Exp $
+// $Id: CQLParser.java,v 1.30 2007-06-28 00:24:48 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.29 2007-06-28 00:00:53 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.30 2007-06-28 00:24:48 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -124,8 +124,25 @@ public class CQLParser {
 		if (lexer.ttype != lexer.TT_WORD)
 		    throw new CQLParseException("expected relation modifier, "
 						+ "got " + lexer.render());
-		relation.addModifier(lexer.sval.toLowerCase());
+		String type = lexer.sval.toLowerCase();
 		match(lexer.ttype);
+		if (!isRelation()) {
+		    // It's a simple modifier consisting of type only
+		    relation.addModifier(type);
+		} else {
+		    // It's a complex modifier of the form type=value
+		    String comparision = lexer.render(lexer.ttype, false);
+		    match(lexer.ttype);
+
+		    // Yuck
+		    String value = lexer.ttype == lexer.TT_WORD ? lexer.sval :
+			(double) lexer.nval == (int) lexer.nval ?
+			new Integer((int) lexer.nval).toString() :
+			new Double((double) lexer.nval).toString();
+
+		    matchSymbol("relation-modifier value");
+		    relation.addModifier(type, comparision, value);
+		}
 	    }
 
 	    debug("index='" + index + ", " +
