@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.28 2007-06-27 22:44:40 mike Exp $
+// $Id: CQLParser.java,v 1.29 2007-06-28 00:00:53 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.28 2007-06-27 22:44:40 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.29 2007-06-28 00:00:53 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -110,7 +110,7 @@ public class CQLParser {
 
 	    debug("non-parenthesised term");
 	    word = matchSymbol("index or term");
-	    if (!isBaseRelation())
+	    if (!isRelation() && lexer.ttype != lexer.TT_WORD)
 		break;
 
 	    index = word;
@@ -121,19 +121,9 @@ public class CQLParser {
 
 	    while (lexer.ttype == '/') {
 		match('/');
-		if (lexer.ttype != lexer.TT_RELEVANT &&
-		    lexer.ttype != lexer.TT_FUZZY &&
-		    lexer.ttype != lexer.TT_STEM &&
-		    lexer.ttype != lexer.TT_PHONETIC &&
-		    lexer.ttype != lexer.TT_WORD)
+		if (lexer.ttype != lexer.TT_WORD)
 		    throw new CQLParseException("expected relation modifier, "
 						+ "got " + lexer.render());
-		if (lexer.ttype == lexer.TT_WORD &&
-		    lexer.sval.indexOf('.') == -1)
-		    throw new CQLParseException("unknown first-class " +
-						"relation modifier: " +
-						lexer.sval);
-
 		relation.addModifier(lexer.sval.toLowerCase());
 		match(lexer.ttype);
 	    }
@@ -185,7 +175,7 @@ public class CQLParser {
 
     private void gatherProxRelation(CQLProxNode node)
 	throws CQLParseException, IOException {
-	if (!isProxRelation())
+	if (!isRelation())
 	    throw new CQLParseException("expected proximity relation, got " +
 					lexer.render());
 	node.addModifier("relation", null, lexer.render(lexer.ttype, false));
@@ -225,27 +215,9 @@ public class CQLParser {
 	match(lexer.ttype);
     }
 
-    private boolean isBaseRelation()
-	throws CQLParseException {
-	debug("isBaseRelation: checking ttype=" + lexer.ttype +
-	      " (" + lexer.render() + ")");
-
-	if (lexer.ttype == lexer.TT_WORD &&
-	    lexer.sval.indexOf('.') == -1)
-	    throw new CQLParseException("unknown first-class relation: " +
-					lexer.sval);
-
-	return (isProxRelation() ||
-		lexer.ttype == lexer.TT_ANY ||
-		lexer.ttype == lexer.TT_ALL ||
-		lexer.ttype == lexer.TT_EXACT ||
-		lexer.ttype == lexer.TT_SCR ||
-		lexer.ttype == lexer.TT_WORD);
-    }
-
     // Checks for a relation that may be used inside a prox operator
-    private boolean isProxRelation() {
-	debug("isProxRelation: checking ttype=" + lexer.ttype +
+    private boolean isRelation() {
+	debug("isRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
 	return (lexer.ttype == '<' ||
 		lexer.ttype == '>' ||
@@ -284,20 +256,12 @@ public class CQLParser {
 	    lexer.ttype == lexer.TT_OR ||
 	    lexer.ttype == lexer.TT_NOT ||
 	    lexer.ttype == lexer.TT_PROX ||
-	    lexer.ttype == lexer.TT_ANY ||
-	    lexer.ttype == lexer.TT_ALL ||
-	    lexer.ttype == lexer.TT_EXACT ||
 	    lexer.ttype == lexer.TT_pWORD ||
 	    lexer.ttype == lexer.TT_SENTENCE ||
 	    lexer.ttype == lexer.TT_PARAGRAPH ||
 	    lexer.ttype == lexer.TT_ELEMENT ||
 	    lexer.ttype == lexer.TT_ORDERED ||
-	    lexer.ttype == lexer.TT_UNORDERED ||
-	    lexer.ttype == lexer.TT_RELEVANT ||
-	    lexer.ttype == lexer.TT_FUZZY ||
-	    lexer.ttype == lexer.TT_STEM ||
-	    lexer.ttype == lexer.TT_SCR ||
-	    lexer.ttype == lexer.TT_PHONETIC) {
+	    lexer.ttype == lexer.TT_UNORDERED) {
 	    String symbol = (lexer.ttype == lexer.TT_NUMBER) ?
 		lexer.render() : lexer.sval;
 	    match(lexer.ttype);
