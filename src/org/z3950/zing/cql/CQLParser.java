@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.31 2007-06-29 10:25:38 mike Exp $
+// $Id: CQLParser.java,v 1.32 2007-06-29 11:56:47 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.31 2007-06-29 10:25:38 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.32 2007-06-29 11:56:47 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -63,7 +63,8 @@ public class CQLParser {
 	while (lexer.ttype != lexer.TT_EOF && lexer.ttype != ')') {
 	    if (lexer.ttype == lexer.TT_AND ||
 		lexer.ttype == lexer.TT_OR ||
-		lexer.ttype == lexer.TT_NOT) {
+		lexer.ttype == lexer.TT_NOT ||
+		lexer.ttype == lexer.TT_PROX) {
 		int type = lexer.ttype;
 		String val = lexer.sval;
 		match(type);
@@ -71,7 +72,8 @@ public class CQLParser {
 		CQLNode term2 = parseTerm(index, relation);
 		term = ((type == lexer.TT_AND) ? new CQLAndNode(term, term2, ms) :
 			(type == lexer.TT_OR)  ? new CQLOrNode (term, term2, ms) :
-			                         new CQLNotNode(term, term2, ms));
+			(type == lexer.TT_NOT) ? new CQLNotNode(term, term2, ms) :
+			                         new CQLProxNode(term, term2, ms));
 	    } else if (lexer.ttype == lexer.TT_PROX) {
 		match(lexer.ttype);
 		CQLProxNode proxnode = new CQLProxNode(term);
@@ -108,14 +110,7 @@ public class CQLParser {
 		// It's a complex modifier of the form type=value
 		String comparision = lexer.render(lexer.ttype, false);
 		match(lexer.ttype);
-
-		// Yuck
-		String value = lexer.ttype == lexer.TT_WORD ? lexer.sval :
-		    (double) lexer.nval == (int) lexer.nval ?
-		    new Integer((int) lexer.nval).toString() :
-		    new Double((double) lexer.nval).toString();
-
-		matchSymbol("modifier value");
+		String value = matchSymbol("modifier value");
 		ms.addModifier(type, comparision, value);
 	    }
 	}
