@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.17 2007-06-29 10:23:02 mike Exp $
+// $Id: CQLRelation.java,v 1.18 2007-06-29 15:24:39 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL index and term.
  *
- * @version	$Id: CQLRelation.java,v 1.17 2007-06-29 10:23:02 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.18 2007-06-29 15:24:39 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -18,7 +18,7 @@ public class CQLRelation extends CQLNode {
      * Typical base relations include the usual six ordering relations
      * (<TT>&lt;=</TT>, <TT>&gt</TT>, <I>etc.</I>), the text
      * relations <TT>any</TT>, <TT>all</TT> and <TT>exact</TT>, the
-     * server-choice relation <TT>scr</TT> and profiled relations of
+     * old server-choice relation <TT>scr</TT> and profiled relations of
      * the form <TT><I>prefix</I>.<I>name</I></TT>.
      */
     // ### Seems wrong: a modifier set should not have a base, a
