@@ -1,0 +1,52 @@
+#!/usr/bin/perl -w
+
+# $Id: runcanon,v 1.1 2007-06-29 13:05:12 mike Exp $
+#
+# Tests that all sample queries can be rendered into idempotent
+# canoncial form.
+
+use IO::File;
+use strict;
+
+$ENV{CLASSPATH} .= ":../../lib/cql-java.jar";
+
+my($ntests, $ncorrect) = (0, 0);
+
+while (<sections/*>) {
+    my $sdir = $_;
+    s@sections/@@;
+    next if /^CVS$/ || /^10$/;
+    print "testing section $_ - ", read_file("$sdir/name"), "\n";
+
+    while (<$sdir/*.cql>) {
+	my $qfile = $_;
+	s@sections/([0-9]+/.*)\.cql@$1@;
+	my $query = read_file($qfile);
+	my $canonical = `CQLParser -c '$query'`;
+	chomp($canonical);
+	my $maybe = `CQLParser -c '$canonical'`;
+	chomp($maybe);
+	print "$query // $canonical ";
+	$ntests++;
+	if ($maybe eq $canonical) {
+	    $ncorrect++;
+	    print " OK\n";
+	} else {
+	    print "### $maybe\n";
+	}
+    }
+}
+
+print sprintf("%d of %d passed: %d%%\n",
+	      $ncorrect, $ntests, (100 * $ncorrect) / $ntests);
+
+sub read_file {
+    my($name) = @_;
+
+    $name = "<$name" if $name !~ /\|$/;
+    my $fh = new IO::File("$name")
+	or die "can't read '$name': $!";
+    my $contents = join('', <$fh>);
+    $fh->close();
+    return $contents;
+}
