@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: runtests,v 1.10 2007-06-21 14:54:32 mike Exp $
+# $Id: runtests,v 1.11 2007-06-29 11:47:25 mike Exp $
 
 use IO::File;
 use strict;
@@ -37,8 +37,7 @@ while (<sections/*>) {
 	    print "OK\n";
 	    $ncorrect++;
 	} else {
-	    print "\n    *** different XCQL output\n";
-	    print "=== correct ===\n$correct";
+	    print "\n    *** XCQL output differs from $afile\n";
 	    print "=== tested ===\n$tested";
 	    print "=== end ===\n";
 	}
