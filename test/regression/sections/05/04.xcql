@@ -2,7 +2,11 @@
   <boolean>
     <value>prox</value>
     <modifiers>
-      <modifier><type>unit</type><value>sentence</value></modifier>
+      <modifier>
+        <type>unit</type>
+        <comparison>=</comparison>
+        <value>sentence</value>
+      </modifier>
     </modifiers>
   </boolean>
   <leftOperand>

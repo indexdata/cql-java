@@ -2,8 +2,11 @@
   <boolean>
     <value>prox</value>
     <modifiers>
-      <modifier><type>relation</type><value>&gt;=</value></modifier>
-      <modifier><type>distance</type><value>5</value></modifier>
+      <modifier>
+        <type>distance</type>
+        <comparison>&lt;=</comparison>
+        <value>5</value>
+      </modifier>
     </modifiers>
   </boolean>
   <leftOperand>
