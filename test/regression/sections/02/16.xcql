@@ -1,0 +1,7 @@
+<searchClause>
+  <index>numberOfLegs</index>
+  <relation>
+    <value>&lt;&gt;</value>
+  </relation>
+  <term>4</term>
+</searchClause>
