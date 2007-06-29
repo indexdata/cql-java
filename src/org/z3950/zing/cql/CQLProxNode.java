@@ -1,4 +1,4 @@
-// $Id: CQLProxNode.java,v 1.11 2007-06-29 11:56:06 mike Exp $
+// $Id: CQLProxNode.java,v 1.12 2007-06-29 12:15:05 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -10,7 +10,7 @@ import java.util.Vector;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.11 2007-06-29 11:56:06 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.12 2007-06-29 12:15:05 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     /**
@@ -19,46 +19,6 @@ public class CQLProxNode extends CQLBooleanNode {
      */
     public CQLProxNode(CQLNode left, CQLNode right, ModifierSet ms) {
 	super(left, right, ms);
-    }
-    /**
-     * Creates a new, <I>incomplete</I>, proximity node with the
-     * specified left-hand side.  No right-hand side is specified at
-     * this stage: that must be specified later, using the
-     * <TT>addSecondSubterm()</TT> method.  (That may seem odd, but
-     * it's just easier to write the parser that way.)
-     * <P>
-     * Proximity paramaters may be added at any time, before or after
-     * the right-hand-side sub-tree is added.
-     */
-    public CQLProxNode(CQLNode left) {
-	super(left, null, new ModifierSet("prox"));
-	// this.right left unresolved for now ...
-    }
-
-    /**
-     * Sets the right-hand side of the proximity node whose
-     * left-hand-side was specified at creation time.
-     */
-    public void addSecondSubterm(CQLNode right) {
-	this.right = right;
-    }
-
-    /**
-     * Adds a modifier of the specified <TT>type</TT>,
-     * <TT>comparison</TT> and <TT>value</TT> to a proximity node.
-     */
-    public void addModifier(String type, String comparison, String value) {
-	ms.addModifier(type, comparison, value);
-    }
-
-    /**
-     * Returns an array of the modifiers associated with a proximity
-     * node.
-     * @return
-     *	An array of Modifier objects.
-     */
-    public Vector<Modifier> getModifiers() {
-	return ms.getModifiers();
     }
 
     String op() {
