@@ -1,4 +1,4 @@
-// $Id: CQLBooleanNode.java,v 1.14 2007-06-06 12:22:01 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.15 2007-06-29 10:21:30 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,11 +8,9 @@ import java.util.Vector;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.14 2007-06-06 12:22:01 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.15 2007-06-29 10:21:30 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
-    CQLBooleanNode() {}		// prevent javadoc from documenting this
-
     /**
      * The root of a parse-tree representing the left-hand side.
      */ 
@@ -23,11 +21,22 @@ public abstract class CQLBooleanNode extends CQLNode {
      */ 
     public CQLNode right;
 
+    /**
+     * The set of modifiers that are applied to this boolean.
+     */
+    public ModifierSet ms;
+
+    protected CQLBooleanNode(CQLNode left, CQLNode right, ModifierSet ms) {
+	this.left = left;
+	this.right = right;
+	this.ms = ms;
+    }
+
     public String toXCQL(int level, Vector prefixes) {
 	// ### Should this use CQLNode.toXCQL(level+2, prefixes)?
 	return (indent(level) + "<triple>\n" +
 		renderPrefixes(level+1, prefixes) +
-		opXCQL(level+1) +
+		ms.toXCQL(level+1, "boolean") +
 		indent(level+1) + "<leftOperand>\n" +
 		left.toXCQL(level+2) +
 		indent(level+1) + "</leftOperand>\n" +
@@ -35,13 +44,6 @@ public abstract class CQLBooleanNode extends CQLNode {
 		right.toXCQL(level+2) +
 		indent(level+1) + "</rightOperand>\n" +
 		indent(level) + "</triple>\n");
-    }
-
-    // Represents the boolean operation itself: overridden for CQLProxNode
-    String opXCQL(int level) {
-	return(indent(level) + "<boolean>\n" +
-	       indent(level+1) + "<value>" + op() + "</value>\n" +
-	       indent(level) + "</boolean>\n");
     }
 
     public String toCQL() {
