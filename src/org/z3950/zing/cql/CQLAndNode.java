@@ -1,4 +1,4 @@
-// $Id: CQLAndNode.java,v 1.8 2007-06-29 11:54:56 mike Exp $
+// $Id: CQLAndNode.java,v 1.9 2007-06-29 12:48:21 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -6,7 +6,7 @@ package org.z3950.zing.cql;
 /**
  * Represents an AND node in a CQL parse-tree.
  *
- * @version	$Id: CQLAndNode.java,v 1.8 2007-06-29 11:54:56 mike Exp $
+ * @version	$Id: CQLAndNode.java,v 1.9 2007-06-29 12:48:21 mike Exp $
  */
 public class CQLAndNode extends CQLBooleanNode {
     /**
@@ -15,10 +15,6 @@ public class CQLAndNode extends CQLBooleanNode {
      */
     public CQLAndNode(CQLNode left, CQLNode right, ModifierSet ms) {
 	super(left, right, ms);
-    }
-
-    String op() {
-	return "and";
     }
 
     // ### Too much code duplication here with OR and NOT
