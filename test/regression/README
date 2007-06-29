@@ -1,4 +1,4 @@
-$Id: README,v 1.7 2007-06-07 16:17:04 mike Exp $
+$Id: README,v 1.8 2007-06-29 13:06:07 mike Exp $
 
 If you just don't want to think about it
 ----------------------------------------
@@ -61,6 +61,10 @@ pretty-printer from DecisionSoft, found at
 "showtest" can be used to run a single test showing more details of
 what goes wrong, if anything.  You don't need it as part of the
 regression test, but it's useful when debugging.
+
+Finally, "runcanon" checks that each of the queries when compiled and
+decompiled back to CQL (i.e. canonicalised) remains identical when
+recompiled and redecompiled.
 
 
 Appendix: queries that should fail
