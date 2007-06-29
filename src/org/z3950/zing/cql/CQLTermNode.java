@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.26 2007-06-27 22:44:40 mike Exp $
+// $Id: CQLTermNode.java,v 1.27 2007-06-29 15:26:29 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have an index without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.26 2007-06-27 22:44:40 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.27 2007-06-29 15:26:29 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String index;
@@ -37,7 +37,10 @@ public class CQLTermNode extends CQLNode {
     private static boolean isResultSetIndex(String qual) {
 	return (qual.equals("srw.resultSet") ||
 		qual.equals("srw.resultSetId") ||
-		qual.equals("srw.resultSetName"));
+		qual.equals("srw.resultSetName") ||
+		qual.equals("cql.resultSet") ||
+		qual.equals("cql.resultSetId") ||
+		qual.equals("cql.resultSetName"));
     }
 
     public String getResultSetName() {
@@ -62,7 +65,8 @@ public class CQLTermNode extends CQLNode {
 	String res = quotedTerm;
 
 	if (index != null &&
-	    !index.equalsIgnoreCase("srw.serverChoice")) {
+	    !index.equalsIgnoreCase("srw.serverChoice") &&
+	    !index.equalsIgnoreCase("cql.serverChoice")) {
 	    // ### We don't always need spaces around `relation'.
 	    res = quotedIndex + " " + relation.toCQL() + " " + quotedTerm;
 	}
