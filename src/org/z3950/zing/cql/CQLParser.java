@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.33 2007-06-29 12:27:08 mike Exp $
+// $Id: CQLParser.java,v 1.34 2007-06-29 12:54:05 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.33 2007-06-29 12:27:08 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.34 2007-06-29 12:54:05 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -204,13 +204,7 @@ public class CQLParser {
 	    lexer.ttype == lexer.TT_AND ||
 	    lexer.ttype == lexer.TT_OR ||
 	    lexer.ttype == lexer.TT_NOT ||
-	    lexer.ttype == lexer.TT_PROX ||
-	    lexer.ttype == lexer.TT_pWORD ||
-	    lexer.ttype == lexer.TT_SENTENCE ||
-	    lexer.ttype == lexer.TT_PARAGRAPH ||
-	    lexer.ttype == lexer.TT_ELEMENT ||
-	    lexer.ttype == lexer.TT_ORDERED ||
-	    lexer.ttype == lexer.TT_UNORDERED) {
+	    lexer.ttype == lexer.TT_PROX) {
 	    String symbol = (lexer.ttype == lexer.TT_NUMBER) ?
 		lexer.render() : lexer.sval;
 	    match(lexer.ttype);

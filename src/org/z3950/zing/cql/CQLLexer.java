@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.11 2007-06-29 11:55:45 mike Exp $
+// $Id: CQLLexer.java,v 1.12 2007-06-29 12:54:05 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -23,12 +23,6 @@ class CQLLexer extends StreamTokenizer {
     static int TT_OR        = 1004;	// The "or" boolean
     static int TT_NOT       = 1005;	// The "not" boolean
     static int TT_PROX      = 1006;	// The "prox" boolean
-    static int TT_pWORD     = 1010;	// The "word" proximity unit
-    static int TT_SENTENCE  = 1011;	// The "sentence" proximity unit
-    static int TT_PARAGRAPH = 1012;	// The "paragraph" proximity unit
-    static int TT_ELEMENT   = 1013;	// The "element" proximity unit
-    static int TT_ORDERED   = 1014;	// The "ordered" proximity ordering
-    static int TT_UNORDERED = 1015;	// The "unordered" proximity ordering
 
     // Support for keywords.  It would be nice to compile this linear
     // list into a Hashtable, but it's hard to store ints as hash
@@ -49,12 +43,6 @@ class CQLLexer extends StreamTokenizer {
 	new Keyword(TT_OR,  "or"),
 	new Keyword(TT_NOT, "not"),
 	new Keyword(TT_PROX, "prox"),
-	new Keyword(TT_pWORD, "word"),
-	new Keyword(TT_SENTENCE, "sentence"),
-	new Keyword(TT_PARAGRAPH, "paragraph"),
-	new Keyword(TT_ELEMENT, "element"),
-	new Keyword(TT_ORDERED, "xordered"),
-	new Keyword(TT_UNORDERED, "unordered"),
     };
 
     // For halfDecentPushBack() and the code at the top of nextToken()
