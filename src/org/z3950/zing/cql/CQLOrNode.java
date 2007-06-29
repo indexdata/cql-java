@@ -1,4 +1,4 @@
-// $Id: CQLOrNode.java,v 1.7 2007-06-29 10:22:12 mike Exp $
+// $Id: CQLOrNode.java,v 1.8 2007-06-29 11:54:56 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -6,11 +6,12 @@ package org.z3950.zing.cql;
 /**
  * Represents an OR node in a CQL parse-tree.
  *
- * @version	$Id: CQLOrNode.java,v 1.7 2007-06-29 10:22:12 mike Exp $
+ * @version	$Id: CQLOrNode.java,v 1.8 2007-06-29 11:54:56 mike Exp $
  */
 public class CQLOrNode extends CQLBooleanNode {
     /**
-     * Creates a new OR node with the specified left- and right-hand sides.
+     * Creates a new OR node with the specified left- and right-hand
+     * sides and modifiers.
      */
     public CQLOrNode(CQLNode left, CQLNode right, ModifierSet ms) {
 	super(left, right, ms);

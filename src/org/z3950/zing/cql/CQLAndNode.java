@@ -1,4 +1,4 @@
-// $Id: CQLAndNode.java,v 1.7 2007-06-29 10:22:12 mike Exp $
+// $Id: CQLAndNode.java,v 1.8 2007-06-29 11:54:56 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -6,11 +6,12 @@ package org.z3950.zing.cql;
 /**
  * Represents an AND node in a CQL parse-tree.
  *
- * @version	$Id: CQLAndNode.java,v 1.7 2007-06-29 10:22:12 mike Exp $
+ * @version	$Id: CQLAndNode.java,v 1.8 2007-06-29 11:54:56 mike Exp $
  */
 public class CQLAndNode extends CQLBooleanNode {
     /**
-     * Creates a new AND node with the specified left- and right-hand sides.
+     * Creates a new AND node with the specified left- and right-hand
+     * sides and modifiers.
      */
     public CQLAndNode(CQLNode left, CQLNode right, ModifierSet ms) {
 	super(left, right, ms);
