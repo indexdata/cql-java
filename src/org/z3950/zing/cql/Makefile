@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.16 2007-06-27 22:44:40 mike Exp $
+# $Id: Makefile,v 1.17 2007-06-29 11:48:04 mike Exp $
 #
 # Your Java compiler will require that this source directory is on the
 # classpath.  The best way to do that is just to add the CQL-Java
@@ -17,11 +17,16 @@ OBJ = Utils.class \
 	UnknownIndexException.class UnknownRelationException.class \
 	UnknownRelationModifierException.class UnknownPositionException.class
 
-../../../../../lib/cql-java.jar: $(OBJ)
-	cd ../../../..; jar cf ../lib/cql-java.jar org/z3950/zing/cql/*.class
+JARPATH = ../lib/cql-java.jar
+JAR = ../../../../$(JARPATH)
+$(JAR): $(OBJ)
+	cd ../../../..; jar cf $(JARPATH) org/z3950/zing/cql/*.class
 
 %.class: %.java
 	javac -Xlint:unchecked *.java
+
+test: $(JAR)
+	cd ../../../../../test/regression && make
 
 clean:
 	rm -f $(OBJ) 'CQLLexer$$Keyword.class'
