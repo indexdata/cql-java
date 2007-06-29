@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.10 2007-06-28 00:00:31 mike Exp $
+// $Id: CQLLexer.java,v 1.11 2007-06-29 11:55:45 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -53,7 +53,7 @@ class CQLLexer extends StreamTokenizer {
 	new Keyword(TT_SENTENCE, "sentence"),
 	new Keyword(TT_PARAGRAPH, "paragraph"),
 	new Keyword(TT_ELEMENT, "element"),
-	new Keyword(TT_ORDERED, "ordered"),
+	new Keyword(TT_ORDERED, "xordered"),
 	new Keyword(TT_UNORDERED, "unordered"),
     };
 
