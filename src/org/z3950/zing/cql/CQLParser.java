@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.30 2007-06-28 00:24:48 mike Exp $
+// $Id: CQLParser.java,v 1.31 2007-06-29 10:25:38 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.30 2007-06-28 00:24:48 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.31 2007-06-29 10:25:38 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -60,22 +60,20 @@ public class CQLParser {
 	debug("in parseQuery()");
 
 	CQLNode term = parseTerm(index, relation);
-	while (lexer.ttype != lexer.TT_EOF &&
-	       lexer.ttype != ')') {
-	    if (lexer.ttype == lexer.TT_AND) {
-		match(lexer.TT_AND);
+	while (lexer.ttype != lexer.TT_EOF && lexer.ttype != ')') {
+	    if (lexer.ttype == lexer.TT_AND ||
+		lexer.ttype == lexer.TT_OR ||
+		lexer.ttype == lexer.TT_NOT) {
+		int type = lexer.ttype;
+		String val = lexer.sval;
+		match(type);
+		ModifierSet ms = gatherModifiers(val);
 		CQLNode term2 = parseTerm(index, relation);
-		term = new CQLAndNode(term, term2);
-	    } else if (lexer.ttype == lexer.TT_OR) {
-		match(lexer.TT_OR);
-		CQLNode term2 = parseTerm(index, relation);
-		term = new CQLOrNode(term, term2);
-	    } else if (lexer.ttype == lexer.TT_NOT) {
-		match(lexer.TT_NOT);
-		CQLNode term2 = parseTerm(index, relation);
-		term = new CQLNotNode(term, term2);
+		term = ((type == lexer.TT_AND) ? new CQLAndNode(term, term2, ms) :
+			(type == lexer.TT_OR)  ? new CQLOrNode (term, term2, ms) :
+			                         new CQLNotNode(term, term2, ms));
 	    } else if (lexer.ttype == lexer.TT_PROX) {
-		match(lexer.TT_PROX);
+		match(lexer.ttype);
 		CQLProxNode proxnode = new CQLProxNode(term);
 		gatherProxParameters(proxnode);
 		CQLNode term2 = parseTerm(index, relation);
@@ -89,6 +87,40 @@ public class CQLParser {
 
 	debug("no more ops");
 	return term;
+    }
+
+    private ModifierSet gatherModifiers(String base)
+	throws CQLParseException, IOException {
+	debug("in gatherModifiers()");
+
+	ModifierSet ms = new ModifierSet(base);
+	while (lexer.ttype == '/') {
+	    match('/');
+	    if (lexer.ttype != lexer.TT_WORD)
+		throw new CQLParseException("expected modifier, "
+					    + "got " + lexer.render());
+	    String type = lexer.sval.toLowerCase();
+	    match(lexer.ttype);
+	    if (!isRelation()) {
+		// It's a simple modifier consisting of type only
+		ms.addModifier(type);
+	    } else {
+		// It's a complex modifier of the form type=value
+		String comparision = lexer.render(lexer.ttype, false);
+		match(lexer.ttype);
+
+		// Yuck
+		String value = lexer.ttype == lexer.TT_WORD ? lexer.sval :
+		    (double) lexer.nval == (int) lexer.nval ?
+		    new Integer((int) lexer.nval).toString() :
+		    new Double((double) lexer.nval).toString();
+
+		matchSymbol("modifier value");
+		ms.addModifier(type, comparision, value);
+	    }
+	}
+
+	return ms;
     }
 
     private CQLNode parseTerm(String index, CQLRelation relation)
@@ -114,37 +146,12 @@ public class CQLParser {
 		break;
 
 	    index = word;
-	    relation = new CQLRelation(lexer.ttype == lexer.TT_WORD ?
-				       lexer.sval :
-				       lexer.render(lexer.ttype, false));
+	    String relstr = (lexer.ttype == lexer.TT_WORD ?
+			     lexer.sval : lexer.render(lexer.ttype, false));
+	    relation = new CQLRelation(relstr);
 	    match(lexer.ttype);
-
-	    while (lexer.ttype == '/') {
-		match('/');
-		if (lexer.ttype != lexer.TT_WORD)
-		    throw new CQLParseException("expected relation modifier, "
-						+ "got " + lexer.render());
-		String type = lexer.sval.toLowerCase();
-		match(lexer.ttype);
-		if (!isRelation()) {
-		    // It's a simple modifier consisting of type only
-		    relation.addModifier(type);
-		} else {
-		    // It's a complex modifier of the form type=value
-		    String comparision = lexer.render(lexer.ttype, false);
-		    match(lexer.ttype);
-
-		    // Yuck
-		    String value = lexer.ttype == lexer.TT_WORD ? lexer.sval :
-			(double) lexer.nval == (int) lexer.nval ?
-			new Integer((int) lexer.nval).toString() :
-			new Double((double) lexer.nval).toString();
-
-		    matchSymbol("relation-modifier value");
-		    relation.addModifier(type, comparision, value);
-		}
-	    }
-
+	    ModifierSet ms = gatherModifiers(relstr);
+	    relation.setModifiers(ms);
 	    debug("index='" + index + ", " +
 		  "relation='" + relation.toCQL() + "'");
 	}
