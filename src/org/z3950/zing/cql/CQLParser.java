@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.34 2007-06-29 12:54:05 mike Exp $
+// $Id: CQLParser.java,v 1.35 2007-06-29 15:24:26 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,14 +12,43 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.34 2007-06-29 12:54:05 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.35 2007-06-29 15:24:26 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
 public class CQLParser {
     private CQLLexer lexer;
+    private int compat;	// When false, implement CQL 1.2
+    public static int V1POINT1 = 12368;
+    public static int V1POINT2 = 12369;
+    public static int V1POINT1SORT = 12370;
+
     static private boolean DEBUG = false;
     static private boolean LEXDEBUG = false;
+
+    /**
+     * The new parser implements a dialect of CQL specified by the
+     * <tt>compat</tt> argument:
+     * <ul>
+     *  <li>V1POINT1 - CQL version 1.1
+     *  </li>
+     *  <li>V1POINT2 - CQL version 1.2
+     *  </li>
+     *  <li>V1POINT1SORT - CQL version 1.1 but including
+     *		<tt>sortby</tt> as specified for CQL 1.2.
+     *  </li>
+     * </ul>
+     */
+    CQLParser(int compat) {
+	this.compat = compat;
+    }
+
+    /**
+     * The new parser implements CQL 1.2
+     */
+    CQLParser() {
+	this.compat = V1POINT2;
+    }
 
     private static void debug(String str) {
 	if (DEBUG)
@@ -48,7 +77,8 @@ public class CQLParser {
 
 	lexer.nextToken();
 	debug("about to parseQuery()");
-	CQLNode root = parseQuery("srw.serverChoice", new CQLRelation("scr"));
+	CQLNode root = parseQuery("cql.serverChoice",
+				  new CQLRelation(compat == V1POINT2 ? "=" : "scr"));
 	if (lexer.ttype != lexer.TT_EOF)
 	    throw new CQLParseException("junk after end: " + lexer.render());
 
@@ -263,6 +293,10 @@ public class CQLParser {
      *	&lt;/triple&gt;
      * </PRE>
      * <P>
+     * @param -1
+     *	CQL version 1.1 (default version 1.2)
+     * @param -d
+     *	Debug mode: extra output written to stderr.
      * @param -c
      *	Causes the output to be written in CQL rather than XCQL - that
      *	is, a query equivalent to that which was input, is output.  In
@@ -278,6 +312,12 @@ public class CQLParser {
 	Vector<String> argv = new Vector<String>();
 	for (int i = 0; i < args.length; i++) {
 	    argv.add(args[i]);
+	}
+
+	int compat = V1POINT2;
+	if (argv.size() > 0 && argv.get(0).equals("-1")) {
+	    compat = V1POINT1;
+	    argv.remove(0);
 	}
 
 	if (argv.size() > 0 && argv.get(0).equals("-d")) {
@@ -296,7 +336,8 @@ public class CQLParser {
 	}
 
 	if (argv.size() > 1) {
-	    System.err.println("Usage: CQLParser [-d] [-c] [-p <pqf-properties> [<CQL-query>]");
+	    System.err.println("Usage: CQLParser [-1] [-d] [-c] " +
+			       "[-p <pqf-properties> [<CQL-query>]");
 	    System.err.println("If unspecified, query is read from stdin");
 	    System.exit(1);
 	}
@@ -316,7 +357,7 @@ public class CQLParser {
 	    cql = new String(bytes);
 	}
 
-	CQLParser parser = new CQLParser();
+	CQLParser parser = new CQLParser(compat);
 	CQLNode root = null;
 	try {
 	    root = parser.parse(cql);
