@@ -29,6 +29,9 @@ dc.fish all/stem/fuzzy "fish chips"
 dc.title scr "fish frog chicken"
 dc.title =/rel.algorithm=CORI squid
 author any/f.foo/b.bar>1 "sanderson taylor"
+numberOfLegs <= 4
+numberOfLegs <> 4
+title == jaws
 
 # Simple Boolean
 
