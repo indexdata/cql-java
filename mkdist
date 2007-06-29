@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # mkdist - make a distribution of the CQL-Java software
-# $Id: mkdist,v 1.4 2007-06-06 14:39:11 mike Exp $
+# $Id: mkdist,v 1.5 2007-06-29 13:17:04 mike Exp $
 
 version=`cat VERSION`
 distdir=cql-java-$version
@@ -12,7 +12,7 @@ trap "rm -rf $tmpdir" 1 2 15	# 0
 cp -rp . $tmpdir
 cd $tmpdir
 find . \( -name CVS -o -name .cvsignore \) -print | xargs rm -rf
-rm mkdist etc/chris-hubick etc/xslt
+rm -r archive mkdist etc/chris-hubick etc/xslt
 ( cd src/org/z3950/zing/cql && make && make clean )
 ( cd docs && make )
 ( cd test/regression && make distclean )
