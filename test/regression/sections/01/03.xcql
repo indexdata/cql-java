@@ -1,5 +1,5 @@
 <searchClause>
-  <index>srw.serverChoice</index>
+  <index>cql.serverChoice</index>
   <relation>
     <value>scr</value>
   </relation>

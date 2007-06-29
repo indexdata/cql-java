@@ -4,7 +4,7 @@
   </boolean>
   <leftOperand>
     <searchClause>
-      <index>srw.serverChoice</index>
+      <index>cql.serverChoice</index>
       <relation>
         <value>scr</value>
       </relation>
@@ -13,7 +13,7 @@
   </leftOperand>
   <rightOperand>
     <searchClause>
-      <index>srw.serverChoice</index>
+      <index>cql.serverChoice</index>
       <relation>
         <value>scr</value>
       </relation>
