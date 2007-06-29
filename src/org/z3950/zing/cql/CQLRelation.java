@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.16 2007-06-28 00:23:43 mike Exp $
+// $Id: CQLRelation.java,v 1.17 2007-06-29 10:23:02 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL index and term.
  *
- * @version	$Id: CQLRelation.java,v 1.16 2007-06-28 00:23:43 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.17 2007-06-29 10:23:02 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -21,6 +21,8 @@ public class CQLRelation extends CQLNode {
      * server-choice relation <TT>scr</TT> and profiled relations of
      * the form <TT><I>prefix</I>.<I>name</I></TT>.
      */
+    // ### Seems wrong: a modifier set should not have a base, a
+    // relation should
     public CQLRelation(String base) {
 	ms = new ModifierSet(base);
     }
@@ -34,21 +36,14 @@ public class CQLRelation extends CQLNode {
     }
 
     /**
-     * Adds a new relation modifier to the specified CQLRelation.
+     * Sets the modifiers of the specified CQLRelation.
      * Typical relation modifiers include <TT>relevant</TT>,
      * <TT>fuzzy</TT>, <TT>stem</TT> and <TT>phonetic</TT>.  On the
      * whole, these modifiers have a meaningful interpretation only
      * for the text relations.
      */
-    public void addModifier(String type) {
-	ms.addModifier(type, null, null);
-    }
-
-    /**
-     * Adds a new complex relation modifier to the specified CQLRelation.
-     */
-    public void addModifier(String type, String comparison, String value) {
-	ms.addModifier(type, comparison, value);
+    public void setModifiers(ModifierSet ms) {
+	this.ms = ms;
     }
 
     /**
