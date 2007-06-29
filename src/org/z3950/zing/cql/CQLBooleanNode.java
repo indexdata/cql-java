@@ -1,4 +1,4 @@
-// $Id: CQLBooleanNode.java,v 1.15 2007-06-29 10:21:30 mike Exp $
+// $Id: CQLBooleanNode.java,v 1.16 2007-06-29 12:52:45 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.15 2007-06-29 10:21:30 mike Exp $
+ * @version	$Id: CQLBooleanNode.java,v 1.16 2007-06-29 12:52:45 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
     /**
@@ -48,7 +48,9 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     public String toCQL() {
 	// ### We don't always need parens around the operands
-	return "(" + left.toCQL() + ") " + op() + " (" + right.toCQL() + ")";
+	return ("(" + left.toCQL() + ")" +
+		" " + ms.toCQL() + " " +
+		"(" + right.toCQL() + ")");
     }
 
     public String toPQF(Properties config) throws PQFTranslationException {
@@ -58,9 +60,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     }
 
     // represents the operation for PQF: overridden for CQLProxNode
-    String opPQF() { return op(); }
-
-    abstract String op();
+    String opPQF() { return ms.getBase(); }
 
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
         System.out.println("in CQLBooleanNode.toType1BER(): PQF=" +
