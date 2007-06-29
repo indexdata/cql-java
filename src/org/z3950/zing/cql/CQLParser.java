@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.35 2007-06-29 15:24:26 mike Exp $
+// $Id: CQLParser.java,v 1.36 2007-06-29 15:39:09 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.35 2007-06-29 15:24:26 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.36 2007-06-29 15:39:09 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -203,7 +203,8 @@ public class CQLParser {
 		lexer.ttype == '=' ||
 		lexer.ttype == lexer.TT_LE ||
 		lexer.ttype == lexer.TT_GE ||
-		lexer.ttype == lexer.TT_NE);
+		lexer.ttype == lexer.TT_NE ||
+		lexer.ttype == lexer.TT_EQEQ);
     }
 
     private void match(int token)

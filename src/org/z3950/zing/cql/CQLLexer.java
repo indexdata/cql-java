@@ -1,4 +1,4 @@
-// $Id: CQLLexer.java,v 1.12 2007-06-29 12:54:05 mike Exp $
+// $Id: CQLLexer.java,v 1.13 2007-06-29 15:38:56 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
@@ -19,10 +19,11 @@ class CQLLexer extends StreamTokenizer {
     static int TT_LE        = 1000;	// The "<=" relation
     static int TT_GE        = 1001;	// The ">=" relation
     static int TT_NE        = 1002;	// The "<>" relation
-    static int TT_AND       = 1003;	// The "and" boolean
-    static int TT_OR        = 1004;	// The "or" boolean
-    static int TT_NOT       = 1005;	// The "not" boolean
-    static int TT_PROX      = 1006;	// The "prox" boolean
+    static int TT_EQEQ      = 1003;	// The "==" relation
+    static int TT_AND       = 1004;	// The "and" boolean
+    static int TT_OR        = 1005;	// The "or" boolean
+    static int TT_NOT       = 1006;	// The "not" boolean
+    static int TT_PROX      = 1007;	// The "prox" boolean
 
     // Support for keywords.  It would be nice to compile this linear
     // list into a Hashtable, but it's hard to store ints as hash
@@ -126,6 +127,18 @@ class CQLLexer extends StreamTokenizer {
 		ttype = '>';
 		debug("AFTER: ttype is now " + ttype + " - " + render());
 	    }
+	} else if (ttype == '=') {
+	    debug("token starts with '=' ...");
+	    underlyingNextToken();
+	    if (ttype == '=') {
+		debug("token continues with '=' - it's '=='");
+		ttype = TT_EQEQ;
+	    } else {
+		debug("next token is " + render() + " (pushed back)");
+		halfDecentPushBack();
+		ttype = '=';
+		debug("AFTER: ttype is now " + ttype + " - " + render());
+	    }
 	}
 
 	debug("done nextToken(): ttype=" + ttype + ", " +
@@ -175,6 +188,8 @@ class CQLLexer extends StreamTokenizer {
 	    return ">=";
 	} else if (token == TT_NE) {
 	    return "<>";
+	} else if (token == TT_EQEQ) {
+	    return "==";
 	}
 
 	// Check whether its associated with one of the keywords
