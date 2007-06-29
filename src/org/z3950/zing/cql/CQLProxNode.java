@@ -1,4 +1,4 @@
-// $Id: CQLProxNode.java,v 1.9 2007-06-27 22:15:04 mike Exp $
+// $Id: CQLProxNode.java,v 1.10 2007-06-29 10:24:03 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -10,11 +10,9 @@ import java.util.Vector;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.9 2007-06-27 22:15:04 mike Exp $
+ * @version	$Id: CQLProxNode.java,v 1.10 2007-06-29 10:24:03 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
-    ModifierSet ms;
-
     /**
      * Creates a new, <I>incomplete</I>, proximity node with the
      * specified left-hand side.  No right-hand side is specified at
@@ -26,8 +24,7 @@ public class CQLProxNode extends CQLBooleanNode {
      * the right-hand-side sub-tree is added.
      */
     public CQLProxNode(CQLNode left) {
-	ms = new ModifierSet("prox");
-	this.left = left;
+	super(left, null, new ModifierSet("prox"));
 	// this.right left unresolved for now ...
     }
 
@@ -59,10 +56,6 @@ public class CQLProxNode extends CQLBooleanNode {
 
     String op() {
 	return ms.toCQL();
-    }
-
-    String opXCQL(int level) {
-	return ms.toXCQL(level, "boolean");
     }
 
     /*
