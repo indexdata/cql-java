@@ -1,4 +1,4 @@
-// $Id: ModifierSet.java,v 1.11 2007-06-28 00:23:17 mike Exp $
+// $Id: ModifierSet.java,v 1.12 2007-06-29 10:20:41 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.lang.StringBuffer;
  * zero or more <I>type</I> <I>comparison</I> <I>value</I> pairs,
  * where type, comparison and value are all strings.
  *
- * @version $Id: ModifierSet.java,v 1.11 2007-06-28 00:23:17 mike Exp $
+ * @version $Id: ModifierSet.java,v 1.12 2007-06-29 10:20:41 mike Exp $
  */
 public class ModifierSet {
     String base;
@@ -37,12 +37,20 @@ public class ModifierSet {
     }
 
     /**
-     * Adds a modifier of the specified <TT>type</TT>, <TT>comparison</TT> and
-     * <TT>value</TT> to a ModifierSet.
+     * Adds a modifier of the specified <TT>type</TT>,
+     * <TT>comparison</TT> and <TT>value</TT> to a ModifierSet.
      */
     public void addModifier(String type, String comparison, String value) {
-	// ### Need to have comparison passed in
 	Modifier modifier = new Modifier(type, comparison, value);
+	modifiers.add(modifier);
+    }
+
+    /**
+     * Adds a modifier of the specified <TT>type</TT>, but with no
+     * <TT>comparison</TT> and <TT>value</TT>, to a ModifierSet.
+     */
+    public void addModifier(String type) {
+	Modifier modifier = new Modifier(type);
 	modifiers.add(modifier);
     }
 
