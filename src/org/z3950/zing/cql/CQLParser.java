@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.32 2007-06-29 11:56:47 mike Exp $
+// $Id: CQLParser.java,v 1.33 2007-06-29 12:27:08 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.32 2007-06-29 11:56:47 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.33 2007-06-29 12:27:08 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -74,13 +74,6 @@ public class CQLParser {
 			(type == lexer.TT_OR)  ? new CQLOrNode (term, term2, ms) :
 			(type == lexer.TT_NOT) ? new CQLNotNode(term, term2, ms) :
 			                         new CQLProxNode(term, term2, ms));
-	    } else if (lexer.ttype == lexer.TT_PROX) {
-		match(lexer.ttype);
-		CQLProxNode proxnode = new CQLProxNode(term);
-		gatherProxParameters(proxnode);
-		CQLNode term2 = parseTerm(index, relation);
-		proxnode.addSecondSubterm(term2);
-		term = (CQLNode) proxnode;
 	    } else {
 		throw new CQLParseException("expected boolean, got " +
 					    lexer.render());
@@ -171,70 +164,7 @@ public class CQLParser {
 	return new CQLPrefixNode(name, identifier, term);
     }
 
-    private void gatherProxParameters(CQLProxNode node)
-	throws CQLParseException, IOException {
-	for (int i = 0; i < 4; i++) {
-	    if (lexer.ttype != '/')
-		return;		// end of proximity parameters
-
-	    match('/');
-	    if (lexer.ttype != '/') {
-		// not an omitted default
-		switch (i) {
-		    // Order should be: relation/distance/unit/ordering
-		    // For now, use MA's: unit/relation/distance/ordering
-		case 0: gatherProxRelation(node); break;
-		case 1: gatherProxDistance(node); break;
-		case 2: gatherProxUnit(node); break;
-		case 3: gatherProxOrdering(node); break;
-		}
-	    }
-	}
-    }
-
-    private void gatherProxRelation(CQLProxNode node)
-	throws CQLParseException, IOException {
-	if (!isRelation())
-	    throw new CQLParseException("expected proximity relation, got " +
-					lexer.render());
-	node.addModifier("relation", null, lexer.render(lexer.ttype, false));
-	match(lexer.ttype);
-	debug("gPR matched " + lexer.render(lexer.ttype, false));
-    }
-
-    private void gatherProxDistance(CQLProxNode node)
-	throws CQLParseException, IOException {
-	if (lexer.ttype != lexer.TT_NUMBER)
-	    throw new CQLParseException("expected proximity distance, got " +
-					lexer.render());
-	node.addModifier("distance", null, lexer.render(lexer.ttype, false));
-	match(lexer.ttype);
-	debug("gPD matched " + lexer.render(lexer.ttype, false));
-    }
-
-    private void gatherProxUnit(CQLProxNode node)
-	throws CQLParseException, IOException {
-	if (lexer.ttype != lexer.TT_pWORD &&
-	    lexer.ttype != lexer.TT_SENTENCE &&
-	    lexer.ttype != lexer.TT_PARAGRAPH &&
-	    lexer.ttype != lexer.TT_ELEMENT)
-	    throw new CQLParseException("expected proximity unit, got " +
-					lexer.render());
-	node.addModifier("unit", null, lexer.render());
-	match(lexer.ttype);
-    }
-
-    private void gatherProxOrdering(CQLProxNode node)
-	throws CQLParseException, IOException {
-	if (lexer.ttype != lexer.TT_ORDERED &&
-	    lexer.ttype != lexer.TT_UNORDERED)
-	    throw new CQLParseException("expected proximity ordering, got " +
-					lexer.render());
-	node.addModifier("ordering", null, lexer.render());
-	match(lexer.ttype);
-    }
-
-    // Checks for a relation that may be used inside a prox operator
+    // Checks for a relation
     private boolean isRelation() {
 	debug("isRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
