@@ -1,12 +1,10 @@
-$Id: Changes,v 1.36 2007-06-27 22:44:13 mike Exp $
+$Id: Changes,v 1.37 2007-06-29 13:10:58 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
 
-1.0  [IN PROGRESS]
-	- Support for CQL version 1.2 as described at
-	   http://www.loc.gov/standards/sru/next-version.html
-	  based on support for version 1.1 as described at
+1.0  Fri Jun 29 14:10:28 BST 2007
+	- Support for version 1.1 as described at
 	   http://www.loc.gov/standards/sru/cql/
 	  Since this is a significant leap forward, the version
 	  numbering increases to the next major version.
