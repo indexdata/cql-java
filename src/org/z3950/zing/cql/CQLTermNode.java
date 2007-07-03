@@ -1,4 +1,4 @@
-// $Id: CQLTermNode.java,v 1.27 2007-06-29 15:26:29 mike Exp $
+// $Id: CQLTermNode.java,v 1.28 2007-07-03 13:41:24 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import java.util.Vector;
  * these must be provided - you can't have an index without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.27 2007-06-29 15:26:29 mike Exp $
+ * @version	$Id: CQLTermNode.java,v 1.28 2007-07-03 13:41:24 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String index;
@@ -50,12 +50,14 @@ public class CQLTermNode extends CQLNode {
 	    return null;
     }
 
-    public String toXCQL(int level, Vector prefixes) {
+    public String toXCQL(int level, Vector<CQLPrefix> prefixes,
+			 Vector<ModifierSet> sortkeys) {
 	return (indent(level) + "<searchClause>\n" +
 		renderPrefixes(level+1, prefixes) +
 		indent(level+1) + "<index>" + xq(index) + "</index>\n" +
-		relation.toXCQL(level+1, new Vector<String>()) +
+		relation.toXCQL(level+1) +
 		indent(level+1) + "<term>" + xq(term) + "</term>\n" +
+		renderSortKeys(level+1, sortkeys) +
 		indent(level) + "</searchClause>\n");
     }
 
