@@ -1,4 +1,4 @@
-// $Id: CQLParser.java,v 1.36 2007-06-29 15:39:09 mike Exp $
+// $Id: CQLParser.java,v 1.37 2007-07-03 13:34:30 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @version	$Id: CQLParser.java,v 1.36 2007-06-29 15:39:09 mike Exp $
+ * @version	$Id: CQLParser.java,v 1.37 2007-07-03 13:34:30 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -77,12 +77,38 @@ public class CQLParser {
 
 	lexer.nextToken();
 	debug("about to parseQuery()");
-	CQLNode root = parseQuery("cql.serverChoice",
-				  new CQLRelation(compat == V1POINT2 ? "=" : "scr"));
+	CQLNode root = parseTopLevelPrefixes("cql.serverChoice",
+		new CQLRelation(compat == V1POINT2 ? "=" : "scr"));
 	if (lexer.ttype != lexer.TT_EOF)
 	    throw new CQLParseException("junk after end: " + lexer.render());
 
 	return root;
+    }
+
+    private CQLNode parseTopLevelPrefixes(String index, CQLRelation relation)
+	throws CQLParseException, IOException {
+	debug("top-level prefix mapping");
+
+	if (lexer.ttype == '>') {
+	    return parsePrefix(index, relation, true);
+	}
+
+	CQLNode node = parseQuery(index, relation);
+	if ((compat == V1POINT2 || compat == V1POINT1SORT) &&
+	    lexer.ttype == lexer.TT_SORTBY) {
+	    match(lexer.ttype);
+	    debug("sortspec");
+
+	    CQLSortNode sortnode = new CQLSortNode(node);
+	    while (lexer.ttype != lexer.TT_EOF) {
+		String sortindex = matchSymbol("sort index");
+		ModifierSet ms = gatherModifiers(sortindex);
+		sortnode.addSortIndex(ms);
+	    }
+	    node = sortnode;
+	}
+
+	return node;
     }
 
     private CQLNode parseQuery(String index, CQLRelation relation)
@@ -90,7 +116,9 @@ public class CQLParser {
 	debug("in parseQuery()");
 
 	CQLNode term = parseTerm(index, relation);
-	while (lexer.ttype != lexer.TT_EOF && lexer.ttype != ')') {
+	while (lexer.ttype != lexer.TT_EOF &&
+	       lexer.ttype != ')' &&
+	       lexer.ttype != lexer.TT_SORTBY) {
 	    if (lexer.ttype == lexer.TT_AND ||
 		lexer.ttype == lexer.TT_OR ||
 		lexer.ttype == lexer.TT_NOT ||
@@ -154,8 +182,7 @@ public class CQLParser {
 		match(')');
 		return expr;
 	    } else if (lexer.ttype == '>') {
-		match('>');
-		return parsePrefix(index, relation);
+		return parsePrefix(index, relation, false);
 	    }
 
 	    debug("non-parenthesised term");
@@ -179,10 +206,12 @@ public class CQLParser {
 	return node;
     }
 
-    private CQLNode parsePrefix(String index, CQLRelation relation)
+    private CQLNode parsePrefix(String index, CQLRelation relation,
+				boolean topLevel)
 	throws CQLParseException, IOException {
 	debug("prefix mapping");
 
+	match('>');
 	String name = null;
 	String identifier = matchSymbol("prefix-name");
 	if (lexer.ttype == '=') {
@@ -190,8 +219,11 @@ public class CQLParser {
 	    name = identifier;
 	    identifier = matchSymbol("prefix-identifer");
 	}
-	CQLNode term = parseQuery(index, relation);
-	return new CQLPrefixNode(name, identifier, term);
+	CQLNode node = topLevel ?
+	    parseTopLevelPrefixes(index, relation) :
+	    parseQuery(index, relation);
+
+	return new CQLPrefixNode(name, identifier, node);
     }
 
     // Checks for a relation
@@ -235,7 +267,8 @@ public class CQLParser {
 	    lexer.ttype == lexer.TT_AND ||
 	    lexer.ttype == lexer.TT_OR ||
 	    lexer.ttype == lexer.TT_NOT ||
-	    lexer.ttype == lexer.TT_PROX) {
+	    lexer.ttype == lexer.TT_PROX ||
+	    lexer.ttype == lexer.TT_SORTBY) {
 	    String symbol = (lexer.ttype == lexer.TT_NUMBER) ?
 		lexer.render() : lexer.sval;
 	    match(lexer.ttype);
