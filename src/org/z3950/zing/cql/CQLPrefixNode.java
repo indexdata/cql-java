@@ -1,4 +1,4 @@
-// $Id: CQLPrefixNode.java,v 1.8 2007-06-27 22:39:55 mike Exp $
+// $Id: CQLPrefixNode.java,v 1.9 2007-07-03 13:40:41 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.8 2007-06-27 22:39:55 mike Exp $
+ * @version	$Id: CQLPrefixNode.java,v 1.9 2007-07-03 13:40:41 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
     /**
@@ -33,17 +33,14 @@ public class CQLPrefixNode extends CQLNode {
 	this.subtree = subtree;
     }
 
-    public String toXCQL(int level, Vector<CQLPrefix> prefixes) {
-//	String maybeName = "";
-//	if (prefix.name != null)
-//	    maybeName = indent(level+1) + "<name>" + prefix.name + "</name>\n";
-//
-//	return (indent(level) + "<prefix>\n" + maybeName +
-//		indent(level+1) +
-//		    "<identifier>" + prefix.identifier + "</identifier>\n" +
-//		subtree.toXCQL(level+1, prefixes) +
-//		indent(level) + "</prefix>\n");
-	Vector<CQLPrefix> tmp = new Vector<CQLPrefix>(prefixes);
+    public String toXCQL(int level, Vector<CQLPrefix> prefixes,
+			 Vector<ModifierSet> sortkeys) {
+	if (sortkeys != null)
+	    throw new Error("CQLPrefixNode.toXCQL() called with sortkeys");
+
+	Vector<CQLPrefix> tmp = (prefixes == null ?
+				 new Vector<CQLPrefix>() :
+				 new Vector<CQLPrefix>(prefixes));
 	tmp.add(prefix);
 	return subtree.toXCQL(level, tmp);
     }

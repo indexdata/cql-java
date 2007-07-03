@@ -1,4 +1,4 @@
-// $Id: CQLRelation.java,v 1.18 2007-06-29 15:24:39 mike Exp $
+// $Id: CQLRelation.java,v 1.19 2007-07-03 13:40:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
 /**
  * Represents a relation between a CQL index and term.
  *
- * @version	$Id: CQLRelation.java,v 1.18 2007-06-29 15:24:39 mike Exp $
+ * @version	$Id: CQLRelation.java,v 1.19 2007-07-03 13:40:58 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;
@@ -55,7 +55,10 @@ public class CQLRelation extends CQLNode {
 	return ms.getModifiers();
     }
 
-    public String toXCQL(int level, Vector prefixes) {
+    public String toXCQL(int level, Vector prefixes, Vector sortkeys) {
+	if (sortkeys != null)
+	    throw new Error("CQLRelation.toXCQL() called with sortkeys");
+
 	return ms.toXCQL(level, "relation");
     }
 
