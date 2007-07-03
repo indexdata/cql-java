@@ -1,4 +1,4 @@
-// $Id: Modifier.java,v 1.3 2007-06-29 10:20:09 mike Exp $
+// $Id: Modifier.java,v 1.4 2007-07-03 13:29:34 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Vector;
@@ -12,7 +12,7 @@ import java.lang.StringBuffer;
  * <P>
  * This class is used only by ModifierSet.
  *
- * @version $Id: Modifier.java,v 1.3 2007-06-29 10:20:09 mike Exp $
+ * @version $Id: Modifier.java,v 1.4 2007-07-03 13:29:34 mike Exp $
  */
 public class Modifier {
     String type;
@@ -78,9 +78,7 @@ public class Modifier {
     }
 
     public String toCQL() {
-	StringBuffer buf = new StringBuffer();
-
-	buf.append(type);
+	StringBuffer buf = new StringBuffer(type);
 	if (value != null)
 	    buf.append(" " + comparison + " " + value);
 
