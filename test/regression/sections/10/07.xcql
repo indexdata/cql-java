@@ -1,0 +1,15 @@
+<searchClause>
+  <index>dc.creator</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>kernighan</term>
+  <sortKeys>
+    <key>
+      <index>dc.date</index>
+    </key>
+    <key>
+      <index>dc.title</index>
+    </key>
+  </sortKeys>
+</searchClause>

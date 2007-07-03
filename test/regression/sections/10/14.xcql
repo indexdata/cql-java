@@ -1,0 +1,34 @@
+<triple>
+  <prefixes>
+    <prefix>
+      <name>dc</name>
+      <identifier>x</identifier>
+    </prefix>
+  </prefixes>
+  <boolean>
+    <value>and</value>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>c1</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>c2</term>
+    </searchClause>
+  </rightOperand>
+  <sortKeys>
+    <key>
+      <index>d</index>
+    </key>
+  </sortKeys>
+</triple>

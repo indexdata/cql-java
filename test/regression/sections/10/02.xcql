@@ -1,0 +1,28 @@
+<triple>
+  <boolean>
+    <value>and</value>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>kernighan</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>ritchie</term>
+    </searchClause>
+  </rightOperand>
+  <sortKeys>
+    <key>
+      <index>title</index>
+    </key>
+  </sortKeys>
+</triple>

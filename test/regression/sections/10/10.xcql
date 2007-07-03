@@ -1,0 +1,18 @@
+<searchClause>
+  <prefixes>
+    <prefix>
+      <name>dc</name>
+      <identifier>http://deepcustard.org/1.0</identifier>
+    </prefix>
+  </prefixes>
+  <index>cql.serverChoice</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>blah</term>
+  <sortKeys>
+    <key>
+      <index>dc.custardDepth</index>
+    </key>
+  </sortKeys>
+</searchClause>
