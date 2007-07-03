@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.17 2007-06-29 11:48:04 mike Exp $
+# $Id: Makefile,v 1.18 2007-07-03 12:56:29 mike Exp $
 #
 # Your Java compiler will require that this source directory is on the
 # classpath.  The best way to do that is just to add the CQL-Java
@@ -9,7 +9,8 @@
 OBJ = Utils.class \
 	CQLNode.class CQLTermNode.class CQLBooleanNode.class \
 	CQLAndNode.class CQLOrNode.class CQLNotNode.class \
-	CQLProxNode.class CQLPrefixNode.class CQLPrefix.class \
+	CQLProxNode.class CQLPrefixNode.class CQLSortNode.class \
+	CQLPrefix.class \
 	CQLRelation.class Modifier.class ModifierSet.class \
 	CQLParser.class CQLLexer.class CQLGenerator.class \
 	CQLParseException.class MissingParameterException.class \
