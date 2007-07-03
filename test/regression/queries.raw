@@ -89,4 +89,24 @@ any or all:stem and all exact any prox prox=fuzzy
 (((((((((any)))))))))
 ""
 > any > any = exact any > any
+sortby sortby sortby
+sortby sortby sortby sortby sortby
 
+# Sorting
+
+kernighan sortby title
+kernighan and ritchie sortby title
+dc.creator=kernighan sortby dc.title
+dc.creator=kernighan sortby numberOfLegs/cql.number
+dc.creator=kernighan sortby dc.title/sort.respectCase
+dc.creator=kernighan sortby dc.title/sort.respectCase/sort.descending
+dc.creator=kernighan sortby dc.date dc.title
+dc.creator=kernighan sortby dc.date/sort.missingOmit
+dc.creator=kernighan sortby dc.date/sort.missingValue=1970
+>dc="http://deepcustard.org/1.0" blah sortby dc.custardDepth
+>ns1="http://uri1" >ns2="http://uri2" whatever sortby ns1.key/a/b/c=1 ns2.key2
+(>dc=x b=c) sortby d
+b=(>dc=x c) sortby d
+(>dc=x c1 and c2) sortby d
+>dc="http://deepcustard.org" (>dc="http://dublincore.org" dc.title=jaws) sortby dc.custardDepth
+>dc="http://deepcustard.org" (fish or >dc="http://dublincore.org" dc.title=jaws) sortby dc.custardDepth
