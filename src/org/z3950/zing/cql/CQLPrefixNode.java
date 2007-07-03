@@ -1,4 +1,4 @@
-// $Id: CQLPrefixNode.java,v 1.9 2007-07-03 13:40:41 mike Exp $
+// $Id: CQLPrefixNode.java,v 1.10 2007-07-03 16:40:11 mike Exp $
 
 package org.z3950.zing.cql;
 import java.lang.String;
@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.9 2007-07-03 13:40:41 mike Exp $
+ * @version	$Id: CQLPrefixNode.java,v 1.10 2007-07-03 16:40:11 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
     /**
@@ -35,14 +35,11 @@ public class CQLPrefixNode extends CQLNode {
 
     public String toXCQL(int level, Vector<CQLPrefix> prefixes,
 			 Vector<ModifierSet> sortkeys) {
-	if (sortkeys != null)
-	    throw new Error("CQLPrefixNode.toXCQL() called with sortkeys");
-
 	Vector<CQLPrefix> tmp = (prefixes == null ?
 				 new Vector<CQLPrefix>() :
 				 new Vector<CQLPrefix>(prefixes));
 	tmp.add(prefix);
-	return subtree.toXCQL(level, tmp);
+	return subtree.toXCQL(level, tmp, sortkeys);
     }
 
     public String toCQL() {
