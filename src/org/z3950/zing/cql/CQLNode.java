@@ -1,4 +1,4 @@
-// $Id: CQLNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
+// $Id: CQLNode.java,v 1.26 2007-07-03 13:36:03 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.25 2007-06-27 22:39:55 mike Exp $
+ * @version	$Id: CQLNode.java,v 1.26 2007-07-03 13:36:03 mike Exp $
  */
 public abstract class CQLNode {
     CQLNode() {}		// prevent javadoc from documenting this
@@ -38,13 +38,18 @@ public abstract class CQLNode {
      *	parse-tree whose root is this node.
      */
     public String toXCQL(int level) {
-	return toXCQL(level, new Vector<CQLPrefix>());
+	return toXCQL(level, null);
     }
 
-    abstract public String toXCQL(int level, Vector<CQLPrefix> prefixes);
+    public String toXCQL(int level, Vector<CQLPrefix> prefixes) {
+	return toXCQL(level, prefixes, null);
+    }
+
+    abstract public String toXCQL(int level, Vector<CQLPrefix> prefixes,
+				  Vector<ModifierSet> sortkeys);
 
     protected static String renderPrefixes(int level, Vector prefixes) {
-	if (prefixes.size() == 0)
+	if (prefixes == null || prefixes.size() == 0)
 	    return "";
 	String res = indent(level) + "<prefixes>\n";
 	for (int i = 0; i < prefixes.size(); i++) {
@@ -57,6 +62,18 @@ public abstract class CQLNode {
 	    res += indent(level+1) + "</prefix>\n";
 	}
 	return res + indent(level) + "</prefixes>\n";
+    }
+
+    protected static String renderSortKeys(int level,
+					   Vector<ModifierSet> sortkeys) {
+	if (sortkeys == null || sortkeys.size() == 0)
+	    return "";
+	String res = indent(level) + "<sortKeys>\n";
+	for (int i = 0; i < sortkeys.size(); i++) {
+	    ModifierSet key = sortkeys.get(i);
+	    res += key.sortKeyToXCQL(level+1);
+	}
+	return res + indent(level) + "</sortKeys>\n";
     }
 
     /**
