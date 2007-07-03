@@ -1,4 +1,4 @@
-// $Id: CQLGenerator.java,v 1.8 2007-06-29 10:24:24 mike Exp $
+// $Id: CQLGenerator.java,v 1.9 2007-07-03 15:41:35 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.8 2007-06-29 10:24:24 mike Exp $
+ * @version	$Id: CQLGenerator.java,v 1.9 2007-07-03 15:41:35 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
@@ -141,9 +141,9 @@ public class CQLGenerator {
 	    // ### generate proximity nodes
 	} else {
 	    switch (rnd.nextInt(3)) {
-	    case 0: return new CQLAndNode(node1, node2, null);
-	    case 1: return new CQLOrNode(node1, node2, null);
-	    case 2: return new CQLNotNode(node1, node2, null);
+	    case 0: return new CQLAndNode(node1, node2, new ModifierSet("and"));
+	    case 1: return new CQLOrNode (node1, node2, new ModifierSet("or"));
+	    case 2: return new CQLNotNode(node1, node2, new ModifierSet("not"));
 	    }
 	}
 
