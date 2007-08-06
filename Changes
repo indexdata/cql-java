@@ -1,9 +1,11 @@
-$Id: Changes,v 1.41 2007-07-03 17:04:09 mike Exp $
+$Id: Changes,v 1.42 2007-08-06 15:55:03 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
 
-1.2.1  [IN PROGRESS]
+1.2.1  Mon Aug  6 16:54:54 BST 2007
+	- Contructors for the CQLParser class are made public (as they
+	  should have been all along).
 
 1.2  Tue Jul  3 17:53:28 BST 2007
 	- Support for CQL version 1.2 as described at
@@ -17,7 +19,7 @@ See the bottom of this file for a list of things still to do.
 		http://zing.z3950.org/cql/sorting.html
 	  is still considered canonical.
 
-	The work for releases 1.0 and 1.2 was sponsored by the
+	The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the
 	National Library of Australia, whose help we gratefully
 	acknowledge.
 
