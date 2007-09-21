@@ -1,4 +1,4 @@
-$Id: Changes,v 1.42 2007-08-06 15:55:03 mike Exp $
+$Id: Changes,v 1.43 2007-09-21 11:31:09 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
@@ -25,7 +25,7 @@ See the bottom of this file for a list of things still to do.
 
 1.0  Fri Jun 29 14:10:28 BST 2007
 	- Support for version 1.1 as described at
-		http://www.loc.gov/standards/sru/cql/
+		http://www.loc.gov/standards/sru/specs/cql.html
 	  Since this is a significant leap forward, the version
 	  numbering increases to the next major version.
 	- "Qualifiers" renamed as "indexes" throughout, to match what
