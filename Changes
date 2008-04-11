@@ -1,7 +1,11 @@
-$Id: Changes,v 1.44 2007-09-21 11:40:50 mike Exp $
+$Id: Changes,v 1.45 2008-04-11 12:06:13 mike Exp $
 
 Revision history for the CQL-Java package.
 See the bottom of this file for a list of things still to do.
+
+1.3  (IN PROGRESS)
+	- Add getSortIndexes() to CQLSortNode, as suggested by Marcel
+	  Versteeg <Marcel.Versteeg@KB.nl>
 
 	The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the
 	National Library of Australia, whose help we gratefully
