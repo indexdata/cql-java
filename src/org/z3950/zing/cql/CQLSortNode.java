@@ -1,4 +1,4 @@
-// $Id: CQLSortNode.java,v 1.1 2007-07-03 12:55:56 mike Exp $
+// $Id: CQLSortNode.java,v 1.2 2008-04-11 12:05:15 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * Represents a sort node in a CQL parse-tree.
  *
- * @version	$Id: CQLSortNode.java,v 1.1 2007-07-03 12:55:56 mike Exp $
+ * @version	$Id: CQLSortNode.java,v 1.2 2008-04-11 12:05:15 mike Exp $
  */
 public class CQLSortNode extends CQLNode {
     /**
@@ -31,6 +31,10 @@ public class CQLSortNode extends CQLNode {
 
     public void addSortIndex(ModifierSet key) {
 	keys.add(key);
+    }
+
+    public Vector<ModifierSet> getSortIndexes() {
+    	return keys;
     }
 
     public String toXCQL(int level, Vector<CQLPrefix> prefixes,
