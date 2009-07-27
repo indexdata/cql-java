@@ -1,3 +1,6 @@
 target/
 *.swp
 *~
+build
+dist
+nbproject
