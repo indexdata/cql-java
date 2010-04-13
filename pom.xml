@@ -28,5 +28,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>id-maven-repo</id>
+      <name>Index Data Maven Repository</name>
+      <url>scp://maven.indexdata.com/var/www/maven/repository</url>
+    </repository>
+  </distributionManagement>
+  <repositories>
+    <repository>
+      <id>id-maven-repo</id>
+      <url>http://maven.indexdata.com</url>
+    </repository>
+  </repositories>
 </project>
 
