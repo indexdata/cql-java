@@ -231,7 +231,19 @@ public class CQLParser {
 	return new CQLPrefixNode(name, identifier, node);
     }
 
-    // Checks for a relation
+    private boolean isRelation() {
+	debug("isRelation: checking ttype=" + lexer.ttype +
+	      " (" + lexer.render() + ")");
+        if (lexer.ttype == lexer.TT_WORD &&
+            (lexer.sval == "exact" ||
+             lexer.sval == "any" ||
+             lexer.sval == "all" ||
+             (lexer.sval == "scr" && compat == V1POINT2)))
+          return true;
+
+        return isSymbolicRelation();
+    }
+
     private boolean isSymbolicRelation() {
 	debug("isSymbolicRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
