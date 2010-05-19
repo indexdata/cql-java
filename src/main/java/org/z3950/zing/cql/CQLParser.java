@@ -159,7 +159,7 @@ public class CQLParser {
 					    + "got " + lexer.render());
 	    String type = lexer.sval.toLowerCase();
 	    match(lexer.ttype);
-	    if (!isRelation()) {
+	    if (!isSymbolicRelation()) {
 		// It's a simple modifier consisting of type only
 		ms.addModifier(type);
 	    } else {
@@ -192,7 +192,7 @@ public class CQLParser {
 
 	    debug("non-parenthesised term");
 	    word = matchSymbol("index or term");
-	    if (!isRelation() && lexer.ttype != lexer.TT_WORD)
+	    if (!isSymbolicRelation() && lexer.ttype != lexer.TT_WORD)
 		break;
 
 	    index = word;
@@ -232,8 +232,8 @@ public class CQLParser {
     }
 
     // Checks for a relation
-    private boolean isRelation() {
-	debug("isRelation: checking ttype=" + lexer.ttype +
+    private boolean isSymbolicRelation() {
+	debug("isSymbolicRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
 	return (lexer.ttype == '<' ||
 		lexer.ttype == '>' ||
