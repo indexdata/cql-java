@@ -4,7 +4,7 @@
   <groupId>org.z3950.zing</groupId>
   <artifactId>cql-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.3</version>
+  <version>1.4</version>
   <name>cql-java</name>
   <url>http://maven.apache.org</url>
     <build>
