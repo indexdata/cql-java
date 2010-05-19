@@ -19,15 +19,15 @@ OBJ = Utils.class \
 	UnknownRelationModifierException.class UnknownPositionException.class
 
 JARPATH = ../lib/cql-java.jar
-JAR = ../../../../$(JARPATH)
+JAR = ../../../../../../$(JARPATH)
 $(JAR): $(OBJ)
-	cd ../../../..; jar cf $(JARPATH) org/z3950/zing/cql/*.class
+	cd ../../../../../..; jar cf $(JARPATH) main/java/org/z3950/zing/cql/*.class
 
 %.class: %.java
 	javac -Xlint:unchecked *.java
 
 test: $(JAR)
-	cd ../../../../../test/regression && make
+	cd ../../../../../../../test/regression && make
 
 clean:
 	rm -f $(OBJ) 'CQLLexer$$Keyword.class'
