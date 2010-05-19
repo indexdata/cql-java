@@ -192,7 +192,12 @@ public class CQLParser {
 
 	    debug("non-parenthesised term");
 	    word = matchSymbol("index or term");
-	    if (!isSymbolicRelation() && lexer.ttype != lexer.TT_WORD)
+            while (lexer.ttype == lexer.TT_WORD && !isRelation()) {
+              word = word + " " + lexer.sval;
+              match(lexer.TT_WORD);
+            }
+
+	    if (!isRelation())
 		break;
 
 	    index = word;
@@ -235,10 +240,11 @@ public class CQLParser {
 	debug("isRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
         if (lexer.ttype == lexer.TT_WORD &&
-            (lexer.sval == "exact" ||
-             lexer.sval == "any" ||
-             lexer.sval == "all" ||
-             (lexer.sval == "scr" && compat == V1POINT2)))
+            (lexer.sval.indexOf('.') >= 0 ||
+             lexer.sval.equals("exact") ||
+             lexer.sval.equals("any") ||
+             lexer.sval.equals("all") ||
+             (lexer.sval.equals("scr") && compat == V1POINT2)))
           return true;
 
         return isSymbolicRelation();
