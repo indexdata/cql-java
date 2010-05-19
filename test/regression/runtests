@@ -5,6 +5,7 @@
 use IO::File;
 use strict;
 
+$ENV{CLASSPATH} .= ":../../src/main/java";
 $ENV{CLASSPATH} .= ":../../lib/cql-java.jar";
 
 if (@ARGV != 2) {
