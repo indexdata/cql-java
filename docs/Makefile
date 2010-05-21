@@ -2,8 +2,8 @@
 
 all: overview-tree.html
 
-overview-tree.html: ../src/org/z3950/zing/cql/*.java
-	nice javadoc -classpath ../src \
+overview-tree.html: ../src/main/java/org/z3950/zing/cql/*.java
+	nice javadoc -classpath ../src/main/java \
 		-author -version -windowtitle cql-java org.z3950.zing.cql
 
 clean:
