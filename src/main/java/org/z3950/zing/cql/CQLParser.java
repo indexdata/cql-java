@@ -241,10 +241,13 @@ public class CQLParser {
 	      " (" + lexer.render() + ")");
         if (lexer.ttype == lexer.TT_WORD &&
             (lexer.sval.indexOf('.') >= 0 ||
-             lexer.sval.equals("exact") ||
              lexer.sval.equals("any") ||
              lexer.sval.equals("all") ||
-             (lexer.sval.equals("scr") && compat == V1POINT2)))
+             lexer.sval.equals("within") ||
+             lexer.sval.equals("encloses") ||
+             (lexer.sval.equals("exact") && compat != V1POINT2) ||
+             (lexer.sval.equals("scr") && compat != V1POINT2) ||
+             (lexer.sval.equals("adj") && compat == V1POINT2)))
           return true;
 
         return isSymbolicRelation();
