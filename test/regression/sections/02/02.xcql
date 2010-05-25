@@ -1,7 +1,7 @@
 <searchClause>
-  <index>title</index>
+  <index>cql.serverChoice</index>
   <relation>
-    <value>exact</value>
+    <value>=</value>
   </relation>
-  <term>fish</term>
+  <term>title exact fish</term>
 </searchClause>
