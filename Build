@@ -3,7 +3,7 @@
 # $Id: Build,v 1.2 2002-11-20 17:20:11 mike Exp $
 
 : ${MAKE=make}
-for dir in src/org/z3950/zing/cql test/regression docs; do
+for dir in src/main/java/org/z3950/zing/cql test/regression docs; do
 	echo "=== Building in $dir ==="
 	( cd $dir; $MAKE ${@+"$@"} )
 done
