@@ -198,7 +198,7 @@ public class CQLGenerator {
 	    return generate_numeric_relation();
 	} else {
 	    switch (rnd.nextInt(3)) {
-	    case 0: return "exact";
+	    case 0: return "within";
 	    case 1: return "all";
 	    case 2: return "any";
 	    }
