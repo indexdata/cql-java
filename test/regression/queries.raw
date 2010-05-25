@@ -26,7 +26,7 @@ dc.title any/stem fish
 dc.fish all/stem/fuzzy "fish chips"
 (title any frog)
 ((dc.title any/stem "frog pond"))
-dc.title scr "fish frog chicken"
+dc.title any "fish frog chicken"
 dc.title =/rel.algorithm=CORI squid
 author any/f.foo/b.bar>1 "sanderson taylor"
 numberOfLegs <= 4
@@ -57,7 +57,7 @@ cat prox/distance=3/unit=word/ordered hat
 cat prox/distance<3 hat
 "fish food" prox/unit=sentence and
 title all "chips frog" prox/distance<=5 exact
-(dc.author exact "jones" prox/distance>5/unit=element title >= "smith")
+(dc.author == "jones" prox/distance>5/unit=element title >= "smith")
 ((cat prox hat))
 a and/rel.SumOfScores b
 a and/rel.algorithm=CORI b
@@ -85,7 +85,7 @@ cat?dog
 
 # Lame Searches
 
-any or all:stem and all exact any prox prox=fuzzy
+any or all:stem and all contains any prox proxfuzzy
 (((((((((any)))))))))
 ""
 > any > any = exact any > any
