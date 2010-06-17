@@ -1,55 +1,39 @@
 <triple>
   <boolean>
-    <value>prox</value>
+    <value>and</value>
   </boolean>
   <leftOperand>
     <triple>
       <boolean>
-        <value>and</value>
+        <value>or</value>
       </boolean>
       <leftOperand>
-        <triple>
-          <boolean>
-            <value>or</value>
-          </boolean>
-          <leftOperand>
-            <searchClause>
-              <index>cql.serverChoice</index>
-              <relation>
-                <value>=</value>
-              </relation>
-              <term>any</term>
-            </searchClause>
-          </leftOperand>
-          <rightOperand>
-            <searchClause>
-              <index>cql.serverChoice</index>
-              <relation>
-                <value>=</value>
-              </relation>
-              <term>all:stem</term>
-            </searchClause>
-          </rightOperand>
-        </triple>
+        <searchClause>
+          <index>cql.serverChoice</index>
+          <relation>
+            <value>=</value>
+          </relation>
+          <term>any</term>
+        </searchClause>
       </leftOperand>
       <rightOperand>
         <searchClause>
-          <index>all</index>
+          <index>cql.serverChoice</index>
           <relation>
-            <value>exact</value>
+            <value>=</value>
           </relation>
-          <term>any</term>
+          <term>all:stem</term>
         </searchClause>
       </rightOperand>
     </triple>
   </leftOperand>
   <rightOperand>
     <searchClause>
-      <index>prox</index>
+      <index>all contains</index>
       <relation>
-        <value>=</value>
+        <value>any</value>
       </relation>
-      <term>fuzzy</term>
+      <term>prox proxfuzzy</term>
     </searchClause>
   </rightOperand>
 </triple>

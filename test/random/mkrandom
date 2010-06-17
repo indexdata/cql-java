@@ -12,12 +12,17 @@ if (@ARGV > 1) {
     $n = $ARGV[0];
 }
 
+my $nok = 0;
 for (my $i = 0; $i < $n; $i++) {
     print $i+1, " of $n -- ";
     my $query=`CQLGenerator ../../etc/generate.properties`;
     print $query;
     my $canon=`CQLParser -c '$query'`;
-    if ($canon ne $query) {
+    if ($canon eq $query) {
+	$nok++;
+    } else {
 	print "ERROR: canonicalised query differs from original\n";
     }
 }
+
+print "Passed $nok/$n -- ", int(100*$nok/$n), "%\n";

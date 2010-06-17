@@ -6,6 +6,16 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
+1.5  Tue May 25 16:44:35 CEST 2010
+	- Fix recognition of word-relations to correctly match what is
+	  specified in the CQL v1.1 and v1.2 documents.  In
+	  particular, "encloses" and "within" are recognised, so that
+	  Masterkey's use of "encloses" for IP range authentication
+	  works again.
+	- Update regression tests accordingly.
+	- Extend test/random/ to emit summary line of successful
+	  recompilations.
+
 1.4  Thu May 20 00:38:40 BST 2010
 	- Add support for interpreting sequences of non-keywords as a
 	  single multi-word term rather than a broken INDEX RELATION
