@@ -69,7 +69,11 @@ class CQLLexer extends StreamTokenizer {
 	ordinaryChar('(');
 	ordinaryChar(')');
 	wordChars('\'', '\''); // prevent this from introducing strings
-	parseNumbers();
+	//parseNumbers();
+	ordinaryChar('-');
+	wordChars('-', '-');
+	ordinaryChars('0', '9');
+	wordChars('0', '9');
 	DEBUG = lexdebug;
     }
 
