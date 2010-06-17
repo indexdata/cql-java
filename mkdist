@@ -11,11 +11,11 @@ trap "rm -rf $tmpdir" 1 2 15	# 0
 cp -rp . $tmpdir
 cd $tmpdir
 find . \( -name CVS -o -name .cvsignore \) -print | xargs rm -rf
-rm -rf archive mkdist etc/xslt .git
+rm -rf archive mkdist etc/xslt .git target
 ( cd src/main/java/org/z3950/zing/cql && make && make clean )
 ( cd docs && make )
 ( cd test/regression && make distclean )
 cd ..
 tar cf - $distdir | gzip -9v > $distfile
 rm -rf $tmpdir
-echo "Made $distfile"
+echo "Made /tmp/$distfile"
