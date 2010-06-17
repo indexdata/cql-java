@@ -6,6 +6,12 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
+1.6  Thu Jun 17 10:56:24 BST 2010
+	- Fix the bug where "9x" is lexed as two tokens, a TT_NUMBER
+	  followed by a TT_WORD, making unquoted search-terms such as
+	  2010-06-17 syntax errors.  Thanks to Erik Hetzner
+	  <erik.hetzner@ucop.edu> for the patch.
+
 1.5  Tue May 25 16:44:35 CEST 2010
 	- Fix recognition of word-relations to correctly match what is
 	  specified in the CQL v1.1 and v1.2 documents.  In
@@ -196,10 +202,6 @@ Library of Australia, whose help we gratefully acknowledge.
 	  case-sensitivity.
 	- Add a new configuration file that allows arbitrary new
 	  relations and relation modifiers to be defined.
-	- Fix the bug where "9x" is parsed as two tokens, a TT_NUMBER
-	  followed by a TT_WORD.  The problem here is that I don't
-	  think it's actually possible to fix this without throwing
-	  out StreamTokenizer and rolling our own, which we absolutely
 	- Fix term-to-PQF translation to omit empty properties
 	  (for the broken Korean server)
 	- Write "package.html" file for the javadoc documentation.
