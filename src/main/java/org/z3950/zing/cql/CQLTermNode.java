@@ -43,6 +43,7 @@ public class CQLTermNode extends CQLNode {
 		qual.equals("cql.resultSetName"));
     }
 
+    @Override
     public String getResultSetName() {
 	if (isResultSetIndex(index))
 	    return term;
@@ -95,6 +96,8 @@ public class CQLTermNode extends CQLNode {
 	    attrs.add(attr);
 
 	attr = config.getProperty("index." + index);
+	if (attr == null)
+	    attr = config.getProperty("qualifier." + index);
 	if (attr == null)
 	    throw new UnknownIndexException(index);
 	attrs.add(attr);
@@ -227,7 +230,7 @@ public class CQLTermNode extends CQLNode {
 	if (len > 0 && text.substring(len-1, len).equals("^"))
 	    text = text.substring(0, len-1);
 
-	String attr, attrList, term = text;
+	String attr, attrList;
 	byte[] operand = new byte[text.length()+100];
 	int i, j, offset, type, value;
 	offset = putTag(CONTEXT, 0, CONSTRUCTED, operand, 0); // op
@@ -264,7 +267,7 @@ public class CQLTermNode extends CQLNode {
 	operand[offset++] = 0x00;
 
 	offset = putTag(CONTEXT, 45, PRIMITIVE, operand, offset); // general Term
-	byte[] t = term.getBytes();
+	byte[] t = text.getBytes();
 	offset = putLen(t.length, operand, offset);
 	System.arraycopy(t, 0, operand, offset, t.length);
 	offset += t.length;
