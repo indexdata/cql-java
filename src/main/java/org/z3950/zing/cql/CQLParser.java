@@ -245,7 +245,7 @@ public class CQLParser {
              lexer.sval.equals("all") ||
              lexer.sval.equals("within") ||
              lexer.sval.equals("encloses") ||
-             (lexer.sval.equals("exact") && compat != V1POINT2) ||
+             lexer.sval.equals("exact") ||
              (lexer.sval.equals("scr") && compat != V1POINT2) ||
              (lexer.sval.equals("adj") && compat == V1POINT2)))
           return true;
