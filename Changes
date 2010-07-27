@@ -11,6 +11,10 @@ Library of Australia, whose help we gratefully acknowledge.
 	  "qualifier.dc.creator"-like properties as well as
 	  "index.dc.creator" -- backwards compatible with version
 	  prior to 1.0 as well as those subsequent.
+	- Reinstate the "exact" relation even when v1.2 is in effect
+	  (the default), despite its removal from v1.2 of CQL.  In
+	  practice, it seems to be in fairly widespread use, and
+	  little real purpose is served in removing it.
 
 1.6  Thu Jun 17 10:56:24 BST 2010
 	- Fix the bug where "9x" is lexed as two tokens, a TT_NUMBER
