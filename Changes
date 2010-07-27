@@ -6,6 +6,12 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
+1.7  [IN PROGRESS]
+	- Patch from Ralph LeVan to recognise
+	  "qualifier.dc.creator"-like properties as well as
+	  "index.dc.creator" -- backwards compatible with version
+	  prior to 1.0 as well as those subsequent.
+
 1.6  Thu Jun 17 10:56:24 BST 2010
 	- Fix the bug where "9x" is lexed as two tokens, a TT_NUMBER
 	  followed by a TT_WORD, making unquoted search-terms such as
