@@ -1,7 +1,6 @@
 // $Id: Modifier.java,v 1.4 2007-07-03 13:29:34 mike Exp $
 
 package org.z3950.zing.cql;
-import java.lang.StringBuffer;
 
 /**
  * Represents a single modifier, consisting of three elements: a type,
@@ -60,27 +59,27 @@ public class Modifier {
     }
 
     public String toXCQL(int level, String relationElement) {
-	StringBuffer buf = new StringBuffer();
+	StringBuilder buf = new StringBuilder();
 
-	buf.append(Utils.indent(level) + "<modifier>\n");
-	buf.append(Utils.indent(level+1) +
-		   "<type>" + Utils.xq(type) + "</type>\n");
+	buf.append(Utils.indent(level)).append("<modifier>\n").
+            append(Utils.indent(level + 1)).append("<type>").
+            append(Utils.xq(type)).append("</type>\n");
 	if (value != null) {
-	    buf.append(Utils.indent(level+1) + "<" + relationElement + ">" +
-		       Utils.xq(comparison) + "</" + relationElement + ">\n");
-	    buf.append(Utils.indent(level+1) +
-		       "<value>" + Utils.xq(value) + "</value>\n");
+	    buf.append(Utils.indent(level + 1)).append("<").
+              append(relationElement).append(">").
+              append(Utils.xq(comparison)).append("</").
+              append(relationElement).append(">\n").
+              append(Utils.indent(level + 1)).append("<value>").
+              append(Utils.xq(value)).append("</value>\n");
 	}
-	
-	buf.append(Utils.indent(level) + "</modifier>\n");
+	buf.append(Utils.indent(level)).append("</modifier>\n");
 	return buf.toString();
     }
 
     public String toCQL() {
-	StringBuffer buf = new StringBuffer(type);
+	StringBuilder buf = new StringBuilder(type);
 	if (value != null)
-	    buf.append(" " + comparison + " " + value);
-
+	    buf.append(" ").append(comparison).append(" ").append(value);
 	return buf.toString();
     }
 }

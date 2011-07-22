@@ -1,7 +1,6 @@
 // $Id: ModifierSet.java,v 1.13 2007-07-03 13:30:18 mike Exp $
 
 package org.z3950.zing.cql;
-import java.lang.StringBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,26 +87,27 @@ public class ModifierSet {
 
     private String underlyingToXCQL(int level, String topLevelElement,
 				    String valueElement) {
-	StringBuffer buf = new StringBuffer();
-	buf.append(Utils.indent(level) + "<" + topLevelElement + ">\n");
-	buf.append(Utils.indent(level+1) +
-		   "<" + valueElement + ">" + Utils.xq(base) +
-		   "</" + valueElement + ">\n");
+	StringBuilder buf = new StringBuilder();
+	buf.append(Utils.indent(level)).append("<").append(topLevelElement).
+            append(">\n").append(Utils.indent(level + 1)).append("<").
+            append(valueElement).append(">").append(Utils.xq(base)).append("</").
+            append(valueElement).append(">\n");
 	if (modifiers.size() > 0) {
-	    buf.append(Utils.indent(level+1) + "<modifiers>\n");
+	    buf.append(Utils.indent(level + 1)).append("<modifiers>\n");
 	    for (int i = 0; i < modifiers.size(); i++) {
 		buf.append(modifiers.get(i).toXCQL(level+2, "comparison"));
 	    }
-	    buf.append(Utils.indent(level+1) + "</modifiers>\n");
+	    buf.append(Utils.indent(level + 1)).append("</modifiers>\n");
 	}
-	buf.append(Utils.indent(level) + "</" + topLevelElement + ">\n");
+	buf.append(Utils.indent(level)).append("</").append(topLevelElement).
+            append(">\n");
 	return buf.toString();
     }
 
     public String toCQL() {
-	StringBuffer buf = new StringBuffer(base);
+	StringBuilder buf = new StringBuilder(base);
 	for (int i = 0; i < modifiers.size(); i++) {
-	    buf.append("/" + modifiers.get(i).toCQL());
+	    buf.append("/").append(modifiers.get(i).toCQL());
 	}
 
 	return buf.toString();

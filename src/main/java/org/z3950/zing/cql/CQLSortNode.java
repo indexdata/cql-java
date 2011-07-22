@@ -52,13 +52,13 @@ public class CQLSortNode extends CQLNode {
 
     @Override
     public String toCQL() {
-	StringBuffer buf = new StringBuffer(subtree.toCQL());
+	StringBuilder buf = new StringBuilder(subtree.toCQL());
 
 	if (keys != null) {
 	    buf.append(" sortby");
 	    for (int i = 0; i < keys.size(); i++) {
 		ModifierSet key = keys.get(i);
-		buf.append(" " + key.toCQL());
+		buf.append(" ").append(key.toCQL());
 	    }
 	}
 
