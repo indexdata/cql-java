@@ -4,9 +4,6 @@ package org.z3950.zing.cql;
 import java.util.List;
 import java.util.Properties;
 
-import static org.z3950.zing.cql.Utils.*;
-
-
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
@@ -47,19 +44,19 @@ public abstract class CQLBooleanNode extends CQLNode {
     }
 
     @Override
-    public String toXCQL(int level, List<CQLPrefix> prefixes,
-			 List<ModifierSet> sortkeys) {
-	return (indent(level) + "<triple>\n" +
-		renderPrefixes(level+1, prefixes) +
-		ms.toXCQL(level+1, "boolean") +
-		indent(level+1) + "<leftOperand>\n" +
-		left.toXCQL(level+2) +
-		indent(level+1) + "</leftOperand>\n" +
-		indent(level+1) + "<rightOperand>\n" +
-		right.toXCQL(level+2) +
-		indent(level+1) + "</rightOperand>\n" +
-		renderSortKeys(level+1, sortkeys) +
-		indent(level) + "</triple>\n");
+    void toXCQLInternal(XCQLBuilder b, int level,
+        List<CQLPrefix> prefixes, List<ModifierSet> sortkeys) {
+	b.indent(level).append("<triple>\n");
+        renderPrefixes(b, level + 1, prefixes);
+        ms.toXCQLInternal(b, level + 1, "boolean");
+        b.indent(level + 1).append("<leftOperand>\n");
+        left.toXCQLInternal(b, level + 2);
+        b.indent(level + 1).append("</leftOperand>\n");
+        b.indent(level + 1).append("<rightOperand>\n");
+        right.toXCQLInternal(b, level + 2);
+        b.indent(level + 1).append("</rightOperand>\n");
+        renderSortKeys(b, level + 1, sortkeys);
+        b.indent(level).append("</triple>\n");
     }
 
     @Override

@@ -42,13 +42,13 @@ public class CQLPrefixNode extends CQLNode {
     }
 
     @Override
-    public String toXCQL(int level, List<CQLPrefix> prefixes,
+    void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	List<CQLPrefix> tmp = (prefixes == null ?
 				 new ArrayList<CQLPrefix>() :
 				 new ArrayList<CQLPrefix>(prefixes));
 	tmp.add(prefix);
-	return subtree.toXCQL(level, tmp, sortkeys);
+	subtree.toXCQLInternal(b, level, tmp, sortkeys);
     }
 
     @Override

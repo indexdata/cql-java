@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static org.z3950.zing.cql.Utils.*;
-
-
 /**
  * Represents a terminal node in a CQL parse-tree.
  * A term node consists of the term String itself, together with,
@@ -55,15 +52,15 @@ public class CQLTermNode extends CQLNode {
     }
 
     @Override
-    public String toXCQL(int level, List<CQLPrefix> prefixes,
+    void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
-	return (indent(level) + "<searchClause>\n" +
-		renderPrefixes(level+1, prefixes) +
-		indent(level+1) + "<index>" + xq(index) + "</index>\n" +
-		relation.toXCQL(level+1) +
-		indent(level+1) + "<term>" + xq(term) + "</term>\n" +
-		renderSortKeys(level+1, sortkeys) +
-		indent(level) + "</searchClause>\n");
+      b.indent(level).append("<searchClause>\n");
+      renderPrefixes(b, level + 1, prefixes);
+      b.indent(level + 1).append("<index>").xq(index).append("</index>\n");
+      relation.toXCQLInternal(b, level + 1);
+      b.indent(level + 1).append("<term>").xq(term).append("</term>\n");
+      renderSortKeys(b, level + 1, sortkeys);
+      b.indent(level).append("</searchClause>\n");
     }
 
     @Override

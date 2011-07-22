@@ -4,8 +4,6 @@ package org.z3950.zing.cql;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.z3950.zing.cql.Utils.*;
-
 /**
  * Represents a base String and a set of Modifiers.
  * <P>
@@ -80,30 +78,33 @@ public class ModifierSet {
     }
 
     public String toXCQL(int level, String topLevelElement) {
-	return underlyingToXCQL(level, topLevelElement, "value");
+	return "";//underlyingToXCQL(level, topLevelElement, "value");
     }
 
     public String sortKeyToXCQL(int level) {
-	return underlyingToXCQL(level, "key", "index");
+	return "";//underlyingToXCQL(level, "key", "index");
     }
 
-    private String underlyingToXCQL(int level, String topLevelElement,
-				    String valueElement) {
-	StringBuilder buf = new StringBuilder();
-	buf.append(indent(level)).append("<").append(topLevelElement).
-            append(">\n").append(indent(level + 1)).append("<").
-            append(valueElement).append(">").append(xq(base)).append("</").
+    protected XCQLBuilder toXCQLInternal(XCQLBuilder b, int level,
+        String topLevelElement) {
+        return toXCQLInternal(b, level, topLevelElement, "value");
+    }
+
+    private XCQLBuilder toXCQLInternal(XCQLBuilder b, int level, 
+        String topLevelElement, String valueElement) {
+	b.indent(level).append("<").append(topLevelElement).
+            append(">\n").indent(level + 1).append("<").
+            append(valueElement).append(">").xq(base).append("</").
             append(valueElement).append(">\n");
 	if (modifiers.size() > 0) {
-	    buf.append(indent(level + 1)).append("<modifiers>\n");
+	    b.indent(level + 1).append("<modifiers>\n");
 	    for (int i = 0; i < modifiers.size(); i++) {
-		buf.append(modifiers.get(i).toXCQL(level+2, "comparison"));
+              modifiers.get(i).toXCQLInternal(b, level+2, "comparison");
 	    }
-	    buf.append(indent(level + 1)).append("</modifiers>\n");
+	    b.indent(level + 1).append("</modifiers>\n");
 	}
-	buf.append(indent(level)).append("</").append(topLevelElement).
-            append(">\n");
-	return buf.toString();
+	b.indent(level).append("</").append(topLevelElement).append(">\n");
+        return b;
     }
 
     public String toCQL() {

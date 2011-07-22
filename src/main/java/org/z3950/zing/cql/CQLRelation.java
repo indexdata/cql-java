@@ -44,12 +44,11 @@ public class CQLRelation extends CQLNode {
     }
 
     @Override
-    public String toXCQL(int level, List<CQLPrefix> prefixes,
+    void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
       List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
 	    throw new Error("CQLRelation.toXCQL() called with sortkeys");
-
-	return ms.toXCQL(level, "relation");
+	ms.toXCQLInternal(b, level, "relation");
     }
 
     @Override

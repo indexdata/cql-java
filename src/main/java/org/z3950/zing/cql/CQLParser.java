@@ -443,7 +443,7 @@ public class CQLParser {
 		f.close();
 		System.out.println(root.toPQF(config));
 	    } else {
-		System.out.print(root.toXCQL(0));
+		System.out.print(root.toXCQL());
 	    }
 	} catch (IOException ex) {
 	    System.err.println("Can't render query: " + ex.getMessage());

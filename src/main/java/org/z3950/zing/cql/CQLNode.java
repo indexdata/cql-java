@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.z3950.zing.cql.Utils.*;
 
 
 /**
@@ -41,43 +40,47 @@ public abstract class CQLNode {
      *	A String containing an XCQL document equivalent to the
      *	parse-tree whose root is this node.
      */
-    public String toXCQL(int level) {
-	return toXCQL(level, null);
+    public String toXCQL() {
+        StringBuilder sb = new StringBuilder();
+	toXCQLInternal(new XCQLBuilder(sb), 0);
+        return sb.toString();
     }
 
-    public String toXCQL(int level, List<CQLPrefix> prefixes) {
-	return toXCQL(level, prefixes, null);
+    void toXCQLInternal(XCQLBuilder b, int level) {
+        toXCQLInternal(b, level, null, null);
     }
 
-    abstract public String toXCQL(int level, List<CQLPrefix> prefixes,
-				  List<ModifierSet> sortkeys);
+    abstract void toXCQLInternal(XCQLBuilder b, int level,
+      List<CQLPrefix> prefixes, List<ModifierSet> sortkeys);
 
-    protected static String renderPrefixes(int level, List<CQLPrefix> prefixes) {
+    static void renderPrefixes(XCQLBuilder b,
+        int level, List<CQLPrefix> prefixes) {
 	if (prefixes == null || prefixes.size() == 0)
-	    return "";
-	String res = indent(level) + "<prefixes>\n";
+	    return;
+	b.indent(level).append("<prefixes>\n");
 	for (int i = 0; i < prefixes.size(); i++) {
 	    CQLPrefix p = prefixes.get(i);
-	    res += indent(level+1) + "<prefix>\n";
+	    b.indent(level+1).append("<prefix>\n");
 	    if (p.name != null)
-		res += indent(level+2) + "<name>" + p.name + "</name>\n";
-	    res += indent(level+2) +
-		"<identifier>" + p.identifier + "</identifier>\n";
-	    res += indent(level+1) + "</prefix>\n";
+		b.indent(level + 2).append("<name>").
+                    append(p.name).append("</name>\n");
+	    b.indent(level + 2).append("<identifier>").append(p.identifier).
+              append("</identifier>\n");
+	    b.indent(level+1).append("</prefix>\n");
 	}
-	return res + indent(level) + "</prefixes>\n";
+	b.indent(level).append("</prefixes>\n");
     }
 
-    protected static String renderSortKeys(int level,
+    static void renderSortKeys(XCQLBuilder b, int level,
 					   List<ModifierSet> sortkeys) {
 	if (sortkeys == null || sortkeys.size() == 0)
-	    return "";
-	String res = indent(level) + "<sortKeys>\n";
+	    return;
+	b.indent(level).append("<sortKeys>\n");
 	for (int i = 0; i < sortkeys.size(); i++) {
 	    ModifierSet key = sortkeys.get(i);
-	    res += key.sortKeyToXCQL(level+1);
+	    b.append(key.sortKeyToXCQL(level+1));
 	}
-	return res + indent(level) + "</sortKeys>\n";
+	b.indent(level).append("</sortKeys>\n");
     }
 
     /**

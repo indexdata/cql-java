@@ -43,11 +43,11 @@ public class CQLSortNode extends CQLNode {
     }
 
     @Override
-    public String toXCQL(int level, List<CQLPrefix> prefixes,
+    void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
 	    throw new Error("CQLSortNode.toXCQL() called with sortkeys");
-	return subtree.toXCQL(level, prefixes, keys);
+	subtree.toXCQLInternal(b, level, prefixes, keys);
     }
 
     @Override
