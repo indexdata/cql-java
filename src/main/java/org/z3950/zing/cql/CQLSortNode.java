@@ -15,7 +15,7 @@ public class CQLSortNode extends CQLNode {
      * The root of a subtree representing the query whose result is to
      * be sorted.
      */ 
-    public CQLNode subtree;
+    private CQLNode subtree;
 
     /**
      * The set of sort keys by which results are to be sorted,
@@ -23,6 +23,10 @@ public class CQLSortNode extends CQLNode {
      * modifiers.
      */ 
     Vector<ModifierSet> keys;
+
+    public CQLNode getSubtree() {
+        return subtree;
+    }
 
     public CQLSortNode(CQLNode subtree) {
 	this.subtree = subtree;

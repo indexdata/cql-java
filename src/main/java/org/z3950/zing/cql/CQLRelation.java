@@ -36,17 +36,6 @@ public class CQLRelation extends CQLNode {
     }
 
     /**
-     * Sets the modifiers of the specified CQLRelation.
-     * Typical relation modifiers include <TT>relevant</TT>,
-     * <TT>fuzzy</TT>, <TT>stem</TT> and <TT>phonetic</TT>.  On the
-     * whole, these modifiers have a meaningful interpretation only
-     * for the text relations.
-     */
-    public void setModifiers(ModifierSet ms) {
-	this.ms = ms;
-    }
-
-    /**
      * Returns an array of the modifiers associated with a CQLRelation.
      * @return
      *	An array of Modifier objects.

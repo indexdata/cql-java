@@ -11,20 +11,32 @@ import java.util.Vector;
  * @version	$Id: CQLBooleanNode.java,v 1.18 2007-07-03 16:03:00 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
+
+    private CQLNode left;
+
     /**
      * The root of a parse-tree representing the left-hand side.
-     */ 
-    public CQLNode left;
+     */
+    public CQLNode getLeft() {
+        return left;
+    }
+
+    private CQLNode right;
 
     /**
      * The root of a parse-tree representing the right-hand side.
-     */ 
-    public CQLNode right;
+     */
+    public CQLNode getRight() {
+        return right;
+    }
 
+    ModifierSet ms;
     /**
      * The set of modifiers that are applied to this boolean.
      */
-    public ModifierSet ms;
+    public Vector<Modifier> getModifiers() {
+        return ms.getModifiers();
+    }
 
     protected CQLBooleanNode(CQLNode left, CQLNode right, ModifierSet ms) {
 	this.left = left;

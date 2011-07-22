@@ -206,7 +206,7 @@ public class CQLParser {
 	    relation = new CQLRelation(relstr);
 	    match(lexer.ttype);
 	    ModifierSet ms = gatherModifiers(relstr);
-	    relation.setModifiers(ms);
+	    relation.ms = ms;
 	    debug("index='" + index + ", " +
 		  "relation='" + relation.toCQL() + "'");
 	}

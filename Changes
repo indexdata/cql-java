@@ -6,6 +6,11 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
+1.8  IN PROGRESS
+    - API changes: more information hiding, introduce getters
+    - make some contants read-only
+
+
 1.7  Tue Jul 27 17:35:25 BST 2010
 	- Patch from Ralph LeVan to recognise
 	  "qualifier.dc.creator"-like properties as well as

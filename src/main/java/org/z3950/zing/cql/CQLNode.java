@@ -191,8 +191,7 @@ public abstract class CQLNode {
      * @param len length to put into record
      * @return the new, incremented value of the offset parameter.
      */
-    public // ### shouldn't this be protected?
-	static final int putLen(int len, byte[] record, int offset) {
+    static final int putLen(int len, byte[] record, int offset) {
 
         if (len < 128)
             record[offset++] = (byte)len;

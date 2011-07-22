@@ -18,8 +18,8 @@ import java.lang.StringBuffer;
  * @version $Id: ModifierSet.java,v 1.13 2007-07-03 13:30:18 mike Exp $
  */
 public class ModifierSet {
-    String base;
-    Vector<Modifier> modifiers;
+    private String base;
+    private Vector<Modifier> modifiers;
 
     /**
      * Creates a new ModifierSet with the specified base.

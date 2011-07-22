@@ -27,8 +27,8 @@ import java.io.FileNotFoundException;
  *		        >http://zing.z3950.org/cql/index.html</A>
  */
 public class CQLGenerator {
-    Properties params;
-    Random rnd;
+    private Properties params;
+    private Random rnd;
     static private boolean DEBUG = false;
 
     /**

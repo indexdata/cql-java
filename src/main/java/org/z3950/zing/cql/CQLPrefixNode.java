@@ -15,13 +15,21 @@ public class CQLPrefixNode extends CQLNode {
     /**
      * The prefix definition that governs the subtree.
      */
-    public CQLPrefix prefix;
+    private CQLPrefix prefix;
+
+    public CQLPrefix getPrefix() {
+        return prefix;
+    }
 
     /**
      * The root of a parse-tree representing the part of the query
      * that is governed by this prefix definition.
      */ 
-    public CQLNode subtree;
+    private CQLNode subtree;
+
+    public CQLNode getSubtree() {
+      return subtree;
+    }
 
     /**
      * Creates a new CQLPrefixNode inducing a mapping from the
