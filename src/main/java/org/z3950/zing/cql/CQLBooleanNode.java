@@ -30,6 +30,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     }
 
     ModifierSet ms;
+
     /**
      * The set of modifiers that are applied to this boolean.
      */

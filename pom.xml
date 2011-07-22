@@ -7,7 +7,14 @@
   <version>1.8</version>
   <name>cql-java</name>
   <url>http://maven.apache.org</url>
-    <build>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>1.0-beta-6</version>
+      </extension>
+    </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -33,7 +40,7 @@
       <uniqueVersion>false</uniqueVersion>
       <id>id-maven-repo</id>
       <name>Index Data Maven Repository</name>
-      <url>scp://maven.indexdata.com/var/www/maven/repository</url>
+      <url>scp://maven.indexdata.com:222/var/www/maven/repository</url>
     </repository>
   </distributionManagement>
   <repositories>

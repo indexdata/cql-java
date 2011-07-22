@@ -14,7 +14,6 @@ import java.util.Properties;
  * @version	$Id: CQLNode.java,v 1.26 2007-07-03 13:36:03 mike Exp $
  */
 public abstract class CQLNode {
-    CQLNode() {}		// prevent javadoc from documenting this
 
     /**
      * Returns the name of the result-set to which this query is a
@@ -31,11 +30,6 @@ public abstract class CQLNode {
     /**
      * Translates a parse-tree into an XCQL document.
      * <P>
-     * @param level
-     *	The number of levels to indent the top element of the XCQL
-     *	document.  This will typically be 0 when invoked by an
-     *	application; it takes higher values when this method is
-     *	invoked recursively for nodes further down the tree.
      * @return
      *	A String containing an XCQL document equivalent to the
      *	parse-tree whose root is this node.

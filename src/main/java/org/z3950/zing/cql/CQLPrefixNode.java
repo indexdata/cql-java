@@ -12,21 +12,22 @@ import java.util.Properties;
  * @version	$Id: CQLPrefixNode.java,v 1.10 2007-07-03 16:40:11 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
+
+    private CQLPrefix prefix;
+
     /**
      * The prefix definition that governs the subtree.
      */
-    private CQLPrefix prefix;
-
     public CQLPrefix getPrefix() {
         return prefix;
     }
 
+    private CQLNode subtree;
+
     /**
      * The root of a parse-tree representing the part of the query
      * that is governed by this prefix definition.
-     */ 
-    private CQLNode subtree;
-
+     */
     public CQLNode getSubtree() {
       return subtree;
     }
