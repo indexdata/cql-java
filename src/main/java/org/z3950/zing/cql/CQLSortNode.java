@@ -1,8 +1,9 @@
 // $Id: CQLSortNode.java,v 1.2 2008-04-11 12:05:15 mike Exp $
 
 package org.z3950.zing.cql;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 
 /**
@@ -22,7 +23,7 @@ public class CQLSortNode extends CQLNode {
      * each expressed as an index together with zero or more
      * modifiers.
      */ 
-    Vector<ModifierSet> keys;
+    List<ModifierSet> keys;
 
     public CQLNode getSubtree() {
         return subtree;
@@ -30,19 +31,19 @@ public class CQLSortNode extends CQLNode {
 
     public CQLSortNode(CQLNode subtree) {
 	this.subtree = subtree;
-	keys = new Vector<ModifierSet>();
+	keys = new ArrayList<ModifierSet>();
     }
 
     public void addSortIndex(ModifierSet key) {
 	keys.add(key);
     }
 
-    public Vector<ModifierSet> getSortIndexes() {
+    public List<ModifierSet> getSortIndexes() {
     	return keys;
     }
 
-    public String toXCQL(int level, Vector<CQLPrefix> prefixes,
-			 Vector<ModifierSet> sortkeys) {
+    public String toXCQL(int level, List<CQLPrefix> prefixes,
+			 List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
 	    throw new Error("CQLSortNode.toXCQL() called with sortkeys");
 	return subtree.toXCQL(level, prefixes, keys);

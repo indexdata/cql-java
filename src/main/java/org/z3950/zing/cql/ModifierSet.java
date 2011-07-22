@@ -1,8 +1,9 @@
 // $Id: ModifierSet.java,v 1.13 2007-07-03 13:30:18 mike Exp $
 
 package org.z3950.zing.cql;
-import java.util.Vector;
 import java.lang.StringBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a base String and a set of Modifiers.
@@ -19,14 +20,14 @@ import java.lang.StringBuffer;
  */
 public class ModifierSet {
     private String base;
-    private Vector<Modifier> modifiers;
+    private List<Modifier> modifiers;
 
     /**
      * Creates a new ModifierSet with the specified base.
      */
     public ModifierSet(String base) {
 	this.base = base;
-	modifiers = new Vector<Modifier>();
+	modifiers = new ArrayList<Modifier>();
     }
 
     /**
@@ -73,7 +74,7 @@ public class ModifierSet {
      * @return
      *	An array of Modifiers.
      */
-    public Vector<Modifier> getModifiers() {
+    public List<Modifier> getModifiers() {
 	return modifiers;
     }
 

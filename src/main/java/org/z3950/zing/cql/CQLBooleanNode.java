@@ -1,8 +1,8 @@
 // $Id: CQLBooleanNode.java,v 1.18 2007-07-03 16:03:00 mike Exp $
 
 package org.z3950.zing.cql;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 
 /**
@@ -34,7 +34,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     /**
      * The set of modifiers that are applied to this boolean.
      */
-    public Vector<Modifier> getModifiers() {
+    public List<Modifier> getModifiers() {
         return ms.getModifiers();
     }
 
@@ -44,8 +44,8 @@ public abstract class CQLBooleanNode extends CQLNode {
 	this.ms = ms;
     }
 
-    public String toXCQL(int level, Vector<CQLPrefix> prefixes,
-			 Vector<ModifierSet> sortkeys) {
+    public String toXCQL(int level, List<CQLPrefix> prefixes,
+			 List<ModifierSet> sortkeys) {
 	return (indent(level) + "<triple>\n" +
 		renderPrefixes(level+1, prefixes) +
 		ms.toXCQL(level+1, "boolean") +

@@ -1,7 +1,6 @@
 // $Id: UnknownIndexException.java,v 1.2 2007-06-27 22:44:40 mike Exp $
 
 package org.z3950.zing.cql;
-import java.lang.Exception;
 
 
 /**

@@ -1,8 +1,9 @@
 // $Id: CQLTermNode.java,v 1.28 2007-07-03 13:41:24 mike Exp $
 
 package org.z3950.zing.cql;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 
 /**
@@ -51,8 +52,8 @@ public class CQLTermNode extends CQLNode {
 	    return null;
     }
 
-    public String toXCQL(int level, Vector<CQLPrefix> prefixes,
-			 Vector<ModifierSet> sortkeys) {
+    public String toXCQL(int level, List<CQLPrefix> prefixes,
+			 List<ModifierSet> sortkeys) {
 	return (indent(level) + "<searchClause>\n" +
 		renderPrefixes(level+1, prefixes) +
 		indent(level+1) + "<index>" + xq(index) + "</index>\n" +
@@ -80,8 +81,8 @@ public class CQLTermNode extends CQLNode {
     // ### Interaction between this and its callers is not good as
     //	regards truncation of the term and generation of truncation
     //	attributes.  Change the interface to fix this.
-    private Vector getAttrs(Properties config) throws PQFTranslationException {
-	Vector<String> attrs = new Vector<String>();
+    private List<String> getAttrs(Properties config) throws PQFTranslationException {
+	List<String> attrs = new ArrayList<String>();
 
 	// Do this first so that if any other truncation or
 	// completeness attributes are generated, they "overwrite"
@@ -118,7 +119,7 @@ public class CQLTermNode extends CQLNode {
 	    throw new UnknownRelationException(rel);
 	attrs.add(attr);
 
-	Vector<Modifier> mods = relation.getModifiers();
+	List<Modifier> mods = relation.getModifiers();
 	for (int i = 0; i < mods.size(); i++) {
 	    String type = mods.get(i).type;
 	    attr = config.getProperty("relationModifier." + type);
@@ -164,7 +165,7 @@ public class CQLTermNode extends CQLNode {
 	    return "@set " + maybeQuote(term);
 	}
 
-	Vector attrs = getAttrs(config);
+	List<String> attrs = getAttrs(config);
 
 	String attr, s = "";
 	for (int i = 0; i < attrs.size(); i++) {
@@ -240,7 +241,7 @@ public class CQLTermNode extends CQLNode {
 	offset = putTag(CONTEXT, 44, CONSTRUCTED, operand, offset); // AttributeList
 	operand[offset++] = (byte)(0x80&0xff); // indefinite length
 
-	Vector attrs = getAttrs(config);
+	List<String> attrs = getAttrs(config);
 	for(i = 0; i < attrs.size(); i++) {
 	    attrList = (String) attrs.get(i);
 	    java.util.StringTokenizer st =

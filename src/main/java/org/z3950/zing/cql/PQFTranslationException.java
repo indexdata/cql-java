@@ -1,7 +1,6 @@
 // $Id: PQFTranslationException.java,v 1.1 2002-11-06 20:13:45 mike Exp $
 
 package org.z3950.zing.cql;
-import java.lang.Exception;
 
 
 /**

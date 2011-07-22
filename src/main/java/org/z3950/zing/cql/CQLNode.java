@@ -1,8 +1,10 @@
 // $Id: CQLNode.java,v 1.26 2007-07-03 13:36:03 mike Exp $
 
 package org.z3950.zing.cql;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Vector;
 
 
 /**
@@ -41,19 +43,19 @@ public abstract class CQLNode {
 	return toXCQL(level, null);
     }
 
-    public String toXCQL(int level, Vector<CQLPrefix> prefixes) {
+    public String toXCQL(int level, List<CQLPrefix> prefixes) {
 	return toXCQL(level, prefixes, null);
     }
 
-    abstract public String toXCQL(int level, Vector<CQLPrefix> prefixes,
-				  Vector<ModifierSet> sortkeys);
+    abstract public String toXCQL(int level, List<CQLPrefix> prefixes,
+				  List<ModifierSet> sortkeys);
 
-    protected static String renderPrefixes(int level, Vector prefixes) {
+    protected static String renderPrefixes(int level, List<CQLPrefix> prefixes) {
 	if (prefixes == null || prefixes.size() == 0)
 	    return "";
 	String res = indent(level) + "<prefixes>\n";
 	for (int i = 0; i < prefixes.size(); i++) {
-	    CQLPrefix p = (CQLPrefix) prefixes.get(i);
+	    CQLPrefix p = prefixes.get(i);
 	    res += indent(level+1) + "<prefix>\n";
 	    if (p.name != null)
 		res += indent(level+2) + "<name>" + p.name + "</name>\n";
@@ -65,7 +67,7 @@ public abstract class CQLNode {
     }
 
     protected static String renderSortKeys(int level,
-					   Vector<ModifierSet> sortkeys) {
+					   List<ModifierSet> sortkeys) {
 	if (sortkeys == null || sortkeys.size() == 0)
 	    return "";
 	String res = indent(level) + "<sortKeys>\n";
@@ -261,8 +263,8 @@ public abstract class CQLNode {
     }
 
     // Used only by the makeOID() method
-    private static final java.util.Hashtable<String, byte[]> madeOIDs =
-	new java.util.Hashtable<String, byte[]>(10);
+    private static final Map<String, byte[]> madeOIDs =
+	new HashMap<String, byte[]>(10);
 
     protected static final byte[] makeOID(String oid) {
         byte[] o;

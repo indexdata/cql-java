@@ -3,7 +3,6 @@
 package org.z3950.zing.cql;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
-import java.util.Hashtable;
 
 
 // This is a semi-trivial subclass for java.io.StreamTokenizer that:

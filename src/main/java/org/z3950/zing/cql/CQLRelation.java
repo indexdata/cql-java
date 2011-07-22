@@ -1,9 +1,8 @@
 // $Id: CQLRelation.java,v 1.19 2007-07-03 13:40:58 mike Exp $
 
 package org.z3950.zing.cql;
-import java.util.Vector;
+import java.util.List;
 import java.util.Properties;
-import java.lang.StringBuffer;
 
 /**
  * Represents a relation between a CQL index and term.
@@ -40,11 +39,12 @@ public class CQLRelation extends CQLNode {
      * @return
      *	An array of Modifier objects.
      */
-    public Vector<Modifier> getModifiers() {
+    public List<Modifier> getModifiers() {
 	return ms.getModifiers();
     }
 
-    public String toXCQL(int level, Vector prefixes, Vector sortkeys) {
+    public String toXCQL(int level, List<CQLPrefix> prefixes,
+      List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
 	    throw new Error("CQLRelation.toXCQL() called with sortkeys");
 

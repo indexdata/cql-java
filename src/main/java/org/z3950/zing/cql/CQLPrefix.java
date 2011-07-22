@@ -1,7 +1,6 @@
 // $Id: CQLPrefix.java,v 1.5 2007-06-27 22:39:55 mike Exp $
 
 package org.z3950.zing.cql;
-import java.lang.String;
 
 /**
  * Represents a CQL prefix mapping from short name to long identifier.

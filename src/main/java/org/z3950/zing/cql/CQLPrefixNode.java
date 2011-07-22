@@ -1,9 +1,9 @@
 // $Id: CQLPrefixNode.java,v 1.10 2007-07-03 16:40:11 mike Exp $
 
 package org.z3950.zing.cql;
-import java.lang.String;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 
 /**
@@ -41,11 +41,11 @@ public class CQLPrefixNode extends CQLNode {
 	this.subtree = subtree;
     }
 
-    public String toXCQL(int level, Vector<CQLPrefix> prefixes,
-			 Vector<ModifierSet> sortkeys) {
-	Vector<CQLPrefix> tmp = (prefixes == null ?
-				 new Vector<CQLPrefix>() :
-				 new Vector<CQLPrefix>(prefixes));
+    public String toXCQL(int level, List<CQLPrefix> prefixes,
+			 List<ModifierSet> sortkeys) {
+	List<CQLPrefix> tmp = (prefixes == null ?
+				 new ArrayList<CQLPrefix>() :
+				 new ArrayList<CQLPrefix>(prefixes));
 	tmp.add(prefix);
 	return subtree.toXCQL(level, tmp, sortkeys);
     }

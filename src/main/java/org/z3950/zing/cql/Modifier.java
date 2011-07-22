@@ -1,7 +1,6 @@
 // $Id: Modifier.java,v 1.4 2007-07-03 13:29:34 mike Exp $
 
 package org.z3950.zing.cql;
-import java.util.Vector;
 import java.lang.StringBuffer;
 
 /**

@@ -2,11 +2,12 @@
 
 package org.z3950.zing.cql;
 import java.io.IOException;
-import java.util.Vector;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -369,7 +370,7 @@ public class CQLParser {
 	char mode = 'x';	// x=XCQL, c=CQL, p=PQF
 	String pfile = null;
 
-	Vector<String> argv = new Vector<String>();
+	List<String> argv = new ArrayList<String>();
 	for (int i = 0; i < args.length; i++) {
 	    argv.add(args[i]);
 	}
