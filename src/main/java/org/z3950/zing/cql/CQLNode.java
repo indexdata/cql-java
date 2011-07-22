@@ -64,9 +64,9 @@ public abstract class CQLNode {
 	    if (p.name != null)
 		b.indent(level + 2).append("<name>").
                     append(p.name).append("</name>\n");
-	    b.indent(level + 2).append("<identifier>").append(p.identifier).
-              append("</identifier>\n");
-	    b.indent(level+1).append("</prefix>\n");
+            b.indent(level + 2).append("<identifier>").
+                append(p.identifier).append("</identifier>\n");
+            b.indent(level+1).append("</prefix>\n");
 	}
 	b.indent(level).append("</prefixes>\n");
     }
@@ -78,7 +78,7 @@ public abstract class CQLNode {
 	b.indent(level).append("<sortKeys>\n");
 	for (int i = 0; i < sortkeys.size(); i++) {
 	    ModifierSet key = sortkeys.get(i);
-	    b.append(key.sortKeyToXCQL(level+1));
+	    key.toXCQLInternal(b, level+1, "key", "index");
 	}
 	b.indent(level).append("</sortKeys>\n");
     }

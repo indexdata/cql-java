@@ -58,7 +58,7 @@ public class Modifier {
 	return value;
     }
 
-    protected XCQLBuilder toXCQLInternal(XCQLBuilder b, int level, String relationElement) {
+    void toXCQLInternal(XCQLBuilder b, int level, String relationElement) {
 	b.indent(level).append("<modifier>\n");
         b.indent(level + 1).append("<type>");
         b.xq(type).append("</type>\n");
@@ -68,7 +68,7 @@ public class Modifier {
             b.indent(level + 1).append("<value>");
             b.xq(value).append("</value>\n");
 	}
-	return b.indent(level).append("</modifier>\n");
+	b.indent(level).append("</modifier>\n");
     }
 
     public String toCQL() {

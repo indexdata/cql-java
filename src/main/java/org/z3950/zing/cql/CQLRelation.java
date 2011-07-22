@@ -48,7 +48,7 @@ public class CQLRelation extends CQLNode {
       List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
 	    throw new Error("CQLRelation.toXCQL() called with sortkeys");
-	ms.toXCQLInternal(b, level, "relation");
+	ms.toXCQLInternal(b, level, "relation", "value");
     }
 
     @Override

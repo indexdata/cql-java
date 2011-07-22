@@ -48,7 +48,7 @@ public abstract class CQLBooleanNode extends CQLNode {
         List<CQLPrefix> prefixes, List<ModifierSet> sortkeys) {
 	b.indent(level).append("<triple>\n");
         renderPrefixes(b, level + 1, prefixes);
-        ms.toXCQLInternal(b, level + 1, "boolean");
+        ms.toXCQLInternal(b, level + 1, "boolean", "value");
         b.indent(level + 1).append("<leftOperand>\n");
         left.toXCQLInternal(b, level + 2);
         b.indent(level + 1).append("</leftOperand>\n");

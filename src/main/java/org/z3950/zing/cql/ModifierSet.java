@@ -77,20 +77,7 @@ public class ModifierSet {
 	return modifiers;
     }
 
-    public String toXCQL(int level, String topLevelElement) {
-	return "";//underlyingToXCQL(level, topLevelElement, "value");
-    }
-
-    public String sortKeyToXCQL(int level) {
-	return "";//underlyingToXCQL(level, "key", "index");
-    }
-
-    protected XCQLBuilder toXCQLInternal(XCQLBuilder b, int level,
-        String topLevelElement) {
-        return toXCQLInternal(b, level, topLevelElement, "value");
-    }
-
-    private XCQLBuilder toXCQLInternal(XCQLBuilder b, int level, 
+    void toXCQLInternal(XCQLBuilder b, int level,
         String topLevelElement, String valueElement) {
 	b.indent(level).append("<").append(topLevelElement).
             append(">\n").indent(level + 1).append("<").
@@ -104,7 +91,6 @@ public class ModifierSet {
 	    b.indent(level + 1).append("</modifiers>\n");
 	}
 	b.indent(level).append("</").append(topLevelElement).append(">\n");
-        return b;
     }
 
     public String toCQL() {
