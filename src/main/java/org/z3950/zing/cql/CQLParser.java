@@ -80,7 +80,7 @@ public class CQLParser {
 	debug("about to parseQuery()");
 	CQLNode root = parseTopLevelPrefixes("cql.serverChoice",
 		new CQLRelation(compat == V1POINT2 ? "=" : "scr"));
-	if (lexer.ttype != lexer.TT_EOF)
+	if (lexer.ttype != CQLLexer.TT_EOF)
 	    throw new CQLParseException("junk after end: " + lexer.render());
 
 	return root;
@@ -96,12 +96,12 @@ public class CQLParser {
 
 	CQLNode node = parseQuery(index, relation);
 	if ((compat == V1POINT2 || compat == V1POINT1SORT) &&
-	    lexer.ttype == lexer.TT_SORTBY) {
+	    lexer.ttype == CQLLexer.TT_SORTBY) {
 	    match(lexer.ttype);
 	    debug("sortspec");
 
 	    CQLSortNode sortnode = new CQLSortNode(node);
-	    while (lexer.ttype != lexer.TT_EOF) {
+	    while (lexer.ttype != CQLLexer.TT_EOF) {
 		String sortindex = matchSymbol("sort index");
 		ModifierSet ms = gatherModifiers(sortindex);
 		sortnode.addSortIndex(ms);
@@ -122,21 +122,21 @@ public class CQLParser {
 	debug("in parseQuery()");
 
 	CQLNode term = parseTerm(index, relation);
-	while (lexer.ttype != lexer.TT_EOF &&
+	while (lexer.ttype != CQLLexer.TT_EOF &&
 	       lexer.ttype != ')' &&
-	       lexer.ttype != lexer.TT_SORTBY) {
-	    if (lexer.ttype == lexer.TT_AND ||
-		lexer.ttype == lexer.TT_OR ||
-		lexer.ttype == lexer.TT_NOT ||
-		lexer.ttype == lexer.TT_PROX) {
+	       lexer.ttype != CQLLexer.TT_SORTBY) {
+	    if (lexer.ttype == CQLLexer.TT_AND ||
+		lexer.ttype == CQLLexer.TT_OR ||
+		lexer.ttype == CQLLexer.TT_NOT ||
+		lexer.ttype == CQLLexer.TT_PROX) {
 		int type = lexer.ttype;
 		String val = lexer.sval;
 		match(type);
 		ModifierSet ms = gatherModifiers(val);
 		CQLNode term2 = parseTerm(index, relation);
-		term = ((type == lexer.TT_AND) ? new CQLAndNode(term, term2, ms) :
-			(type == lexer.TT_OR)  ? new CQLOrNode (term, term2, ms) :
-			(type == lexer.TT_NOT) ? new CQLNotNode(term, term2, ms) :
+		term = ((type == CQLLexer.TT_AND) ? new CQLAndNode(term, term2, ms) :
+			(type == CQLLexer.TT_OR)  ? new CQLOrNode (term, term2, ms) :
+			(type == CQLLexer.TT_NOT) ? new CQLNotNode(term, term2, ms) :
 			                         new CQLProxNode(term, term2, ms));
 	    } else {
 		throw new CQLParseException("expected boolean, got " +
@@ -155,7 +155,7 @@ public class CQLParser {
 	ModifierSet ms = new ModifierSet(base);
 	while (lexer.ttype == '/') {
 	    match('/');
-	    if (lexer.ttype != lexer.TT_WORD)
+	    if (lexer.ttype != CQLLexer.TT_WORD)
 		throw new CQLParseException("expected modifier, "
 					    + "got " + lexer.render());
 	    String type = lexer.sval.toLowerCase();
@@ -193,16 +193,16 @@ public class CQLParser {
 
 	    debug("non-parenthesised term");
 	    word = matchSymbol("index or term");
-            while (lexer.ttype == lexer.TT_WORD && !isRelation()) {
+            while (lexer.ttype == CQLLexer.TT_WORD && !isRelation()) {
               word = word + " " + lexer.sval;
-              match(lexer.TT_WORD);
+              match(CQLLexer.TT_WORD);
             }
 
 	    if (!isRelation())
 		break;
 
 	    index = word;
-	    String relstr = (lexer.ttype == lexer.TT_WORD ?
+	    String relstr = (lexer.ttype == CQLLexer.TT_WORD ?
 			     lexer.sval : lexer.render(lexer.ttype, false));
 	    relation = new CQLRelation(relstr);
 	    match(lexer.ttype);
@@ -240,7 +240,7 @@ public class CQLParser {
     private boolean isRelation() {
 	debug("isRelation: checking ttype=" + lexer.ttype +
 	      " (" + lexer.render() + ")");
-        if (lexer.ttype == lexer.TT_WORD &&
+        if (lexer.ttype == CQLLexer.TT_WORD &&
             (lexer.sval.indexOf('.') >= 0 ||
              lexer.sval.equals("any") ||
              lexer.sval.equals("all") ||
@@ -260,10 +260,10 @@ public class CQLParser {
 	return (lexer.ttype == '<' ||
 		lexer.ttype == '>' ||
 		lexer.ttype == '=' ||
-		lexer.ttype == lexer.TT_LE ||
-		lexer.ttype == lexer.TT_GE ||
-		lexer.ttype == lexer.TT_NE ||
-		lexer.ttype == lexer.TT_EQEQ);
+		lexer.ttype == CQLLexer.TT_LE ||
+		lexer.ttype == CQLLexer.TT_GE ||
+		lexer.ttype == CQLLexer.TT_NE ||
+		lexer.ttype == CQLLexer.TT_EQEQ);
     }
 
     private void match(int token)
@@ -283,20 +283,20 @@ public class CQLParser {
 	throws CQLParseException, IOException {
 
 	debug("in matchSymbol()");
-	if (lexer.ttype == lexer.TT_WORD ||
-	    lexer.ttype == lexer.TT_NUMBER ||
+	if (lexer.ttype == CQLLexer.TT_WORD ||
+	    lexer.ttype == CQLLexer.TT_NUMBER ||
 	    lexer.ttype == '"' ||
 	    // The following is a complete list of keywords.  Because
 	    // they're listed here, they can be used unquoted as
 	    // indexes, terms, prefix names and prefix identifiers.
 	    // ### Instead, we should ask the lexer whether what we
 	    // have is a keyword, and let the knowledge reside there.
-	    lexer.ttype == lexer.TT_AND ||
-	    lexer.ttype == lexer.TT_OR ||
-	    lexer.ttype == lexer.TT_NOT ||
-	    lexer.ttype == lexer.TT_PROX ||
-	    lexer.ttype == lexer.TT_SORTBY) {
-	    String symbol = (lexer.ttype == lexer.TT_NUMBER) ?
+	    lexer.ttype == CQLLexer.TT_AND ||
+	    lexer.ttype == CQLLexer.TT_OR ||
+	    lexer.ttype == CQLLexer.TT_NOT ||
+	    lexer.ttype == CQLLexer.TT_PROX ||
+	    lexer.ttype == CQLLexer.TT_SORTBY) {
+	    String symbol = (lexer.ttype == CQLLexer.TT_NUMBER) ?
 		lexer.render() : lexer.sval;
 	    match(lexer.ttype);
 	    return symbol;
