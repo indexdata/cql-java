@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import static org.z3950.zing.cql.Utils.*;
+
 
 /**
  * Represents a node in a CQL parse-tree.
@@ -111,18 +113,6 @@ public abstract class CQLNode {
      */
     abstract public String toPQF(Properties config)
 	throws PQFTranslationException;
-
-    /**
-     * Returns a String of spaces for indenting to the specified level.
-     */
-    protected static String indent(int level) { return Utils.indent(level); }
-
-    /**
-     * Returns the argument String quoted for XML.
-     * For example, each occurrence of <TT>&lt;</TT> is translated to
-     * <TT>&amp;lt;</TT>.
-     */
-    protected static String xq(String str) { return Utils.xq(str); }
 
     /**
      * Renders a parser-tree into a BER-endoded packet representing an

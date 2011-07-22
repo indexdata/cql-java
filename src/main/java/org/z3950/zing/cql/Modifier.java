@@ -2,6 +2,8 @@
 
 package org.z3950.zing.cql;
 
+import static org.z3950.zing.cql.Utils.*;
+
 /**
  * Represents a single modifier, consisting of three elements: a type,
  * a comparision and a value.  For example, "distance", "<", "3".  The
@@ -61,18 +63,18 @@ public class Modifier {
     public String toXCQL(int level, String relationElement) {
 	StringBuilder buf = new StringBuilder();
 
-	buf.append(Utils.indent(level)).append("<modifier>\n").
-            append(Utils.indent(level + 1)).append("<type>").
-            append(Utils.xq(type)).append("</type>\n");
+	buf.append(indent(level)).append("<modifier>\n").
+            append(indent(level + 1)).append("<type>").
+            append(xq(type)).append("</type>\n");
 	if (value != null) {
-	    buf.append(Utils.indent(level + 1)).append("<").
+	    buf.append(indent(level + 1)).append("<").
               append(relationElement).append(">").
-              append(Utils.xq(comparison)).append("</").
+              append(xq(comparison)).append("</").
               append(relationElement).append(">\n").
-              append(Utils.indent(level + 1)).append("<value>").
-              append(Utils.xq(value)).append("</value>\n");
+              append(indent(level + 1)).append("<value>").
+              append(xq(value)).append("</value>\n");
 	}
-	buf.append(Utils.indent(level)).append("</modifier>\n");
+	buf.append(indent(level)).append("</modifier>\n");
 	return buf.toString();
     }
 

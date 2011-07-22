@@ -4,6 +4,8 @@ package org.z3950.zing.cql;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.z3950.zing.cql.Utils.*;
+
 /**
  * Represents a base String and a set of Modifiers.
  * <P>
@@ -88,18 +90,18 @@ public class ModifierSet {
     private String underlyingToXCQL(int level, String topLevelElement,
 				    String valueElement) {
 	StringBuilder buf = new StringBuilder();
-	buf.append(Utils.indent(level)).append("<").append(topLevelElement).
-            append(">\n").append(Utils.indent(level + 1)).append("<").
-            append(valueElement).append(">").append(Utils.xq(base)).append("</").
+	buf.append(indent(level)).append("<").append(topLevelElement).
+            append(">\n").append(indent(level + 1)).append("<").
+            append(valueElement).append(">").append(xq(base)).append("</").
             append(valueElement).append(">\n");
 	if (modifiers.size() > 0) {
-	    buf.append(Utils.indent(level + 1)).append("<modifiers>\n");
+	    buf.append(indent(level + 1)).append("<modifiers>\n");
 	    for (int i = 0; i < modifiers.size(); i++) {
 		buf.append(modifiers.get(i).toXCQL(level+2, "comparison"));
 	    }
-	    buf.append(Utils.indent(level + 1)).append("</modifiers>\n");
+	    buf.append(indent(level + 1)).append("</modifiers>\n");
 	}
-	buf.append(Utils.indent(level)).append("</").append(topLevelElement).
+	buf.append(indent(level)).append("</").append(topLevelElement).
             append(">\n");
 	return buf.toString();
     }

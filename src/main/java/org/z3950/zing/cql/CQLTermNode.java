@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static org.z3950.zing.cql.Utils.*;
+
 
 /**
  * Represents a terminal node in a CQL parse-tree.
