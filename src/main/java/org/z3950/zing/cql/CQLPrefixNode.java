@@ -41,6 +41,7 @@ public class CQLPrefixNode extends CQLNode {
 	this.subtree = subtree;
     }
 
+    @Override
     public String toXCQL(int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	List<CQLPrefix> tmp = (prefixes == null ?
@@ -50,6 +51,7 @@ public class CQLPrefixNode extends CQLNode {
 	return subtree.toXCQL(level, tmp, sortkeys);
     }
 
+    @Override
     public String toCQL() {
 	// ### We don't always need parens around the subtree
 	if (prefix.name == null) {
@@ -61,6 +63,7 @@ public class CQLPrefixNode extends CQLNode {
 	}
     }
 
+    @Override
     public String toPQF(Properties config) throws PQFTranslationException {
 	// Prefixes and their identifiers don't actually play any role
 	// in PQF translation, since the meanings of the indexes,
@@ -69,6 +72,7 @@ public class CQLPrefixNode extends CQLNode {
 	return subtree.toPQF(config);
     }
 
+    @Override
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
 	// See comment on toPQF()
 	return subtree.toType1BER(config);

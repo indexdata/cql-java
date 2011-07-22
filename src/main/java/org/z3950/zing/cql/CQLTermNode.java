@@ -52,6 +52,7 @@ public class CQLTermNode extends CQLNode {
 	    return null;
     }
 
+    @Override
     public String toXCQL(int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	return (indent(level) + "<searchClause>\n" +
@@ -63,6 +64,7 @@ public class CQLTermNode extends CQLNode {
 		indent(level) + "</searchClause>\n");
     }
 
+    @Override
     public String toCQL() {
 	String quotedIndex = maybeQuote(index);
 	String quotedTerm = maybeQuote(term);
@@ -158,6 +160,7 @@ public class CQLTermNode extends CQLNode {
 	return attrs;
     }
 
+    @Override
     public String toPQF(Properties config) throws PQFTranslationException {
 	if (isResultSetIndex(index)) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.
@@ -204,6 +207,7 @@ public class CQLTermNode extends CQLNode {
 	return str;
     }
 
+    @Override
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
 	if (isResultSetIndex(index)) {
 	    // Special case: ignore relation, modifiers, wildcards, etc.

@@ -43,6 +43,7 @@ public class CQLRelation extends CQLNode {
 	return ms.getModifiers();
     }
 
+    @Override
     public String toXCQL(int level, List<CQLPrefix> prefixes,
       List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
@@ -51,14 +52,17 @@ public class CQLRelation extends CQLNode {
 	return ms.toXCQL(level, "relation");
     }
 
+    @Override
     public String toCQL() {
 	return ms.toCQL();
     }
 
+    @Override
     public String toPQF(Properties config) throws PQFTranslationException {
 	throw new Error("CQLRelation.toPQF() can never be called");
     }
 
+    @Override
     public byte[] toType1BER(Properties config) {
 	throw new Error("CQLRelation.toType1BER() can never be called");
     }

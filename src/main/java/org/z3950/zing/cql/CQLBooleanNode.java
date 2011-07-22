@@ -44,6 +44,7 @@ public abstract class CQLBooleanNode extends CQLNode {
 	this.ms = ms;
     }
 
+    @Override
     public String toXCQL(int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	return (indent(level) + "<triple>\n" +
@@ -59,6 +60,7 @@ public abstract class CQLBooleanNode extends CQLNode {
 		indent(level) + "</triple>\n");
     }
 
+    @Override
     public String toCQL() {
 	// ### We don't always need parens around the operands
 	return ("(" + left.toCQL() + ")" +
@@ -66,6 +68,7 @@ public abstract class CQLBooleanNode extends CQLNode {
 		"(" + right.toCQL() + ")");
     }
 
+    @Override
     public String toPQF(Properties config) throws PQFTranslationException {
 	return ("@" + opPQF() +
 		" " + left.toPQF(config) +
@@ -75,6 +78,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     // represents the operation for PQF: overridden for CQLProxNode
     String opPQF() { return ms.getBase(); }
 
+    @Override
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
         System.out.println("in CQLBooleanNode.toType1BER(): PQF=" +
 			   toPQF(config));

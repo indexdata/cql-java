@@ -42,6 +42,7 @@ public class CQLSortNode extends CQLNode {
     	return keys;
     }
 
+    @Override
     public String toXCQL(int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	if (sortkeys != null)
@@ -49,6 +50,7 @@ public class CQLSortNode extends CQLNode {
 	return subtree.toXCQL(level, prefixes, keys);
     }
 
+    @Override
     public String toCQL() {
 	StringBuffer buf = new StringBuffer(subtree.toCQL());
 
@@ -63,10 +65,12 @@ public class CQLSortNode extends CQLNode {
 	return buf.toString();
     }
 
+    @Override
     public String toPQF(Properties config) throws PQFTranslationException {
 	return "@attr 1=oops \"###\"";
     }
 
+    @Override
     public byte[] toType1BER(Properties config)
 	throws PQFTranslationException {
 	// There is no way to represent sorting in a standard Z39.50

@@ -18,6 +18,7 @@ public class CQLAndNode extends CQLBooleanNode {
     }
 
     // ### Too much code duplication here with OR and NOT
+    @Override
     byte[] opType1() {
 	byte[] op = new byte[5];
 	putTag(CONTEXT, 46, CONSTRUCTED, op, 0); // Operator

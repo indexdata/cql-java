@@ -93,6 +93,7 @@ class CQLLexer extends StreamTokenizer {
 	saved_sval = sval;
     }
 
+    @Override
     public int nextToken() throws java.io.IOException {
 	if (saved_ttype != TT_UNDEFINED) {
 	    ttype = saved_ttype;

@@ -29,6 +29,7 @@ public class CQLProxNode extends CQLBooleanNode {
      * which-code ::= 'known' | 'private' | integer.
      * unit-code ::= integer.
      */
+    @Override
     String opPQF() {
 	int relCode = getRelCode();
 	int unitCode = getProxUnitCode();
@@ -77,6 +78,7 @@ public class CQLProxNode extends CQLBooleanNode {
     }
 
 
+    @Override
     byte[] opType1() {
 	byte[] op = new byte[100];
 	int offset, value;
