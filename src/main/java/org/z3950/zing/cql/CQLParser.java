@@ -19,9 +19,9 @@ import java.io.FileNotFoundException;
 public class CQLParser {
     private CQLLexer lexer;
     private int compat;	// When false, implement CQL 1.2
-    public static int V1POINT1 = 12368;
-    public static int V1POINT2 = 12369;
-    public static int V1POINT1SORT = 12370;
+    public static final int V1POINT1 = 12368;
+    public static final int V1POINT2 = 12369;
+    public static final int V1POINT1SORT = 12370;
 
     static private boolean DEBUG = false;
     static private boolean LEXDEBUG = false;

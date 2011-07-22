@@ -16,15 +16,15 @@ import java.util.Hashtable;
 //
 class CQLLexer extends StreamTokenizer {
     // New publicly visible token-types
-    static int TT_LE        = 1000;	// The "<=" relation
-    static int TT_GE        = 1001;	// The ">=" relation
-    static int TT_NE        = 1002;	// The "<>" relation
-    static int TT_EQEQ      = 1003;	// The "==" relation
-    static int TT_AND       = 1004;	// The "and" boolean
-    static int TT_OR        = 1005;	// The "or" boolean
-    static int TT_NOT       = 1006;	// The "not" boolean
-    static int TT_PROX      = 1007;	// The "prox" boolean
-    static int TT_SORTBY     = 1008;	// The "sortby" operator
+    public final static int TT_LE        = 1000;	// The "<=" relation
+    public final static int TT_GE        = 1001;	// The ">=" relation
+    public final static int TT_NE        = 1002;	// The "<>" relation
+    public final static int TT_EQEQ      = 1003;	// The "==" relation
+    public final static int TT_AND       = 1004;	// The "and" boolean
+    public final static int TT_OR        = 1005;	// The "or" boolean
+    public final static int TT_NOT       = 1006;	// The "not" boolean
+    public final static int TT_PROX      = 1007;	// The "prox" boolean
+    public final static int TT_SORTBY     = 1008;	// The "sortby" operator
 
     // Support for keywords.  It would be nice to compile this linear
     // list into a Hashtable, but it's hard to store ints as hash
