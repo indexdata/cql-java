@@ -173,7 +173,7 @@ public class CQLTermNode extends CQLNode {
 	String attr, s = "";
 	for (int i = 0; i < attrs.size(); i++) {
 	    attr = (String) attrs.get(i);
-	    s += "@attr " + Utils.replaceString(attr, " ", " @attr ") + " ";
+	    s += "@attr " + attr.replace(" ", " @attr ") + " ";
 	}
 
 	String text = term;
@@ -201,7 +201,7 @@ public class CQLTermNode extends CQLNode {
 	    str.indexOf('/') != -1 ||
 	    str.indexOf('(') != -1 ||
 	    str.indexOf(')') != -1) {
-	    str = '"' + Utils.replaceString(str, "\"", "\\\"") + '"';
+	    str = '"' + str.replace("\"", "\\\"") + '"';
 	}
 
 	return str;
