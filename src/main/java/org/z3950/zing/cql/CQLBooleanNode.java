@@ -16,7 +16,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     /**
      * The root of a parse-tree representing the left-hand side.
      */
-    public CQLNode getLeft() {
+    public CQLNode getLeftOperand() {
         return left;
     }
 
@@ -25,7 +25,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     /**
      * The root of a parse-tree representing the right-hand side.
      */
-    public CQLNode getRight() {
+    public CQLNode getRightOperand() {
         return right;
     }
 
