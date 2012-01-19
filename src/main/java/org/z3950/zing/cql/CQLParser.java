@@ -6,6 +6,8 @@ import java.util.Properties;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +57,26 @@ public class CQLParser {
 	if (DEBUG)
 	    System.err.println("PARSEDEBUG: " + str);
     }
+    
+    /**
+     * Compiles a CQL query.
+     * <P>
+     * The resulting parse tree may be further processed by hand (see
+     * the individual node-types' documentation for details on the
+     * data structure) or, more often, simply rendered out in the
+     * desired form using one of the back-ends.  <TT>toCQL()</TT>
+     * returns a decompiled CQL query equivalent to the one that was
+     * compiled in the first place; <TT>toXCQL()</TT> returns an
+     * XML snippet representing the query; and <TT>toPQF()</TT>
+     * returns the query rendered in Index Data's Prefix Query
+     * Format.
+     *
+     * @param cql	The query
+     * @return		A CQLNode object which is the root of a parse
+     * tree representing the query.  */
+    public CQLNode parse(String cql) throws CQLParseException, IOException {
+        return parse(new StringReader(cql));
+    }
 
     /**
      * Compiles a CQL query.
@@ -72,7 +94,7 @@ public class CQLParser {
      * @param cql	The query
      * @return		A CQLNode object which is the root of a parse
      * tree representing the query.  */
-    public CQLNode parse(String cql)
+    public CQLNode parse(Reader cql)
 	throws CQLParseException, IOException {
 	lexer = new CQLLexer(cql, LEXDEBUG);
 
