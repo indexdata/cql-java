@@ -59,7 +59,7 @@ class CQLLexer extends StreamTokenizer {
     private static boolean DEBUG;
 
     CQLLexer(String cql, boolean lexdebug) {
-        this(new StringReader(cql), DEBUG);
+        this(new StringReader(cql), lexdebug);
     }
     
     CQLLexer(Reader cql, boolean lexdebug) {
