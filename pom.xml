@@ -3,7 +3,7 @@
   <groupId>org.z3950.zing</groupId>
   <artifactId>cql-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.9</version>
+  <version>1.10-SNAPSHOT</version>
   <name>cql-java</name>
   <url>http://maven.apache.org</url>
   <scm>
