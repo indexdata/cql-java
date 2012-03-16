@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class CQLParser {
     private CQLLexer lexer;
+    private PositionAwareReader par; //active reader with position
     private int compat;	// When false, implement CQL 1.2
     public static final int V1POINT1 = 12368;
     public static final int V1POINT2 = 12369;
@@ -96,14 +97,16 @@ public class CQLParser {
      * tree representing the query.  */
     public CQLNode parse(Reader cql)
 	throws CQLParseException, IOException {
-	lexer = new CQLLexer(cql, LEXDEBUG);
+        par = new PositionAwareReader(cql);
+	lexer = new CQLLexer(par, LEXDEBUG);
 
 	lexer.nextToken();
 	debug("about to parseQuery()");
 	CQLNode root = parseTopLevelPrefixes("cql.serverChoice",
 		new CQLRelation(compat == V1POINT2 ? "=" : "scr"));
 	if (lexer.ttype != CQLLexer.TT_EOF)
-	    throw new CQLParseException("junk after end: " + lexer.render());
+	    throw new CQLParseException("junk after end: " + lexer.render(), 
+              par.getPosition());
 
 	return root;
     }
@@ -130,7 +133,7 @@ public class CQLParser {
 	    }
 
 	    if (sortnode.keys.size() == 0) {
-		throw new CQLParseException("no sort keys");
+		throw new CQLParseException("no sort keys", par.getPosition());
 	    }
 
 	    node = sortnode;
@@ -162,7 +165,7 @@ public class CQLParser {
 			                         new CQLProxNode(term, term2, ms));
 	    } else {
 		throw new CQLParseException("expected boolean, got " +
-					    lexer.render());
+					    lexer.render(), par.getPosition());
 	    }
 	}
 
@@ -179,7 +182,8 @@ public class CQLParser {
 	    match('/');
 	    if (lexer.ttype != CQLLexer.TT_WORD)
 		throw new CQLParseException("expected modifier, "
-					    + "got " + lexer.render());
+					    + "got " + lexer.render(), 
+                  par.getPosition());
 	    String type = lexer.sval.toLowerCase();
 	    match(lexer.ttype);
 	    if (!isSymbolicRelation()) {
@@ -294,7 +298,8 @@ public class CQLParser {
 	if (lexer.ttype != token)
 	    throw new CQLParseException("expected " +
 					lexer.render(token, true) +
-					", " + "got " + lexer.render());
+					", " + "got " + lexer.render(), 
+              par.getPosition());
 	int tmp = lexer.nextToken();
 	debug("match() got token=" + lexer.ttype + ", " +
 	      "nval=" + lexer.nval + ", sval='" + lexer.sval + "'" +
@@ -325,7 +330,7 @@ public class CQLParser {
 	}
 
 	throw new CQLParseException("expected " + expected + ", " +
-				    "got " + lexer.render());
+				    "got " + lexer.render(), par.getPosition());
     }
 
 
