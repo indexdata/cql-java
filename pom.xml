@@ -5,11 +5,44 @@
   <packaging>jar</packaging>
   <version>1.10-SNAPSHOT</version>
   <name>cql-java</name>
-  <url>http://maven.apache.org</url>
+  <url>http://www.indexdata.com/cql-java</url>
+  <inceptionYear>2008</inceptionYear>
+  <organization>
+    <name>Index Data</name>
+    <url>http://www.indexdata.com</url>
+  </organization>
+  <developers>
+    <developer>
+      <name>Mike Taylor</name>      
+      <id>mike</id>
+      <email>mike@indexdata.com</email>
+      <organization>Index Data</organization>
+      <organizationUrl>http://www.indexdata.com/</organizationUrl>
+      <roles />
+      <timezone />
+    </developer>
+    <developer>
+      <name>Jakub Skoczen</name>
+      <id>jakub</id>
+      <email>jakub@indexdata.dk</email>
+      <organization>Index Data</organization>
+      <organizationUrl>http://www.indexdata.com/</organizationUrl>
+      <roles />
+      <timezone />
+    </developer>
+  </developers>
   <scm>
     <connection>scm:git:ssh://git.indexdata.com:222/home/git/pub/cql-java</connection>
     <url>http://git.indexdata.com/?p=cql-java.git</url>
   </scm>
+  <issueManagement>
+    <system>Bugzilla</system>
+    <url>http://bugzilla.indexdata.dk/</url>
+  </issueManagement>
+  <ciManagement>
+    <system>hudson</system>
+    <url>http://hudson.indexdata.com/</url>
+  </ciManagement>
   <build>
     <extensions>
       <extension>
