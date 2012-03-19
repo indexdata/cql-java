@@ -7,8 +7,8 @@
   <name>cql-java</name>
   <url>http://maven.apache.org</url>
   <scm>
-    <connection>scm:git:ssh://git.indexdata.com:222/home/git/private/cql-java</connection>
-    <url>http://gitid.indexdata.com/?p=cql-java.git</url>
+    <connection>scm:git:ssh://git.indexdata.com:222/home/git/pub/cql-java</connection>
+    <url>http://git.indexdata.com/?p=cql-java.git</url>
   </scm>
   <build>
     <extensions>
