@@ -1,4 +1,3 @@
-// $Id: CQLSortNode.java,v 1.2 2008-04-11 12:05:15 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Properties;
 /**
  * Represents a sort node in a CQL parse-tree.
  *
- * @version	$Id: CQLSortNode.java,v 1.2 2008-04-11 12:05:15 mike Exp $
  */
 public class CQLSortNode extends CQLNode {
     /**

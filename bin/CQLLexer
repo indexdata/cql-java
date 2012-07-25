@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# $Id: CQLLexer,v 1.2 2002-11-01 23:45:28 mike Exp $
 # Trivial script to invoke the CQLLexer test-harness
 
 java org.z3950.zing.cql.CQLLexer ${@+"$@"}

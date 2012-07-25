@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: runcanon,v 1.1 2007-06-29 13:05:12 mike Exp $
 #
 # Tests that all sample queries can be rendered into idempotent
 # canoncial form.

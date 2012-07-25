@@ -1,4 +1,3 @@
-$Id: README,v 1.2 2002-12-09 16:29:44 mike Exp $
 
 The library file "cql-java.jar" will appear here when you do a build
 in ../src/org/z3950/zing/cql.  Put it on your CLASSPATH to use the

@@ -1,4 +1,3 @@
-# $Id: Makefile,v 1.2 2007-06-06 13:20:44 mike Exp $
 
 all: overview-tree.html
 

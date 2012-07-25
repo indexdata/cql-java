@@ -1,4 +1,3 @@
-// $Id: UnknownPositionException.java,v 1.2 2002-11-29 16:42:54 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -13,7 +12,6 @@ package org.z3950.zing.cql;
  * configuration.  If the position is not configured, we throw one of
  * these babies.
  *
- * @version $Id: UnknownPositionException.java,v 1.2 2002-11-29 16:42:54 mike Exp $
  */
 public class UnknownPositionException extends PQFTranslationException {
     /**

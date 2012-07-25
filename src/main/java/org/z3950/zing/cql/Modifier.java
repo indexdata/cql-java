@@ -1,4 +1,3 @@
-// $Id: Modifier.java,v 1.4 2007-07-03 13:29:34 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -10,7 +9,6 @@ package org.z3950.zing.cql;
  * <P>
  * This class is used only by ModifierSet.
  *
- * @version $Id: Modifier.java,v 1.4 2007-07-03 13:29:34 mike Exp $
  */
 public class Modifier {
     String type;

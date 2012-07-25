@@ -1,4 +1,3 @@
-// $Id: CQLGenerator.java,v 1.9 2007-07-03 15:41:35 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.Properties;
@@ -22,7 +21,6 @@ import java.io.FileNotFoundException;
  * this distribution - there is a <TT>generate_<I>x</I>()</TT> method
  * for each grammar element <I>X</I>.
  *
- * @version	$Id: CQLGenerator.java,v 1.9 2007-07-03 15:41:35 mike Exp $
  * @see		<A href="http://zing.z3950.org/cql/index.html"
  *		        >http://zing.z3950.org/cql/index.html</A>
  */

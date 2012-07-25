@@ -1,4 +1,3 @@
-// $Id: ModifierSet.java,v 1.13 2007-07-03 13:30:18 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
  * zero or more <I>type</I> <I>comparison</I> <I>value</I> pairs,
  * where type, comparison and value are all strings.
  *
- * @version $Id: ModifierSet.java,v 1.13 2007-07-03 13:30:18 mike Exp $
  */
 public class ModifierSet {
     private String base;

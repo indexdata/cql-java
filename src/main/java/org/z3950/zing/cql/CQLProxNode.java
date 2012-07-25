@@ -1,4 +1,3 @@
-// $Id: CQLProxNode.java,v 1.14 2007-06-29 12:53:03 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -9,7 +8,6 @@ package org.z3950.zing.cql;
  * candidate records which are sufficiently close to each other, as
  * specified by a set of proximity parameters.
  *
- * @version	$Id: CQLProxNode.java,v 1.14 2007-06-29 12:53:03 mike Exp $
  */
 public class CQLProxNode extends CQLBooleanNode {
     /**

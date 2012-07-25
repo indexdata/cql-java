@@ -1,4 +1,3 @@
-# $Id: Makefile,v 1.9 2002-11-28 11:56:55 mike Exp $
 
 XMLCANONICALISER = cat
 # Change this to "./xmlpp.pl" if you want to check for equivalence

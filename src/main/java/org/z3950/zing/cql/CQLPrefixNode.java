@@ -1,4 +1,3 @@
-// $Id: CQLPrefixNode.java,v 1.10 2007-07-03 16:40:11 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Properties;
 /**
  * Represents a prefix node in a CQL parse-tree.
  *
- * @version	$Id: CQLPrefixNode.java,v 1.10 2007-07-03 16:40:11 mike Exp $
  */
 public class CQLPrefixNode extends CQLNode {
 

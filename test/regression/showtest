@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# $Id: showtest,v 1.6 2002-11-28 11:56:55 mike Exp $
 
 if [ $# != 1 ]; then
 	echo "Usage: $0 <test-name>" >&2

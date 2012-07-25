@@ -1,4 +1,3 @@
-# $Id: Makefile,v 1.18 2007-07-03 12:56:29 mike Exp $
 #
 # Your Java compiler will require that this source directory is on the
 # classpath.  The best way to do that is just to add the CQL-Java

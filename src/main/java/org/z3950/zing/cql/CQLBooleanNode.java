@@ -1,4 +1,3 @@
-// $Id: CQLBooleanNode.java,v 1.18 2007-07-03 16:03:00 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.List;
@@ -7,7 +6,6 @@ import java.util.Properties;
 /**
  * Represents a boolean node in a CQL parse-tree.
  *
- * @version	$Id: CQLBooleanNode.java,v 1.18 2007-07-03 16:03:00 mike Exp $
  */
 public abstract class CQLBooleanNode extends CQLNode {
 

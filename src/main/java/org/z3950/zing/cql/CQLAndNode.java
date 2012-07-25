@@ -1,4 +1,3 @@
-// $Id: CQLAndNode.java,v 1.9 2007-06-29 12:48:21 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -6,7 +5,6 @@ package org.z3950.zing.cql;
 /**
  * Represents an AND node in a CQL parse-tree.
  *
- * @version	$Id: CQLAndNode.java,v 1.9 2007-06-29 12:48:21 mike Exp $
  */
 public class CQLAndNode extends CQLBooleanNode {
     /**

@@ -1,4 +1,3 @@
-// $Id: UnknownRelationException.java,v 1.2 2002-11-06 20:13:45 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -11,7 +10,6 @@ package org.z3950.zing.cql;
  * that, because the PQF configuration doesn't know about a relation,
  * we throw one of these babies.
  *
- * @version $Id: UnknownRelationException.java,v 1.2 2002-11-06 20:13:45 mike Exp $
  */
 public class UnknownRelationException extends PQFTranslationException {
     /**

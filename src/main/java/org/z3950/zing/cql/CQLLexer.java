@@ -1,4 +1,3 @@
-// $Id: CQLLexer.java,v 1.14 2007-07-03 13:30:42 mike Exp $
 
 package org.z3950.zing.cql;
 import java.io.InputStream;

@@ -1,4 +1,3 @@
-// $Id: CQLTermNode.java,v 1.28 2007-07-03 13:41:24 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.Properties;
  * these must be provided - you can't have an index without a
  * relation or vice versa.
  *
- * @version	$Id: CQLTermNode.java,v 1.28 2007-07-03 13:41:24 mike Exp $
  */
 public class CQLTermNode extends CQLNode {
     private String index;

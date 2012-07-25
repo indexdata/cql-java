@@ -1,4 +1,3 @@
-// $Id: CQLNode.java,v 1.26 2007-07-03 13:36:03 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import java.util.Properties;
 /**
  * Represents a node in a CQL parse-tree.
  *
- * @version	$Id: CQLNode.java,v 1.26 2007-07-03 13:36:03 mike Exp $
  */
 public abstract class CQLNode {
 

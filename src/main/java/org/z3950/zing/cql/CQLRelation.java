@@ -1,4 +1,3 @@
-// $Id: CQLRelation.java,v 1.19 2007-07-03 13:40:58 mike Exp $
 
 package org.z3950.zing.cql;
 import java.util.List;
@@ -7,7 +6,6 @@ import java.util.Properties;
 /**
  * Represents a relation between a CQL index and term.
  *
- * @version	$Id: CQLRelation.java,v 1.19 2007-07-03 13:40:58 mike Exp $
  */
 public class CQLRelation extends CQLNode {
     ModifierSet ms;

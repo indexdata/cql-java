@@ -1,4 +1,3 @@
-$Id: README,v 1.1 2005-08-29 15:15:02 mike Exp $
 
 This directory contains a substantial rewrite of CQL-Java v0.7
 as supplied by Chris Hubick on 22nd August 2005.  I don't think

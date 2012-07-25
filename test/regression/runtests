@@ -1,6 +1,5 @@
 #!/usr/bin/perl -w
 
-# $Id: runtests,v 1.12 2007-07-03 15:53:52 mike Exp $
 
 use IO::File;
 use strict;

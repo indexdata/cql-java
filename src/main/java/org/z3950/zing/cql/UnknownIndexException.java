@@ -1,4 +1,3 @@
-// $Id: UnknownIndexException.java,v 1.2 2007-06-27 22:44:40 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -11,7 +10,6 @@ package org.z3950.zing.cql;
  * that, because the PQF configuration doesn't know about a relation,
  * we throw one of these babies.
  *
- * @version $Id: UnknownIndexException.java,v 1.2 2007-06-27 22:44:40 mike Exp $
  */
 public class UnknownIndexException extends PQFTranslationException {
     /**

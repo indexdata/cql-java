@@ -1,4 +1,3 @@
-// $Id: CQLOrNode.java,v 1.9 2007-06-29 12:48:21 mike Exp $
 
 package org.z3950.zing.cql;
 
@@ -6,7 +5,6 @@ package org.z3950.zing.cql;
 /**
  * Represents an OR node in a CQL parse-tree.
  *
- * @version	$Id: CQLOrNode.java,v 1.9 2007-06-29 12:48:21 mike Exp $
  */
 public class CQLOrNode extends CQLBooleanNode {
     /**
