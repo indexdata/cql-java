@@ -337,4 +337,9 @@ public abstract class CQLNode {
         System.arraycopy(qry, 0, q, 0, offset);
         return q;
     }
+    
+    @Override
+    public String toString() {
+        return toCQL();
+    }
 }
