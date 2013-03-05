@@ -63,7 +63,7 @@ class CQLLexer extends StreamTokenizer {
     
     CQLLexer(Reader cql, boolean lexdebug) {
 	super(cql);
-	wordChars('!', '?');	// ASCII-dependency!
+	wordChars('!', '@');	// ASCII-dependency!
 	wordChars('[', '`');	// ASCII-dependency!
 	quoteChar('"');
 	ordinaryChar('=');
