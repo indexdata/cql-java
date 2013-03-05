@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -21,6 +23,8 @@ public class CQLParser {
     private CQLLexer lexer;
     private PositionAwareReader par; //active reader with position
     private int compat;	// When false, implement CQL 1.2
+    private final Set<String> customRelations = new HashSet<String>();
+    
     public static final int V1POINT1 = 12368;
     public static final int V1POINT2 = 12369;
     public static final int V1POINT1SORT = 12370;
@@ -55,6 +59,25 @@ public class CQLParser {
     private static void debug(String str) {
 	if (DEBUG)
 	    System.err.println("PARSEDEBUG: " + str);
+    }
+    
+    /**
+     * Registers custom relation in this parser. Note that when a custom relation
+     * is registered the parser is no longer strictly compliant with the chosen spec.
+     * @param relation
+     * @return true if custom relation has not been registered already
+     */
+    public boolean registerCustomRelation(String relation) {
+      return customRelations.add(relation);
+    }
+    
+    /**
+     * Unregisters previously registered custom relation in this instance of the parser.
+     * @param relation
+     * @return true is relation has been previously registered
+     */
+    public boolean unregisterCustomRelation(String relation) {
+      return customRelations.remove(relation);
     }
     
     /**
@@ -272,7 +295,8 @@ public class CQLParser {
              lexer.sval.equals("encloses") ||
              (lexer.sval.equals("exact") && compat != V1POINT2) ||
              (lexer.sval.equals("scr") && compat != V1POINT2) ||
-             (lexer.sval.equals("adj") && compat == V1POINT2)))
+             (lexer.sval.equals("adj") && compat == V1POINT2) ||
+             customRelations.contains(lexer.sval)))
           return true;
 
         return isSymbolicRelation();
@@ -444,6 +468,7 @@ public class CQLParser {
 	}
 
 	CQLParser parser = new CQLParser(compat);
+        parser.registerCustomRelation("@");
 	CQLNode root = null;
 	try {
 	    root = parser.parse(cql);
