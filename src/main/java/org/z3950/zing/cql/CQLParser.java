@@ -22,12 +22,13 @@ import java.util.Set;
 public class CQLParser {
     private CQLLexer lexer;
     private PositionAwareReader par; //active reader with position
-    private int compat;	// When false, implement CQL 1.2
+    private final int compat;	// When false, implement CQL 1.2
     private final Set<String> customRelations = new HashSet<String>();
     
     public static final int V1POINT1 = 12368;
     public static final int V1POINT2 = 12369;
     public static final int V1POINT1SORT = 12370;
+    public final boolean allowKeywordTerms;
 
     static private boolean DEBUG = false;
     static private boolean LEXDEBUG = false;
@@ -47,13 +48,27 @@ public class CQLParser {
      */
     public CQLParser(int compat) {
 	this.compat = compat;
+        this.allowKeywordTerms = true;
     }
-
+    
+    /**
+     * Official CQL grammar allows registered keywords like 'and/or/not/sortby/prox' 
+     * to be used unquoted in terms. This constructor allows to create an instance 
+     * of a parser that prohibits this behavior while sacrificing compatibility.
+     * @param compat CQL version compatibility
+     * @param allowKeywordTerms when false registered keywords are disallowed in unquoted terms
+     */
+    public CQLParser(int compat, boolean allowKeywordTerms) {
+	this.compat = V1POINT2;
+        this.allowKeywordTerms = allowKeywordTerms;
+    }
+    
     /**
      * The new parser implements CQL 1.2
      */
     public CQLParser() {
 	this.compat = V1POINT2;
+        this.allowKeywordTerms = true;
     }
 
     private static void debug(String str) {
@@ -340,11 +355,12 @@ public class CQLParser {
 	    // indexes, terms, prefix names and prefix identifiers.
 	    // ### Instead, we should ask the lexer whether what we
 	    // have is a keyword, and let the knowledge reside there.
+            (allowKeywordTerms &&
 	    lexer.ttype == CQLLexer.TT_AND ||
 	    lexer.ttype == CQLLexer.TT_OR ||
 	    lexer.ttype == CQLLexer.TT_NOT ||
 	    lexer.ttype == CQLLexer.TT_PROX ||
-	    lexer.ttype == CQLLexer.TT_SORTBY) {
+	    lexer.ttype == CQLLexer.TT_SORTBY)) {
 	    String symbol = (lexer.ttype == CQLLexer.TT_NUMBER) ?
 		lexer.render() : lexer.sval;
 	    match(lexer.ttype);
@@ -468,7 +484,6 @@ public class CQLParser {
 	}
 
 	CQLParser parser = new CQLParser(compat);
-        parser.registerCustomRelation("@");
 	CQLNode root = null;
 	try {
 	    root = parser.parse(cql);
