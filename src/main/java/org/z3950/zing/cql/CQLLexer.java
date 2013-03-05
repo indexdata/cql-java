@@ -72,6 +72,8 @@ class CQLLexer extends StreamTokenizer {
 	ordinaryChar('/');
 	ordinaryChar('(');
 	ordinaryChar(')');
+        ordinaryChar('.');
+        wordChars('.', '.');
 	wordChars('\'', '\''); // prevent this from introducing strings
 	//parseNumbers();
 	ordinaryChar('-');
