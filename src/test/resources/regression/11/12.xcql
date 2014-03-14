@@ -1,0 +1,29 @@
+<triple>
+  <boolean>
+    <value>and</value>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>fish</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <prefixes>
+        <prefix>
+          <name>illegal</name>
+          <identifier>urn:invalidPrefixLocation</identifier>
+        </prefix>
+      </prefixes>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>chips</term>
+    </searchClause>
+  </rightOperand>
+</triple>

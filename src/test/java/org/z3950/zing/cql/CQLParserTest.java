@@ -75,26 +75,33 @@ public class CQLParserTest {
           reader = new BufferedReader(new InputStreamReader(is));
           String input = reader.readLine();
           out.println("Query: "+input);
-          CQLParser parser = new CQLParser();
-          CQLNode parsed = parser.parse(input);
-          String xcql = parsed.toXCQL();
-          out.println("Parsed:");
-          out.println(xcql);
-          //read the expected xcql output
-          String prefix = file.substring(0, file.length()-4);
-          reader2 = new BufferedReader(new InputStreamReader(
-            this.getClass().getResourceAsStream("/regression/"+dir+"/"+prefix+".xcql")));
-          StringBuilder sb = new StringBuilder();
-          String line;
-          while ((line = reader2.readLine()) != null) {
-            sb.append(line).append("\n");
+          String result;
+          try {
+            CQLParser parser = new CQLParser();
+            CQLNode parsed = parser.parse(input);
+            result = parsed.toXCQL();
+          } catch (CQLParseException pe) {
+            result = pe.getMessage() + "\n";
           }
-          String expected = sb.toString();
+          out.println("Parsed:");
+          out.println(result);
+          //read the expected xcql output
+          String expected = "<expected result file not found>";
+          String prefix = file.substring(0, file.length()-4);
+          InputStream is2 = this.getClass()
+            .getResourceAsStream("/regression/"+dir+"/"+prefix+".xcql");
+          if (is2 != null) {
+            reader2 = new BufferedReader(new InputStreamReader(is2));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader2.readLine()) != null) {
+              sb.append(line).append("\n");
+            }
+            expected = sb.toString();
+          }
           out.println("Expected: ");
           out.println(expected);
-          assertEquals("Assertion failure for "+dir+"/"+file, expected, xcql);
-        } catch (CQLParseException pe) {
-          fail("Parsing failed with: "+pe.toString());
+          assertEquals("Assertion failure for "+dir+"/"+file, expected, result);
         } finally {
           if (reader != null) reader.close();
           if (reader2 != null) reader2.close();
