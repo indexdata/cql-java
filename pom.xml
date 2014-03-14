@@ -63,6 +63,7 @@
     </plugins>
   </reporting>
   <build>
+    <finalName>cql-java</finalName>
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
