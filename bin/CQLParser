@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Trivial script to invoke the CQLParser test-harness
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+JAR=$DIR/../target/cql-java.jar
+
+java -cp $JAR org.z3950.zing.cql.CQLParser ${@+"$@"}
