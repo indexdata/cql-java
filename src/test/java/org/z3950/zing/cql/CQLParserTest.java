@@ -103,6 +103,19 @@ public class CQLParserTest {
     }
   }
   
+  /**
+   * Test the integrity of the parser as follows:
+   * - Generate a random tree with CQLGenerator
+   * - Serialize it
+   * - Canonicalise it by running through the parser
+   * - Compare the before-and-after versions.
+   * Since the CQLGenerator output is in canonical form anyway, the
+   * before-and-after versions should be identical.  This process exercises
+   * the comprehensiveness and bullet-proofing of the parser, as well as
+   * the accuracy of the rendering.
+   * @throws IOException
+   * @throws MissingParameterException 
+   */
   @Test
   public void testRandomQueries() throws IOException, MissingParameterException {
     out.println("Testing the parser using 100 randomly generated queries...");
@@ -127,7 +140,6 @@ public class CQLParserTest {
       }
     }
   }
-  
   
   //helper methods follow
   //TODO move to masterkey-common

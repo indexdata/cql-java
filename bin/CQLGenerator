@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# Trivial script to invoke the CQLGenerator test-harness
-
-java org.z3950.zing.cql.CQLGenerator ${@+"$@"}

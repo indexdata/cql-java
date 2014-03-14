@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# Trivial script to invoke the CQLParser test-harness
-
-java org.z3950.zing.cql.CQLParser ${@+"$@"}

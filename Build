@@ -1,8 +1,0 @@
-#!/bin/sh
-
-
-: ${MAKE=make}
-for dir in src/main/java/org/z3950/zing/cql test/regression docs; do
-	echo "=== Building in $dir ==="
-	( cd $dir; $MAKE ${@+"$@"} )
-done
