@@ -1,0 +1,1 @@
+> foo="http://www.loc.gov/zing/cql/dc-indexes" > ccg = "http://srw.o-r-g.org/cql/indexSets/ccg/" foo.title="fish" and ccg.force=3

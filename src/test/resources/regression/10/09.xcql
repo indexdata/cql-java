@@ -1,0 +1,19 @@
+<searchClause>
+  <index>dc.creator</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>kernighan</term>
+  <sortKeys>
+    <key>
+      <index>dc.date</index>
+      <modifiers>
+        <modifier>
+          <type>sort.missingvalue</type>
+          <comparison>=</comparison>
+          <value>1970</value>
+        </modifier>
+      </modifiers>
+    </key>
+  </sortKeys>
+</searchClause>

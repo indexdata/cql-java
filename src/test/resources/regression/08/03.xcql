@@ -1,0 +1,33 @@
+<triple>
+  <prefixes>
+    <prefix>
+      <name>foo</name>
+      <identifier>http://www.loc.gov/zing/cql/dc-indexes</identifier>
+    </prefix>
+    <prefix>
+      <name>ccg</name>
+      <identifier>http://srw.o-r-g.org/cql/indexSets/ccg/</identifier>
+    </prefix>
+  </prefixes>
+  <boolean>
+    <value>and</value>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>foo.title</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>fish</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>ccg.force</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>3</term>
+    </searchClause>
+  </rightOperand>
+</triple>

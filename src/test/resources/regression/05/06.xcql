@@ -1,0 +1,35 @@
+<triple>
+  <boolean>
+    <value>prox</value>
+    <modifiers>
+      <modifier>
+        <type>distance</type>
+        <comparison>&gt;</comparison>
+        <value>5</value>
+      </modifier>
+      <modifier>
+        <type>unit</type>
+        <comparison>=</comparison>
+        <value>element</value>
+      </modifier>
+    </modifiers>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>dc.author</index>
+      <relation>
+        <value>==</value>
+      </relation>
+      <term>jones</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>title</index>
+      <relation>
+        <value>&gt;=</value>
+      </relation>
+      <term>smith</term>
+    </searchClause>
+  </rightOperand>
+</triple>

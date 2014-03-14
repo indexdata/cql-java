@@ -1,0 +1,1 @@
+numberOfLegs <> 4

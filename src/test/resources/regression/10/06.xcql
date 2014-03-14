@@ -1,0 +1,20 @@
+<searchClause>
+  <index>dc.creator</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>kernighan</term>
+  <sortKeys>
+    <key>
+      <index>dc.title</index>
+      <modifiers>
+        <modifier>
+          <type>sort.respectcase</type>
+        </modifier>
+        <modifier>
+          <type>sort.descending</type>
+        </modifier>
+      </modifiers>
+    </key>
+  </sortKeys>
+</searchClause>

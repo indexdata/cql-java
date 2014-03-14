@@ -1,0 +1,1 @@
+(dc.author == "jones" prox/distance>5/unit=element title >= "smith")

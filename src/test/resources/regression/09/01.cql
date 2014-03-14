@@ -1,0 +1,1 @@
+any or all:stem and all contains any prox proxfuzzy

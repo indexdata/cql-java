@@ -1,0 +1,1 @@
+(cat and dog) or (horse and frog)

@@ -1,0 +1,28 @@
+<triple>
+  <boolean>
+    <value>and</value>
+    <modifiers>
+      <modifier>
+        <type>rel.sumofscores</type>
+      </modifier>
+    </modifiers>
+  </boolean>
+  <leftOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>a</term>
+    </searchClause>
+  </leftOperand>
+  <rightOperand>
+    <searchClause>
+      <index>cql.serverChoice</index>
+      <relation>
+        <value>=</value>
+      </relation>
+      <term>b</term>
+    </searchClause>
+  </rightOperand>
+</triple>

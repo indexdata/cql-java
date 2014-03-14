@@ -1,0 +1,17 @@
+<searchClause>
+  <index>author</index>
+  <relation>
+    <value>any</value>
+    <modifiers>
+      <modifier>
+        <type>f.foo</type>
+      </modifier>
+      <modifier>
+        <type>b.bar</type>
+        <comparison>&gt;</comparison>
+        <value>1</value>
+      </modifier>
+    </modifiers>
+  </relation>
+  <term>sanderson taylor</term>
+</searchClause>

@@ -1,0 +1,1 @@
+>ns1="http://uri1" >ns2="http://uri2" whatever sortby ns1.key/a/b/c=1 ns2.key2

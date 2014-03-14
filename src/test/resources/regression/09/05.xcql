@@ -1,0 +1,12 @@
+<searchClause>
+  <index>cql.serverChoice</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>sortby</term>
+  <sortKeys>
+    <key>
+      <index>sortby</index>
+    </key>
+  </sortKeys>
+</searchClause>

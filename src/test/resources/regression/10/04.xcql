@@ -1,0 +1,17 @@
+<searchClause>
+  <index>dc.creator</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>kernighan</term>
+  <sortKeys>
+    <key>
+      <index>numberOfLegs</index>
+      <modifiers>
+        <modifier>
+          <type>cql.number</type>
+        </modifier>
+      </modifiers>
+    </key>
+  </sortKeys>
+</searchClause>

@@ -1,0 +1,18 @@
+<searchClause>
+  <prefixes>
+    <prefix>
+      <name>dc</name>
+      <identifier>x</identifier>
+    </prefix>
+  </prefixes>
+  <index>b</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>c</term>
+  <sortKeys>
+    <key>
+      <index>d</index>
+    </key>
+  </sortKeys>
+</searchClause>

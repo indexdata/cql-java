@@ -59,7 +59,7 @@ public class CQLParser {
      * @param allowKeywordTerms when false registered keywords are disallowed in unquoted terms
      */
     public CQLParser(int compat, boolean allowKeywordTerms) {
-	this.compat = V1POINT2;
+	this.compat = compat;
         this.allowKeywordTerms = allowKeywordTerms;
     }
     

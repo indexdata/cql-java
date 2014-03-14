@@ -1,0 +1,22 @@
+<searchClause>
+  <prefixes>
+    <prefix>
+      <name>dc</name>
+      <identifier>http://deepcustard.org</identifier>
+    </prefix>
+    <prefix>
+      <name>dc</name>
+      <identifier>http://dublincore.org</identifier>
+    </prefix>
+  </prefixes>
+  <index>dc.title</index>
+  <relation>
+    <value>=</value>
+  </relation>
+  <term>jaws</term>
+  <sortKeys>
+    <key>
+      <index>dc.custardDepth</index>
+    </key>
+  </sortKeys>
+</searchClause>
