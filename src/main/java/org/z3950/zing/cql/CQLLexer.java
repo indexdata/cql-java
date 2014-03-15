@@ -6,7 +6,7 @@
 package org.z3950.zing.cql;
 
 /**
- *
+ * Implementation of the CQL lexical syntax analyzer
  * @author jakub
  */
 public class CQLLexer implements CQLTokenizer {

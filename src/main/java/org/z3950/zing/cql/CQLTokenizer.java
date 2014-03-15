@@ -6,7 +6,7 @@
 package org.z3950.zing.cql;
 
 /**
- *
+ * API bridge between the parser and lexer implementation
  * @author jakub
  */
 public interface CQLTokenizer {
@@ -25,14 +25,35 @@ public interface CQLTokenizer {
   public final static int TT_PROX   = 1007;	// The "prox" boolean
   public final static int TT_SORTBY = 1008;	// The "sortby" operator
   
+  /**
+   * Consume next input token
+   */
   public void move();
   
+  /**
+   * Return the value of the last consumed token
+   * @return value of the token
+   */
   public String value();
   
+  /**
+   * Return the type of the last consumed token
+   * @return last consumed token
+   */
   public int what();
   
+  /**
+   * Render the type and value of the last consumed token
+   * @return human-readable string
+   */
   public String render();
   
+  /**
+   * Render specified token type
+   * @param what token type
+   * @param quote true, if single characters should be quoted for readability
+   * @return human-readable string
+   */
   public String render(int what, boolean quote);
   
   public int pos();
