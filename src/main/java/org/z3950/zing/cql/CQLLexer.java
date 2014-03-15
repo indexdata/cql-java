@@ -136,7 +136,7 @@ public class CQLLexer implements CQLTokenizer {
       case TT_EOF:
         return "EOF";
       case TT_WORD:
-        return "word: " + val;
+        return "word: '" + val + "'";
       case '"':
         return "string: \"" + val + "\"";
       case TT_LE:
