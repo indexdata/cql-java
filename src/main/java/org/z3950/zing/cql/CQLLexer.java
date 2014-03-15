@@ -26,7 +26,7 @@ public class CQLLexer implements CQLTokenizer {
   @Override
   public void move() {
     //eat whitespace
-    while (qi < ql && strchr(" \t\r\n", qs.charAt(qi)))
+    while (qi < ql && strchr(" \t\r\n\0", qs.charAt(qi)))
       qi++;
     //eof
     if (qi == ql) {
