@@ -98,7 +98,8 @@ public class CQLLexer implements CQLTokenizer {
       buf.setLength(0); //reset buffer
       while (qi < ql
         && !strchr("()/<>= \t\r\n", qs.charAt(qi))) {
-        buf.append(qs.charAt(qi));
+        if (qs.charAt(qi) != '\0')
+          buf.append(qs.charAt(qi));
         qi++;
       }
       val = buf.toString();
