@@ -70,7 +70,7 @@ public class CQLLexer implements CQLTokenizer {
       }
     //quoted string
     } else if (strchr("\"", c)) { //no single-quotes
-      what = '"';
+      what = TT_STRING;
       //remember quote char
       char mark = c;
       qi++;

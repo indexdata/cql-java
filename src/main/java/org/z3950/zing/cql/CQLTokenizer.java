@@ -15,6 +15,7 @@ public interface CQLTokenizer {
   public static final int TT_WORD = -3;
   public static final int TT_NOTHING = -4;
   
+  public final static int TT_STRING = 999;      // quoted string
   public final static int TT_LE     = 1000;	// The "<=" relation
   public final static int TT_GE     = 1001;	// The ">=" relation
   public final static int TT_NE     = 1002;	// The "<>" relation

@@ -235,13 +235,13 @@ public class CQLParser {
 
 	    debug("non-parenthesised term");
 	    word = matchSymbol("index or term");
-            while (lexer.what() == CQLTokenizer.TT_WORD && !isRelation()) {
+            while (isWordOrString() && !isRelation()) {
               word = word + " " + lexer.value();
-              match(CQLTokenizer.TT_WORD);
+              match(lexer.what());
             }
 
 	    if (!isRelation())
-		break;
+              break;
 
 	    index = word;
 	    String relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
@@ -277,6 +277,11 @@ public class CQLParser {
 	    parseQuery(index, relation);
 
 	return new CQLPrefixNode(name, identifier, node);
+    }
+    
+    private boolean isWordOrString() {
+      return CQLTokenizer.TT_WORD == lexer.what() 
+        || CQLTokenizer.TT_STRING == lexer.what();
     }
 
     private boolean isRelation() {
@@ -326,12 +331,10 @@ public class CQLParser {
 
 	debug("in matchSymbol()");
 	if (lexer.what() == CQLTokenizer.TT_WORD ||
-	    lexer.what() == '"' ||
+	    lexer.what() == CQLTokenizer.TT_STRING ||
 	    // The following is a complete list of keywords.  Because
 	    // they're listed here, they can be used unquoted as
 	    // indexes, terms, prefix names and prefix identifiers.
-	    // ### Instead, we should ask the lexer whether what we
-	    // have is a keyword, and let the knowledge reside there.
             (allowKeywordTerms &&
 	    lexer.what() == CQLTokenizer.TT_AND ||
 	    lexer.what() == CQLTokenizer.TT_OR ||
