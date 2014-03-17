@@ -37,7 +37,6 @@ WHAT'S WHAT IN THIS DISTRIBUTION?
 ---------------------------------
 
 	README		This file
-	VERSION		The version-number of this distribution
 	Changes		History of releases
 	LGPL-2.1	The GNU lesser GPL (see below)
 	pom.xml Maven project file to control compilation.
