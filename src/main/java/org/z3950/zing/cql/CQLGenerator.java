@@ -299,15 +299,12 @@ public class CQLGenerator {
 
 	String configFile = args[0];
 	InputStream f = new FileInputStream(configFile);
-	if (f == null)
-	    throw new FileNotFoundException(configFile);
-
 	Properties params = new Properties();
 	params.load(f);
 	f.close();
 	for (int i = 1; i < args.length; i += 2)
 	    params.setProperty(args[i], args[i+1]);
-
+        
 	CQLGenerator generator = new CQLGenerator(params);
 	CQLNode tree = generator.generate();
 	System.out.println(tree.toCQL());

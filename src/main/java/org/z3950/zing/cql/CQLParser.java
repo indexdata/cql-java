@@ -1,10 +1,12 @@
 
 package org.z3950.zing.cql;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -446,47 +448,54 @@ public class CQLParser {
 	if (argv.size() == 1) {
 	    cql = (String) argv.get(0);
 	} else {
-	    byte[] bytes = new byte[10000];
+	    BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
 	    try {
-		// Read in the whole of standard input in one go
-		int nbytes = System.in.read(bytes);
+		// read a single line of input
+              cql = buff.readLine();
+              if (cql == null) {
+                System.err.println("Can't read query from stdin");
+		System.exit(2);
+                return;
+              }
 	    } catch (IOException ex) {
 		System.err.println("Can't read query: " + ex.getMessage());
 		System.exit(2);
+                return;
 	    }
-	    cql = new String(bytes);
 	}
 
 	CQLParser parser = new CQLParser(compat);
-	CQLNode root = null;
+	CQLNode root;
 	try {
 	    root = parser.parse(cql);
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
 	    System.exit(3);
+            return; //compiler
 	} catch (IOException ex) {
 	    System.err.println("Can't compile query: " + ex.getMessage());
 	    System.exit(4);
+            return; //compiler
 	}
 
 	try {
 	    if (mode == 'c') {
 		System.out.println(root.toCQL());
 	    } else if (mode == 'p') {
+              try {
 		InputStream f = new FileInputStream(pfile);
-		if (f == null)
-		    throw new FileNotFoundException(pfile);
-
 		Properties config = new Properties();
 		config.load(f);
 		f.close();
 		System.out.println(root.toPQF(config));
+              } catch (IOException ex) {
+                System.err.println("Can't load PQF properties:" + 
+                  ex.getMessage());
+                System.exit(5);
+              }
 	    } else {
 		System.out.print(root.toXCQL());
 	    }
-	} catch (IOException ex) {
-	    System.err.println("Can't render query: " + ex.getMessage());
-	    System.exit(5);
 	} catch (UnknownIndexException ex) {
 	    System.err.println("Unknown index: " + ex.getMessage());
 	    System.exit(6);
@@ -501,8 +510,8 @@ public class CQLParser {
 	    System.err.println("Unknown position: " + ex.getMessage());
 	    System.exit(9);
 	} catch (PQFTranslationException ex) {
-	    // We catch all of this class's subclasses, so --
-	    throw new Error("can't get a PQFTranslationException");
+	    System.err.println("Cannot translate to PQF: " + ex.getMessage());
+	    System.exit(10);
 	}
     }
 }

@@ -5,6 +5,10 @@
  */
 package org.z3950.zing.cql;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * Implementation of the CQL lexical syntax analyzer
  * @author jakub
@@ -26,7 +30,7 @@ public class CQLLexer implements CQLTokenizer {
   @Override
   public void move() {
     //eat whitespace
-    while (qi < ql && strchr(" \t\r\n\0", qs.charAt(qi)))
+    while (qi < ql && strchr(" \t\r\n", qs.charAt(qi)))
       qi++;
     //eof
     if (qi == ql) {
@@ -98,8 +102,7 @@ public class CQLLexer implements CQLTokenizer {
       buf.setLength(0); //reset buffer
       while (qi < ql
         && !strchr("()/<>= \t\r\n", qs.charAt(qi))) {
-        if (qs.charAt(qi) != '\0')
-          buf.append(qs.charAt(qi));
+        buf.append(qs.charAt(qi));
         qi++;
       }
       val = buf.toString();
@@ -183,15 +186,20 @@ public class CQLLexer implements CQLTokenizer {
     if (args.length == 1) {
       cql = args[0];
     } else {
-      byte[] bytes = new byte[10000];
+      BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
       try {
-        // Read in the whole of standard input in one go
-        int nbytes = System.in.read(bytes);
-      } catch (java.io.IOException ex) {
+        // read a single line of input
+        cql = buff.readLine();
+        if (cql == null) {
+          System.err.println("Can't read query from stdin");
+          System.exit(2);
+          return;
+        }
+      } catch (IOException ex) {
         System.err.println("Can't read query: " + ex.getMessage());
         System.exit(2);
+        return;
       }
-      cql = new String(bytes);
     }
 
     CQLTokenizer lexer = new CQLLexer(cql, true);
