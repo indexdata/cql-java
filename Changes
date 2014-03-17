@@ -5,9 +5,11 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
-1.12 TO BE RELEASED
-  - rewrite the CQL lexer to better conform to CQL spec (e.g retain escapes for     wildcards, etc)
+1.12 Mon 17 Mar 2014 16:16:16 CET
+  - rewrite the CQL lexer to better conform to CQL spec 
+  (e.g retain escapes for wildcards, etc)
   - add jUnit test cases
+  - align list of terms (non-compliant) handling with Yaz CQL parser
 
 1.11 Tue  5 Mar 2013 13:38:18 CET
   - Fix problem with parsing unquoted terms that begin with a '.'
