@@ -3,7 +3,7 @@
   <groupId>org.z3950.zing</groupId>
   <artifactId>cql-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.12</version>
+  <version>1.13-SNAPSHOT</version>
   <name>cql-java</name>
   <url>http://www.indexdata.com/cql-java</url>
   <licenses>
