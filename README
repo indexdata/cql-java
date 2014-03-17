@@ -46,6 +46,16 @@ WHAT'S WHAT IN THIS DISTRIBUTION?
 	util    Various testing and sanity-checking Perl scripts
 	etc		Other files: PQF indexes, generator properties, etc.
 
+
+COMPILATION AND INSTALLATION
+----------------------------
+
+The build process is controlled by Maven so compilation is the standard:
+
+  mvn clean install
+
+which generates build artifacts under target/.
+
 "Installation" of this package would consist of putting the bin
 directory on your PATH and target/cql-java.jar on your CLASSPATH.
 
