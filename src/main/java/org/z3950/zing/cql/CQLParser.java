@@ -1,14 +1,12 @@
 
 package org.z3950.zing.cql;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -221,7 +219,8 @@ public class CQLParser {
 	throws CQLParseException, IOException {
 	debug("in parseTerm()");
 
-	String word;
+	String first;
+        StringBuilder all;
 	while (true) {
 	    if (lexer.what() == '(') {
 		debug("parenthesised term");
@@ -234,16 +233,23 @@ public class CQLParser {
 	    }
 
 	    debug("non-parenthesised term");
-	    word = matchSymbol("index or term");
-            while (isWordOrString() && !isRelation()) {
-              word = word + " " + lexer.value();
+	    first = matchSymbol("index or term");
+            all = new StringBuilder(first);
+            //match relation only on second postion
+            while (isWordOrString() && (all.length() > first.length() || !isRelation())) {
+              all.append(" ").append(lexer.value());
               match(lexer.what());
             }
 
 	    if (!isRelation())
-              break;
-
-	    index = word;
+              break; //we're done if no relation
+	    
+            //we have relation, but it only makes sense if preceded by a single term
+            if (all.length() > first.length()) {
+              throw new CQLParseException("unexpected relation '"+lexer.value()+"'"
+                , lexer.pos());
+            }
+            index = first;
 	    String relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
 			     lexer.value() : lexer.render(lexer.what(), false));
 	    relation = new CQLRelation(relstr);
@@ -253,8 +259,7 @@ public class CQLParser {
 	    debug("index='" + index + ", " +
 		  "relation='" + relation.toCQL() + "'");
 	}
-
-	CQLTermNode node = new CQLTermNode(index, relation, word);
+	CQLTermNode node = new CQLTermNode(index, relation, all.toString());
 	debug("made term node " + node.toCQL());
 	return node;
     }

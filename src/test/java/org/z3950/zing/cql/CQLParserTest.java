@@ -133,7 +133,7 @@ public class CQLParserTest {
     params.load(is);
     is.close();
     CQLGenerator generator = new CQLGenerator(params);
-    for (int i=0; i<100; i++) {
+    for (int i=0; i<1000; i++) {
       CQLNode random = generator.generate();
       String expected = random.toCQL();
       out.println("Generated query: "+expected);
