@@ -244,14 +244,15 @@ public class CQLParser {
 	    if (!isRelation())
               break; //we're done if no relation
 	    
+            //render relation
+	    String relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
+			     lexer.value() : lexer.render(lexer.what(), false));
             //we have relation, but it only makes sense if preceded by a single term
             if (all.length() > first.length()) {
-              throw new CQLParseException("unexpected relation '"+lexer.value()+"'"
+              throw new CQLParseException("unexpected relation '"+relstr+"'"
                 , lexer.pos());
             }
             index = first;
-	    String relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
-			     lexer.value() : lexer.render(lexer.what(), false));
 	    relation = new CQLRelation(relstr);
 	    match(lexer.what());
 	    ModifierSet ms = gatherModifiers(relstr);
