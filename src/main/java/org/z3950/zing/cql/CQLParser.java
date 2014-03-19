@@ -478,6 +478,11 @@ public class CQLParser {
 	    root = parser.parse(cql);
 	} catch (CQLParseException ex) {
 	    System.err.println("Syntax error: " + ex.getMessage());
+            StringBuilder space = new StringBuilder(cql.length());
+            System.out.println(cql);
+            for (int i=0; i<ex.getPosition(); i++) space.append(" ");
+            space.append("^");
+            System.err.println(space.toString());
 	    System.exit(3);
             return; //compiler
 	} catch (IOException ex) {
