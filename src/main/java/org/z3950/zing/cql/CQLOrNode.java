@@ -16,6 +16,12 @@ public class CQLOrNode extends CQLBooleanNode {
     }
 
     @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      visitor.onOrNode(this);
+      super.traverse(visitor);
+    }
+
+    @Override
     byte[] opType1() {
 	byte[] op = new byte[5];
 	putTag(CONTEXT, 46, CONSTRUCTED, op, 0); // Operator

@@ -43,6 +43,14 @@ public abstract class CQLBooleanNode extends CQLNode {
     }
 
     @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      visitor.onBooleanNode(this);
+      left.traverse(visitor);
+      right.traverse(visitor);
+    }
+
+
+    @Override
     void toXCQLInternal(XCQLBuilder b, int level,
         List<CQLPrefix> prefixes, List<ModifierSet> sortkeys) {
 	b.indent(level).append("<triple>\n");

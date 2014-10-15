@@ -15,6 +15,13 @@ public class CQLAndNode extends CQLBooleanNode {
 	super(left, right, ms);
     }
 
+    @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      visitor.onAndNode(this);
+      super.traverse(visitor);
+    }
+    
+
     // ### Too much code duplication here with OR and NOT
     @Override
     byte[] opType1() {

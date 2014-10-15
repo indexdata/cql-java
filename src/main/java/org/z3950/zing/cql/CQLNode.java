@@ -12,6 +12,8 @@ import java.util.Properties;
  *
  */
 public abstract class CQLNode {
+  
+    public abstract void traverse(CQLNodeVisitor visitor);
 
     /**
      * Returns the name of the result-set to which this query is a

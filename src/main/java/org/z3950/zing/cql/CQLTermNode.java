@@ -42,6 +42,13 @@ public class CQLTermNode extends CQLNode {
     }
 
     @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      //we visit relation first to allow filtering on relation type in the visitor
+      relation.traverse(visitor);
+      visitor.onTermNode(this);
+    }
+        
+    @Override
     public String getResultSetName() {
 	if (isResultSetIndex(index))
 	    return term;

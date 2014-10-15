@@ -41,6 +41,12 @@ public class CQLSortNode extends CQLNode {
     }
 
     @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      visitor.onSortNode(this);
+      subtree.traverse(visitor);
+    }
+
+    @Override
     void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	if (sortkeys != null)

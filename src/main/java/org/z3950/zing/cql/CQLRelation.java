@@ -42,6 +42,11 @@ public class CQLRelation extends CQLNode {
     }
 
     @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      visitor.onRelation(this);
+    } 
+    
+    @Override
     void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
       List<ModifierSet> sortkeys) {
 	if (sortkeys != null)

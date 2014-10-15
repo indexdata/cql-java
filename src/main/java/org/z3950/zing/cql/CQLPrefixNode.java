@@ -41,6 +41,12 @@ public class CQLPrefixNode extends CQLNode {
     }
 
     @Override
+    public void traverse(CQLNodeVisitor visitor) {
+      visitor.onPrfixNode(this);
+      subtree.traverse(visitor);
+    }
+
+    @Override
     void toXCQLInternal(XCQLBuilder b, int level, List<CQLPrefix> prefixes,
 			 List<ModifierSet> sortkeys) {
 	List<CQLPrefix> tmp = (prefixes == null ?
