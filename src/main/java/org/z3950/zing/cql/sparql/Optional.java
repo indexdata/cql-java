@@ -19,9 +19,9 @@ public class Optional extends GraphPatternSet {
   }
   
   @Override
-  public void print(PrettyPrinter sw) {
-    sw.startl("OPTIONAL ");
-    super.print(sw);
+  public void print(PrettyPrinter pp) {
+    pp.startl("OPTIONAL ");
+    super.print(pp);
   }
  
 }

@@ -28,11 +28,11 @@ public class GraphPatternSet implements GraphPattern {
   }
 
   @Override
-  public void print(PrettyPrinter sw) {
-    sw.put("{").endl();
+  public void print(PrettyPrinter pp) {
+    pp.put("{").endl();
     for (GraphPattern tp : patterns) {
-      tp.print(sw.levelUp());
+      tp.print(pp.levelUp());
     }
-    sw.putl("}");
+    pp.putl("}");
   }
 }

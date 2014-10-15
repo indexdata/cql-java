@@ -21,9 +21,9 @@ public class Where extends GraphPatternSet {
   }
   
   @Override
-  public void print(PrettyPrinter sw) {
-    sw.startl("WHERE ");
-    super.print(sw);
+  public void print(PrettyPrinter pp) {
+    pp.startl("WHERE ");
+    super.print(pp);
   }
   
 }

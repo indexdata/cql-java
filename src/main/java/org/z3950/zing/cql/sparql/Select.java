@@ -23,13 +23,13 @@ public class Select implements Form {
   }
 
   @Override
-  public void print(PrettyPrinter sw) {
-    sw.startl("SELECT");
+  public void print(PrettyPrinter pp) {
+    pp.startl("SELECT");
     for (String var : variables) {
-      sw.put(" ");
-      sw.put(var);
+      pp.put(" ");
+      pp.put(var);
     }
-    sw.endl();
+    pp.endl();
   }
   
 }

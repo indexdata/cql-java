@@ -24,8 +24,8 @@ public class TriplePattern implements GraphPattern {
   }
   
   @Override
-  public void print(PrettyPrinter wr) {
-    wr.startl(subject).put(" ")
+  public void print(PrettyPrinter pp) {
+    pp.startl(subject).put(" ")
       .put(predicate).put(" ")
       .put(object).put(" .").endl();
   }

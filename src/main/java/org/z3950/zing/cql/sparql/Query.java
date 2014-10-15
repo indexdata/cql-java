@@ -62,13 +62,13 @@ public class Query implements Printable {
   }
   
   @Override
-  public void print(PrettyPrinter sw) {
+  public void print(PrettyPrinter pp) {
     for (Prefix prefix : prefixes.values()) {
-      sw.startl("PREFIX ")
+      pp.startl("PREFIX ")
         .put(prefix.getName()).put(": ")
         .put("<").put(prefix.getUrl()).put(">").endl();
     }
-    form.print(sw);
-    where.print(sw);
+    form.print(pp);
+    where.print(pp);
   }
 }

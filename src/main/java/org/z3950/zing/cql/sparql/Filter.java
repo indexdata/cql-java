@@ -20,8 +20,8 @@ public class Filter implements GraphPattern {
   }
 
   @Override
-  public void print(PrettyPrinter pr) {
-    pr.startl("FILTER ").put(filter).put(".").endl();
+  public void print(PrettyPrinter pp) {
+    pp.startl("FILTER ").put(filter).put(".").endl();
   }
   
 }
