@@ -2,15 +2,18 @@
 package org.z3950.zing.cql;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Properties;
-import java.io.InputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
+import org.z3950.zing.cql.sparql.Query;
+import org.z3950.zing.cql.sparql.SPARQLNodeVisitor;
+import org.z3950.zing.cql.utils.PrettyPrinter;
 
 
 /**
@@ -444,10 +447,13 @@ public class CQLParser {
 	    argv.remove(0);
 	    pfile = (String) argv.get(0);
 	    argv.remove(0);
-	}
+	} else if (argv.size() > 0 && argv.get(0).equals("-s")) {
+            mode = 's';
+            argv.remove(0);
+        }
 
 	if (argv.size() > 1) {
-	    System.err.println("Usage: CQLParser [-1] [-d] [-c] " +
+	    System.err.println("Usage: CQLParser [-1] [-d] [-c] [-s] " +
 			       "[-p <pqf-properties> [<CQL-query>]");
 	    System.err.println("If unspecified, query is read from stdin");
 	    System.exit(1);
@@ -507,6 +513,13 @@ public class CQLParser {
                   ex.getMessage());
                 System.exit(5);
               }
+            } else if (mode == 's') {
+                SPARQLNodeVisitor visitor = new SPARQLNodeVisitor();
+                root.traverse(visitor);
+                Query sparql = visitor.getQuery();
+                PrettyPrinter pp = new PrettyPrinter();
+                sparql.print(pp);
+                System.out.println(pp.toString());
 	    } else {
 		System.out.print(root.toXCQL());
 	    }
