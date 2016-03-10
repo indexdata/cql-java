@@ -112,6 +112,8 @@ public class CQLTermNode extends CQLNode {
 	String rel = relation.getBase();
 	if (rel.equals("=")) {
 	    rel = "eq";
+	} else if (rel.equals("==")) {
+	    rel = "exact";
 	} else if (rel.equals("<=")) {
 	    rel = "le";
 	} else if (rel.equals(">=")) {
