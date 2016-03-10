@@ -135,10 +135,18 @@ public class CQLTermNode extends CQLNode {
 	}
 
 	String pos = "any";
+	String truncation = "none";
 	String text = term;
 	if (text.length() > 0 && text.substring(0, 1).equals("^")) {
 	    text = text.substring(1); // ### change not seen by caller
 	    pos = "first";
+	}
+	if (text.startsWith("*") && text.endsWith("*")) {
+	    truncation = "both";
+	} else  if (text.startsWith("*")) {
+	    truncation = "left";
+	} else if (text.endsWith("*")) {
+	    truncation = "right";
 	}
 	int len = text.length();
 	if (len > 0 && text.substring(len-1, len).equals("^")) {
@@ -154,6 +162,11 @@ public class CQLTermNode extends CQLNode {
 	attr = config.getProperty("position." + pos);
 	if (attr == null)
 	    throw new UnknownPositionException(pos);
+	attrs.add(attr);
+
+	attr = config.getProperty("truncation." + truncation);
+	if (attr == null)
+	    throw new UnknownTruncationException(truncation);
 	attrs.add(attr);
 
 	attr = config.getProperty("structure." + rel);
@@ -186,6 +199,15 @@ public class CQLTermNode extends CQLNode {
 	int len = text.length();
 	if (len > 0 && text.substring(len-1, len).equals("^"))
 	    text = text.substring(0, len-1);
+
+	len = text.length();
+	if (text.startsWith("*") && text.endsWith("*")) {
+	    text = text.substring(1, len-1);
+	} else if (text.startsWith("*")) {
+	    text = text.substring(1);
+	} else if (text.endsWith("*")) {
+	    text = text.substring(0, len-1);
+	}
 
 	return s + maybeQuote(text);
     }
