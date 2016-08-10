@@ -52,7 +52,7 @@ COMPILATION AND INSTALLATION
 
 The build process is controlled by Maven so compilation is the standard:
 
-  mvn clean install
+	mvn clean install
 
 which generates build artifacts under target/.
 
@@ -106,7 +106,7 @@ AUTHOR
 Original code and documentation by Mike Taylor, Index Data <mike@indexdata.com>
 At present maintained by Jakub Skoczen, Index Data <jakub@indexdata.dk>
 
-    http://www.indexdata.com/cql-java
+	http://www.indexdata.com/cql-java
 	http://zing.z3950.org/cql
 
 Please email me with bug-reports, wishlist items, patches, deployment
