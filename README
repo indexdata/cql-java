@@ -136,6 +136,6 @@ SEE ALSO
 
 Adam Dickmeiss's CQL compiler, written in C.
 Rob Sanderson's CQL compiler, written in Python.
-Jakub Skoczen's CQL-js compiler, written in JavaScript http://git.indexdata.com/?p=cql-js.git
+Jakub Skoczen's CQL-js compiler, written in JavaScript https://github.com/indexdata/cql-js
 All the other free CQL compilers everyone's going to write  :-)
 The "Changes" file, including the "Still to do" section.
