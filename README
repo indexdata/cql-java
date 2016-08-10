@@ -27,7 +27,7 @@ and there's more (and friendlier) information at
 
 XCQL is "XML CQL", a representation of CQL-equivalent queries in XML
 which is supposed to be easier to parse.  The specification is at
-	http://www.loc.gov/standards/sru/xml-files/xcql.xsd
+	http://docs.oasis-open.org/search-ws/searchRetrieve/v1.0/os/schemas/xcql.xsd
 in the form of an XML Schema.
 
 But if you didn't know that, why are you even reading this?  :-)
