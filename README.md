@@ -1,9 +1,7 @@
+# CQL-Java -- a free CQL parser and related tools, for Java
 
-CQL-Java - a free CQL compiler, and other CQL tools, for Java
 
-
-INTRODUCTION
-------------
+## Introduction
 
 CQL-Java is a Free Software project that provides:
 
@@ -33,35 +31,32 @@ in the form of an XML Schema.
 But if you didn't know that, why are you even reading this?  :-)
 
 
-WHAT'S WHAT IN THIS DISTRIBUTION?
----------------------------------
+## What's What in this Distribution?
 
-	README		This file
-	Changes		History of releases
-	LGPL-2.1	The GNU lesser GPL (see below)
-	pom.xml Maven project file to control compilation.
-	src     Source-code for the CQL-Java library and tests
-	target  The compiled library file, "cql-java.jar" and javadoc
-	bin     Simple shell-scripts to invoke CQL programs (parser/lexer/generator)
-	util    Various testing and sanity-checking Perl scripts
-	etc		Other files: PQF indexes, generator properties, etc.
+* `README.md` -- This file
+* [`Changes`](Changes) -- History of releases
+* [`LGPL-2.1`](LGPL-2.1) -- The GNU lesser GPL (see below)
+* `pom.xml` -- Maven project file to control compilation.
+* `src` -- Source-code for the CQL-Java library and tests
+* `target` -- The compiled library file, `cql-java.jar` and javadoc
+* `bin` -- Simple shell-scripts to invoke CQL programs (parser/lexer/generator)
+* `util` -- Various testing and sanity-checking Perl scripts
+* `etc` -- Other files: PQF indexes, generator properties, etc.
 
 
-COMPILATION AND INSTALLATION
-----------------------------
+## Compilation and Installation
 
 The build process is controlled by Maven so compilation is the standard:
 
 	mvn clean install
 
-which generates build artifacts under target/.
+which generates build artifacts under `target/`.
 
 "Installation" of this package would consist of putting the bin
-directory on your PATH and target/cql-java.jar on your CLASSPATH.
+directory on your PATH and `target/cql-java.jar` on your CLASSPATH.
 
 
-SYNOPSIS
---------
+## Synopsis
 
 Using the test-harnesses:
 
@@ -93,28 +88,24 @@ Using the library in your own applications:
 	// ... where `config' specifies CQL-qualfier => Z-attr mapping
 
 
-DESCRIPTION
------------
+## Description
 
 See the automatically generated class documentation in the "target"
 subdirectory.
 
 
-AUTHOR
-------
+## Author
 
 Original code and documentation by Mike Taylor, Index Data <mike@indexdata.com>
 At present maintained by Jakub Skoczen, Index Data <jakub@indexdata.dk>
 
-	http://www.indexdata.com/cql-java
-	http://zing.z3950.org/cql
+* http://www.indexdata.com/cql-java
 
-Please email me with bug-reports, wishlist items, patches, deployment
+Please email us with bug-reports, wishlist items, patches, deployment
 stories and, of course, large cash donations.
 
 
-LICENCE
--------
+## Licence
 
 The CQL-Java suite is Free Software, which is pretty much legally
 equivalent -- though not morally equivalent -- to Open Source.  See
@@ -131,11 +122,11 @@ much anything else with it.  In particular, you may deploy CQL-Java as
 a part of a non-free larger work.
 
 
-SEE ALSO
---------
+## See also
 
-Adam Dickmeiss's CQL compiler, written in C.
-Rob Sanderson's CQL compiler, written in Python.
-Jakub Skoczen's CQL-js compiler, written in JavaScript https://github.com/indexdata/cql-js
-All the other free CQL compilers everyone's going to write  :-)
-The "Changes" file, including the "Still to do" section.
+* http://zing.z3950.org/cql
+* Adam Dickmeiss's CQL compiler, written in C.
+* Rob Sanderson's CQL compiler, written in Python.
+* Jakub Skoczen's CQL-js compiler, written in JavaScript https://github.com/indexdata/cql-js
+* All the other free CQL compilers everyone's going to write  :-)
+* The [`Changes`](Changes) file, including the "Still to do" section.
