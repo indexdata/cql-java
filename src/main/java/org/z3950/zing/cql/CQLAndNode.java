@@ -12,15 +12,8 @@ public class CQLAndNode extends CQLBooleanNode {
      * sides and modifiers.
      */
     public CQLAndNode(CQLNode left, CQLNode right, ModifierSet ms) {
-	super(left, right, ms);
-    }
-
-    @Override
-    public void traverse(CQLNodeVisitor visitor) {
-      visitor.onAndNode(this);
-      super.traverse(visitor);
-    }
-    
+	super(left, right, ms, CQLBoolean.AND);
+    }    
 
     // ### Too much code duplication here with OR and NOT
     @Override

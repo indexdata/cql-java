@@ -42,7 +42,7 @@ public class CQLPrefixNode extends CQLNode {
 
     @Override
     public void traverse(CQLNodeVisitor visitor) {
-      visitor.onPrfixNode(this);
+      visitor.onPrefixNode(this);
       subtree.traverse(visitor);
     }
 

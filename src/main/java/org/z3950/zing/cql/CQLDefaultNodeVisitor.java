@@ -11,35 +11,27 @@ package org.z3950.zing.cql;
  * @author jakub
  */
 public class CQLDefaultNodeVisitor implements CQLNodeVisitor {
-
+  
   @Override
   public void onSortNode(CQLSortNode node) {
   }
 
   @Override
-  public void onPrfixNode(CQLPrefixNode node) {
+  public void onPrefixNode(CQLPrefixNode node) {
   }
 
   @Override
-  public void onBooleanNode(CQLBooleanNode node) {
+  public void onBooleanNodeStart(CQLBooleanNode node) {
   }
 
   @Override
-  public void onProxNode(CQLProxNode node) {
+  public void onBooleanNodeOp(CQLBooleanNode node) {
   }
 
   @Override
-  public void onAndNode(CQLAndNode node) {
+  public void onBooleanNodeEnd(CQLBooleanNode node) {
   }
-
-  @Override
-  public void onOrNode(CQLOrNode node) {
-  }
-
-  @Override
-  public void onNotNode(CQLNotNode node) {
-  }
-
+  
   @Override
   public void onTermNode(CQLTermNode node) {
   }

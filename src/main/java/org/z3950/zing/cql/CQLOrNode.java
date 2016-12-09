@@ -12,13 +12,7 @@ public class CQLOrNode extends CQLBooleanNode {
      * sides and modifiers.
      */
     public CQLOrNode(CQLNode left, CQLNode right, ModifierSet ms) {
-	super(left, right, ms);
-    }
-
-    @Override
-    public void traverse(CQLNodeVisitor visitor) {
-      visitor.onOrNode(this);
-      super.traverse(visitor);
+	super(left, right, ms, CQLBoolean.OR);
     }
 
     @Override

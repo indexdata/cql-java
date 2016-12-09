@@ -8,7 +8,12 @@ import java.util.Properties;
  *
  */
 public abstract class CQLBooleanNode extends CQLNode {
+    private final CQLBoolean operator;
 
+    public CQLBoolean getOperator() {
+        return operator;
+    }
+    
     private CQLNode left;
 
     /**
@@ -36,17 +41,20 @@ public abstract class CQLBooleanNode extends CQLNode {
         return ms.getModifiers();
     }
 
-    protected CQLBooleanNode(CQLNode left, CQLNode right, ModifierSet ms) {
+    protected CQLBooleanNode(CQLNode left, CQLNode right, ModifierSet ms, CQLBoolean operator) {
 	this.left = left;
 	this.right = right;
 	this.ms = ms;
+        this.operator = operator;
     }
 
     @Override
     public void traverse(CQLNodeVisitor visitor) {
-      visitor.onBooleanNode(this);
+      visitor.onBooleanNodeStart(this);
       left.traverse(visitor);
+      visitor.onBooleanNodeOp(this);
       right.traverse(visitor);
+      visitor.onBooleanNodeEnd(this);
     }
 
 

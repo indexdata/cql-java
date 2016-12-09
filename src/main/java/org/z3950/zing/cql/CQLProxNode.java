@@ -15,13 +15,8 @@ public class CQLProxNode extends CQLBooleanNode {
      * sides and modifiers.
      */
     public CQLProxNode(CQLNode left, CQLNode right, ModifierSet ms) {
-	super(left, right, ms);
-    }
-
-    @Override
-    public void traverse(CQLNodeVisitor visitor) {
-      visitor.onProxNode(this);
-    }    
+	super(left, right, ms, CQLBoolean.PROX);
+    }  
 
     /*
      * proximity ::= exclusion distance ordered relation which-code unit-code.

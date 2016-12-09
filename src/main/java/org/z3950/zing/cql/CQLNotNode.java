@@ -12,14 +12,8 @@ public class CQLNotNode extends CQLBooleanNode {
      * sides and modifiers.
      */
     public CQLNotNode(CQLNode left, CQLNode right, ModifierSet ms) {
-	super(left, right, ms);
-    }
-
-    @Override
-    public void traverse(CQLNodeVisitor visitor) {
-      visitor.onNotNode(this);
-      super.traverse(visitor);
-    }    
+	super(left, right, ms, CQLBoolean.NOT);
+    }  
 
     @Override
     byte[] opType1() {
