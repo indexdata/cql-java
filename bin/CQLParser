@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Trivial script to invoke the CQLParser test-harness
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
