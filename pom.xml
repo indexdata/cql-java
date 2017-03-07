@@ -68,12 +68,12 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>2.2</version>
+        <version>2.12</version>
       </extension>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh-external</artifactId>
-        <version>2.2</version>
+        <version>2.12</version>
       </extension>
     </extensions>
     <plugins>
@@ -113,7 +113,7 @@
       <uniqueVersion>false</uniqueVersion>
       <id>id-maven-repo</id>
       <name>Index Data Maven Repository</name>
-      <url>scp://maven.indexdata.com:222/var/www/maven/repository</url>
+      <url>scp://maven.indexdata.com/var/www/maven/repository</url>
     </repository>
     <site>
       <id>id-website</id>
