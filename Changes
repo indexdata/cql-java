@@ -5,6 +5,14 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
+1.13 Wed 10 May 2017 14:44:44 CET
+  - add classes for visitor traversal
+  - truncation attribute right/left/both/none (thanks to Rustam Usmanov)
+  - exact relation == (thanks to Rustam Usmanov)
+  - CQLNodeVisitor rewritten to allow for generation of prefix,
+  postfix and infix notations
+  - enum CQLBoolean
+
 1.12 Mon 17 Mar 2014 16:16:16 CET
   - rewrite the CQL lexer to better conform to CQL spec 
   (e.g retain escapes for wildcards, etc)
