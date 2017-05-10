@@ -92,7 +92,7 @@
         <version>2.5.3</version>
         <configuration>
           <preparationGoals>clean verify</preparationGoals>
-          <releaseProfiles>production</releaseProfiles>
+          <releaseProfiles>maven-3</releaseProfiles>
           <tagNameFormat>v@{project.version}</tagNameFormat>
           <pushChanges>false</pushChanges>
           <localCheckout>true</localCheckout>
