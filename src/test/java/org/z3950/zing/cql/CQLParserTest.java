@@ -198,4 +198,17 @@ public class CQLParserTest {
     throw new UnsupportedOperationException("Cannot list files for URL "
       + dirURL);
   }
+
+  @Test
+  public void testMultipleTerms() throws CQLParseException, IOException {
+    CQLParser parser = new CQLParser();
+    parser.andMultipleTerms = false;
+    assertEquals("title = \"a b\"", parser.parse("title = a b").toCQL());
+    parser.andMultipleTerms = true;
+    assertEquals("(title = a) and (title = b)", parser.parse("title = a b").toCQL());
+    parser.andMultipleTerms = false;
+    assertEquals("title = \"a b c\"", parser.parse("title = \"a b\" c").toCQL());
+    parser.andMultipleTerms = true;
+    assertEquals("(title = \"a b\") and (title = c)", parser.parse("title = \"a b\" c").toCQL());
+  }
 }

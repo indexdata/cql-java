@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +30,8 @@ public class CQLParser {
     public static final int V1POINT2 = 12369;
     public static final int V1POINT1SORT = 12370;
     public final boolean allowKeywordTerms;
+    // true: multiple tokens are ANDed. false: concatenation
+    public boolean andMultipleTerms = false;
 
     static private boolean DEBUG = false;
     static private boolean LEXDEBUG = false;
@@ -219,8 +223,8 @@ public class CQLParser {
 	throws CQLParseException, IOException {
 	debug("in parseTerm()");
 
-	String first;
-        StringBuilder all;
+        List<String> tokens = new LinkedList<String>();
+        String relstr = null;
 	while (true) {
 	    if (lexer.what() == '(') {
 		debug("parenthesised term");
@@ -233,11 +237,12 @@ public class CQLParser {
 	    }
 
 	    debug("non-parenthesised term");
-	    first = matchSymbol("index or term");
-            all = new StringBuilder(first);
+	    String first = matchSymbol("index or term");
+            tokens.clear();
+            tokens.add(first);
             //match relation only on second postion
-            while (isWordOrString() && (all.length() > first.length() || !isRelation())) {
-              all.append(" ").append(lexer.value());
+            while (isWordOrString() && (tokens.size() > 1 || !isRelation())) {
+              tokens.add(lexer.value());
               match(lexer.what());
             }
 
@@ -245,10 +250,10 @@ public class CQLParser {
               break; //we're done if no relation
 	    
             //render relation
-	    String relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
+	    relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
 			     lexer.value() : lexer.render(lexer.what(), false));
             //we have relation, but it only makes sense if preceded by a single term
-            if (all.length() > first.length()) {
+            if (tokens.size() > 1) {
               throw new CQLParseException("unexpected relation '"+relstr+"'"
                 , lexer.pos());
             }
@@ -260,7 +265,18 @@ public class CQLParser {
 	    debug("index='" + index + ", " +
 		  "relation='" + relation.toCQL() + "'");
 	}
-	CQLTermNode node = new CQLTermNode(index, relation, all.toString());
+        CQLNode node = null;
+        if (this.andMultipleTerms && "=".equals(relstr)) {
+            Iterator<String> it = tokens.iterator();
+            node = new CQLTermNode(index, relation, it.next());
+            while (it.hasNext()) {
+                CQLNode node2 = new CQLTermNode(index, relation, it.next());
+                ModifierSet ms = new ModifierSet("and");
+                node = new CQLAndNode(node, node2, ms);
+            }
+        } else {
+	    node = new CQLTermNode(index, relation, String.join(" ", tokens));
+        }
 	debug("made term node " + node.toCQL());
 	return node;
     }
