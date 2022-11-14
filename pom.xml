@@ -8,8 +8,8 @@
   <url>http://www.indexdata.com/cql-java</url>
   <licenses>
     <license>
-      <name>LGPL</name>
-      <url>http://www.indexdata.com/licences/lgpl</url>
+      <name>LGPL-2.1-only</name>
+      <url>https://spdx.org/licenses/LGPL-2.1-only.html</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
