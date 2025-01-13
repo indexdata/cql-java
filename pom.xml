@@ -5,7 +5,7 @@
   <packaging>jar</packaging>
   <version>1.14-SNAPSHOT</version>
   <name>cql-java</name>
-  <url>http://www.indexdata.com/cql-java</url>
+  <url>https://www.indexdata.com/cql-java</url>
   <licenses>
     <license>
       <name>LGPL-2.1-only</name>
@@ -16,7 +16,7 @@
   <inceptionYear>2008</inceptionYear>
   <organization>
     <name>Index Data</name>
-    <url>http://www.indexdata.com</url>
+    <url>https://www.indexdata.com</url>
   </organization>
   <developers>
     <developer>
@@ -24,7 +24,7 @@
       <id>mike</id>
       <email>mike@indexdata.com</email>
       <organization>Index Data</organization>
-      <organizationUrl>http://www.indexdata.com/</organizationUrl>
+      <organizationUrl>https://www.indexdata.com/</organizationUrl>
       <roles />
       <timezone />
     </developer>
@@ -33,24 +33,20 @@
       <id>jakub</id>
       <email>jakub@indexdata.dk</email>
       <organization>Index Data</organization>
-      <organizationUrl>http://www.indexdata.com/</organizationUrl>
+      <organizationUrl>https://www.indexdata.com/</organizationUrl>
       <roles />
       <timezone />
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:ssh://git.indexdata.com:222/home/git/pub/cql-java</connection>
-    <url>http://git.indexdata.com/?p=cql-java.git</url>
+    <connection>scm:git:git://github.com/indexdata/cql-java.git</connection>
+    <url>https://github.com/indexdata/cql-java</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>Bugzilla</system>
-    <url>http://bugzilla.indexdata.dk/</url>
+    <url>https://index-data.atlassian.net/browse/CQLJAVA</url>
   </issueManagement>
-  <ciManagement>
-    <system>hudson</system>
-    <url>http://hudson.indexdata.com/</url>
-  </ciManagement>
   <reporting>
     <plugins>
       <plugin>
@@ -83,8 +79,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.0.2</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -140,7 +136,7 @@
   <repositories>
     <repository>
       <id>id-maven-repo</id>
-      <url>http://maven.indexdata.com</url>
+      <url>https://maven.indexdata.com</url>
     </repository>
   </repositories>
   <properties>
