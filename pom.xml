@@ -56,12 +56,6 @@
         <configuration>
           <chartset>UTF-8</chartset>
           <additionalparam>${javadoc.opts}</additionalparam>
-          <reportPlugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-          </reportPlugins>
         </configuration>
       </plugin>
     </plugins>
