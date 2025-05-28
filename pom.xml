@@ -55,6 +55,13 @@
         <version>2.10.4</version>
         <configuration>
           <chartset>UTF-8</chartset>
+          <additionalparam>${javadoc.opts}</additionalparam>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+          </reportPlugins>
         </configuration>
       </plugin>
     </plugins>
@@ -159,15 +166,6 @@
               <artifactId>maven-site-plugin</artifactId>
               <version>3.6</version>
               <configuration>
-                <reportPlugins>
-                  <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                      <additionalparam>${javadoc.opts}</additionalparam>
-                    </configuration>
-                  </plugin>
-                </reportPlugins>
               </configuration>
             </plugin>
           </plugins>
@@ -199,4 +197,3 @@
     </profile>
   </profiles>
 </project>
-
