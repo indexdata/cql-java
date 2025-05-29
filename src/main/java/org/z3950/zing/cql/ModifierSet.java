@@ -1,5 +1,5 @@
-
 package org.z3950.zing.cql;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +9,12 @@ import java.util.List;
  * This class is used as a workhorse delegate by both CQLRelation and
  * CQLProxNode - two functionally very separate classes that happen to
  * require similar data structures and functionality.
+ * </P>
  * <P>
  * A ModifierSet consists of a ``base'' string together with a set of
  * zero or more <I>type</I> <I>comparison</I> <I>value</I> pairs,
  * where type, comparison and value are all strings.
+ * </P>
  *
  */
 public class ModifierSet {
@@ -35,8 +37,8 @@ public class ModifierSet {
     }
 
     /**
-     * Adds a modifier of the specified <TT>type</TT>,
-     * <TT>comparison</TT> and <TT>value</TT> to a ModifierSet.
+     * Adds a modifier of the specified <code>type</code>,
+     * <code>comparison</code> and <code>value</code> to a ModifierSet.
      */
     public void addModifier(String type, String comparison, String value) {
 	Modifier modifier = new Modifier(type, comparison, value);
@@ -44,8 +46,8 @@ public class ModifierSet {
     }
 
     /**
-     * Adds a modifier of the specified <TT>type</TT>, but with no
-     * <TT>comparison</TT> and <TT>value</TT>, to a ModifierSet.
+     * Adds a modifier of the specified <code>type</code>, but with no
+     * <code>comparison</code> and <code>value</code>, to a ModifierSet.
      */
     public void addModifier(String type) {
 	Modifier modifier = new Modifier(type);

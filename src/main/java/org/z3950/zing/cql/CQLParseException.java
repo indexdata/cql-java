@@ -1,6 +1,4 @@
-
 package org.z3950.zing.cql;
-
 
 /**
  * Exception indicating that an error ocurred parsing CQL.
@@ -9,7 +7,7 @@ package org.z3950.zing.cql;
 public class CQLParseException extends Exception {
     private int pos;
     /**
-     * Creates a new <TT>CQLParseException</TT>.
+     * Creates a new <code>CQLParseException</code>.
      * @param s
      *	An error message describing the problem with the query,
      *	usually a syntax error of some kind.

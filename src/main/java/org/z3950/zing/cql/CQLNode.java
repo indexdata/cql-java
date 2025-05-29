@@ -1,11 +1,9 @@
-
 package org.z3950.zing.cql;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-
 
 /**
  * Represents a node in a CQL parse-tree.
@@ -29,7 +27,6 @@ public abstract class CQLNode {
 
     /**
      * Translates a parse-tree into an XCQL document.
-     * <P>
      * @return
      *	A String containing an XCQL document equivalent to the
      *	parse-tree whose root is this node.
@@ -79,7 +76,6 @@ public abstract class CQLNode {
 
     /**
      * Decompiles a parse-tree into a CQL query.
-     * <P>
      * @return
      *	A String containing a CQL query equivalent to the parse-tree
      *	whose root is this node, so that compiling that query will
@@ -96,17 +92,20 @@ public abstract class CQLNode {
      * <A href="http://indexdata.dk/yaz/doc/tools.php#PQF"
      *	>Chapter 7 (Supporting Tools)</A> of the
      * <A href="http://indexdata.dk/yaz/">YAZ</A> manual.
-     * <P>
      * @param config
-     *	A <TT>Properties</TT> object containing configuration
+     *	A <code>Properties</code> object containing configuration
      *	information that specifies the mapping from CQL indexes,
      *	relations, etc. to Type-1 attributes.  The mapping
      *	specification is described in the CQL-Java distribution's
      *	sample PQF-mapping configuration file,
-     *	<TT>etc/pqf.properties</TT>, which see.
+     *	<code>etc/pqf.properties</code>, which see.
      * @return
      *	A String containing a PQF query equivalent to the parse-tree
      *	whose root is this node.
+     * @throws PQFTranslationException
+     *  If the parse-tree cannot be translated into PQF, for example
+     *  because it contains a CQL relation that is not supported by the
+     *  PQF configuration.
      */
     abstract public String toPQF(Properties config)
 	throws PQFTranslationException;
@@ -118,17 +117,21 @@ public abstract class CQLNode {
      * primarily for SRW-to-Z39.50 gateways.
      *
      * @param config
-     *	A <TT>Properties</TT> object containing configuration
+     *	A <code>Properties</code> object containing configuration
      *	information that specifies the mapping from CQL indexes,
      *	relations, etc. to Type-1 attributes.  The mapping
      *	specification is described in the CQL-Java distribution's
      *	sample PQF-mapping configuration file,
-     *	<TT>etc/pqf.properties</TT>, which see.
+     *	<code>etc/pqf.properties</code>, which see.
      * @return
      *	A byte array containing the BER packet.
      * @see
      *	<A href="ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc"
      *	        >ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc</A>
+     * @throws PQFTranslationException
+     *  If the parse-tree cannot be translated into PQF, for example
+     *  because it contains a CQL relation that is not supported by the
+     *  PQF configuration.
      */
     abstract public byte[] toType1BER(Properties config)
 	throws PQFTranslationException;

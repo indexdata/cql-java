@@ -1,4 +1,3 @@
-
 package org.z3950.zing.cql;
 
 import java.io.BufferedReader;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
@@ -34,16 +32,16 @@ public class CQLParser {
 
     /**
      * The new parser implements a dialect of CQL specified by the
-     * <tt>compat</tt> argument:
-     * <ul>
-     *  <li>V1POINT1 - CQL version 1.1
-     *  </li>
-     *  <li>V1POINT2 - CQL version 1.2
-     *  </li>
-     *  <li>V1POINT1SORT - CQL version 1.1 but including
+     * <code>compat</code> argument:
+     * <UL>
+     *  <LI>V1POINT1 - CQL version 1.1
+     *  </LI>
+     *  <LI>V1POINT2 - CQL version 1.2
+     *  </LI>
+     *  <LI>V1POINT1SORT - CQL version 1.1 but including
      *		<tt>sortby</tt> as specified for CQL 1.2.
-     *  </li>
-     * </ul>
+     *  </LI>
+     * </UL>
      */
     public CQLParser(int compat) {
 	this.compat = compat;
@@ -100,10 +98,10 @@ public class CQLParser {
      * The resulting parse tree may be further processed by hand (see
      * the individual node-types' documentation for details on the
      * data structure) or, more often, simply rendered out in the
-     * desired form using one of the back-ends.  <TT>toCQL()</TT>
+     * desired form using one of the back-ends.  <code>toCQL()</code>
      * returns a decompiled CQL query equivalent to the one that was
-     * compiled in the first place; <TT>toXCQL()</TT> returns an
-     * XML snippet representing the query; and <TT>toPQF()</TT>
+     * compiled in the first place; <code>toXCQL()</code> returns an
+     * XML snippet representing the query; and <code>toPQF()</code>
      * returns the query rendered in Index Data's Prefix Query
      * Format.
      *
@@ -403,7 +401,6 @@ public class CQLParser {
      *	  &lt;/searchClause&gt;
      *	&lt;/triple&gt;
      * </PRE>
-     * <P>
      * @param -1
      *	CQL version 1.1 (default version 1.2)
      * @param -d
@@ -414,7 +411,7 @@ public class CQLParser {
      *	effect, the test harness acts as a query canonicaliser.
      * @return
      *	The input query, either as XCQL [default] or CQL [if the
-     *	<TT>-c</TT> option is supplied].
+     *	<code>-c</code> option is supplied].
      */
     public static void main (String[] args) {
 	char mode = 'x';	// x=XCQL, c=CQL, p=PQF

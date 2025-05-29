@@ -1,5 +1,5 @@
-
 package org.z3950.zing.cql;
+
 import java.util.List;
 import java.util.Properties;
 
@@ -18,6 +18,7 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     /**
      * The root of a parse-tree representing the left-hand side.
+     * @return the left operand of this boolean node
      */
     public CQLNode getLeftOperand() {
         return left;
@@ -27,6 +28,7 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     /**
      * The root of a parse-tree representing the right-hand side.
+     * @return the right operand of this boolean node
      */
     public CQLNode getRightOperand() {
         return right;
@@ -36,6 +38,7 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     /**
      * The set of modifiers that are applied to this boolean.
+     * @return a list of Modifier objects, which may be empty.
      */
     public List<Modifier> getModifiers() {
         return ms.getModifiers();
@@ -56,7 +59,6 @@ public abstract class CQLBooleanNode extends CQLNode {
       right.traverse(visitor);
       visitor.onBooleanNodeEnd(this);
     }
-
 
     @Override
     void toXCQLInternal(XCQLBuilder b, int level,

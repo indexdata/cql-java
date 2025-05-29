@@ -1,6 +1,4 @@
-
 package org.z3950.zing.cql;
-
 
 /**
  * Represents an OR node in a CQL parse-tree.
