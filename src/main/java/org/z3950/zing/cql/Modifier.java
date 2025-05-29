@@ -1,9 +1,8 @@
-
 package org.z3950.zing.cql;
 
 /**
  * Represents a single modifier, consisting of three elements: a type,
- * a comparision and a value.  For example, "distance", "<", "3".  The
+ * a comparision and a value.  For example, "distance", "&lt;", "3".  The
  * type is mandatory; either the comparison and value must both occur,
  * or neither must.
  * <P>

@@ -1,6 +1,4 @@
-
 package org.z3950.zing.cql;
-
 
 /**
  * Exception indicating that a required property was not specified.
@@ -8,7 +6,7 @@ package org.z3950.zing.cql;
  */
 public class MissingParameterException extends Exception {
     /**
-     * Creates a new <TT>MissingParameterException</TT>.
+     * Creates a new <code>MissingParameterException</code>.
      * @param s
      *	The name of the property whose value was required but not supplied.
      */

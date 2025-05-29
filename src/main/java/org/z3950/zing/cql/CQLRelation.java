@@ -1,5 +1,5 @@
-
 package org.z3950.zing.cql;
+
 import java.util.List;
 import java.util.Properties;
 
@@ -13,10 +13,10 @@ public class CQLRelation extends CQLNode {
     /**
      * Creates a new CQLRelation with the specified base relation.
      * Typical base relations include the usual six ordering relations
-     * (<TT>&lt;=</TT>, <TT>&gt</TT>, <I>etc.</I>), the text
-     * relations <TT>any</TT>, <TT>all</TT> and <TT>exact</TT>, the
-     * old server-choice relation <TT>scr</TT> and profiled relations of
-     * the form <TT><I>prefix</I>.<I>name</I></TT>.
+     * (<code>&lt;=</code>, <code>&gt</code>, <I>etc.</I>), the text
+     * relations <code>any</code>, <code>all</code> and <code>exact</code>, the
+     * old server-choice relation <code>scr</code> and profiled relations of
+     * the form <code><I>prefix</I>.<I>name</I></code>.
      */
     // ### Seems wrong: a modifier set should not have a base, a
     // relation should

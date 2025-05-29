@@ -1,4 +1,3 @@
-
 package org.z3950.zing.cql;
 
 
@@ -10,6 +9,13 @@ public class CQLAndNode extends CQLBooleanNode {
     /**
      * Creates a new AND node with the specified left- and right-hand
      * sides and modifiers.
+     * @param left the left-hand side of the AND
+     * @param right the right-hand side of the AND
+     * @param ms the modifiers to apply to this AND
+     * @see ModifierSet
+     * @see CQLNode
+     * @see CQLBoolean
+     * @see CQLBooleanNode
      */
     public CQLAndNode(CQLNode left, CQLNode right, ModifierSet ms) {
 	super(left, right, ms, CQLBoolean.AND);

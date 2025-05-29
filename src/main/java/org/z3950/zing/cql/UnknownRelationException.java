@@ -1,6 +1,4 @@
-
 package org.z3950.zing.cql;
-
 
 /**
  * Exception indicating that a relation was not recognised.
@@ -13,7 +11,7 @@ package org.z3950.zing.cql;
  */
 public class UnknownRelationException extends PQFTranslationException {
     /**
-     * Creates a new <TT>UnknownRelationException</TT>.
+     * Creates a new <code>UnknownRelationException</code>.
      * @param s
      *	The relation for which there was no PQF configuration.
      */

@@ -1,9 +1,8 @@
-
 package org.z3950.zing.cql;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 
 /**
  * Represents a sort node in a CQL parse-tree.
