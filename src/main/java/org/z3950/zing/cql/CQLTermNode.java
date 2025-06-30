@@ -1,5 +1,5 @@
-
 package org.z3950.zing.cql;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -18,9 +18,9 @@ public class CQLTermNode extends CQLNode {
     private String term;
 
     /**
-     * Creates a new term node with the specified <TT>index</TT>,
-     * <TT>relation</TT> and <TT>term</TT>.  The first two may be
-     * <TT>null</TT>, but the <TT>term</TT> may not.
+     * Creates a new term node with the specified <code>index</code>,
+     * <code>relation</code> and <code>term</code>.  The first two may be
+     * <code>null</code>, but the <code>term</code> may not.
      */
     public CQLTermNode(String index, CQLRelation relation, String term) {
 	this.index = index;

@@ -1,4 +1,3 @@
-
 package org.z3950.zing.cql;
 
 /**
@@ -11,8 +10,8 @@ public class CQLPrefix {
 
     /**
      * The short name of the prefix mapping.  That is, the prefix
-     * itself, such as <TT>dc</TT>, as it might be used in an index
-     * like <TT>dc.title</TT>.
+     * itself, such as <code>dc</code>, as it might be used in an index
+     * like <code>dc.title</code>.
      */
     public String getName() {
         return name;
@@ -24,7 +23,7 @@ public class CQLPrefix {
     /**
      * The full identifier name of the prefix mapping.  That is,
      * typically, a URI permanently allocated to a specific index
-     * set, such as <TT>http://zthes.z3950.org/cql/1.0<TT>.
+     * set, such as <code>http://zthes.z3950.org/cql/1.0<code>.
      */
     public String getIdentifier() {
         return identifier;

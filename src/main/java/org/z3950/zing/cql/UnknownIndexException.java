@@ -1,6 +1,4 @@
-
 package org.z3950.zing.cql;
-
 
 /**
  * Exception indicating that an index was not recognised.
@@ -13,7 +11,7 @@ package org.z3950.zing.cql;
  */
 public class UnknownIndexException extends PQFTranslationException {
     /**
-     * Creates a new <TT>UnknownIndexException</TT>.
+     * Creates a new <code>UnknownIndexException</code>.
      * @param s
      *	The index for which there was no PQF configuration.
      */
