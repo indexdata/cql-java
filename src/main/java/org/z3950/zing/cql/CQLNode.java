@@ -10,7 +10,9 @@ import java.util.Properties;
  *
  */
 public abstract class CQLNode {
-  
+
+    private int start = -1, stop = -1;
+
     public abstract void traverse(CQLNodeVisitor visitor);
 
     /**
@@ -23,6 +25,19 @@ public abstract class CQLNode {
      */
     public String getResultSetName() {
 	return null;
+    }
+
+    public int getStart() {
+	return start;
+    }
+
+    public int getStop() {
+	return stop;
+    }
+
+    protected void setStartStop(int start, int stop) {
+	this.start = start;
+	this.stop = stop;
     }
 
     /**

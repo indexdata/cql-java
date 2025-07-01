@@ -40,18 +40,20 @@ public class ModifierSet {
      * Adds a modifier of the specified <code>type</code>,
      * <code>comparison</code> and <code>value</code> to a ModifierSet.
      */
-    public void addModifier(String type, String comparison, String value) {
+    public Modifier addModifier(String type, String comparison, String value) {
 	Modifier modifier = new Modifier(type, comparison, value);
 	modifiers.add(modifier);
+	return modifier;
     }
 
     /**
      * Adds a modifier of the specified <code>type</code>, but with no
      * <code>comparison</code> and <code>value</code>, to a ModifierSet.
      */
-    public void addModifier(String type) {
+    public Modifier addModifier(String type) {
 	Modifier modifier = new Modifier(type);
 	modifiers.add(modifier);
+	return modifier;
     }
 
     /**
