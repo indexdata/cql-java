@@ -8,9 +8,9 @@ public class CQLNodePositionsTest {
     // CQLNode classes. Those start/stop offsets are not stored and need to be
     // computed (sometimes requiring the original query string to get exact
     // positions).
-    public static final boolean INFER_OTHER_POSITIONS = false;
+    public static final boolean INFER_OTHER_POSITIONS = true;
 
-    public static void main(String[] args) throws CQLParseException, IOException {
+    public static void main(String[] args) throws IOException {
 
         CQLParser parser = new CQLParser();
 
@@ -106,7 +106,7 @@ public class CQLNodePositionsTest {
             CQLNode node = null;
             try {
                 node = parser.parse(cql);
-            } catch (NullPointerException e) {
+            } catch (CQLParseException | NullPointerException e) {
                 System.err.println("Error parsing query '" + cql + "': " + e.getMessage());
                 System.out.println();
                 continue;
@@ -218,16 +218,18 @@ public class CQLNodePositionsTest {
                     dumpTreeSubstring(node2.getRelation(), level + 1, cql);
 
                     String term = node2.getTerm();
+                    String termQuoted = CQLTermNode.maybeQuote(term);
                     int termStop = node.getStop();
-                    int termStart = termStop - term.length();
-                    // check for quotes
-                    if (term.indexOf('"') != -1) {
-                        term = term.replace("\"", "\\\"");
-                    }
-                    int pos = cql.lastIndexOf(term, termStop);
+                    int termStart = termStop - termQuoted.length();
+                    int pos = cql.lastIndexOf(termQuoted, termStop);
                     if (pos != -1 && pos < termStart) {
-                        termStart = pos - 1;
-                        termStop = termStart + term.length() + 2;
+                        if (pos > 0 && cql.charAt(pos - 1) == '"') {
+                            termStart = pos - 1;
+                            termStop = termStart + termQuoted.length() + 2;
+                        } else {
+                            termStart = pos;
+                            termStop = termStart + termQuoted.length();
+                        }
                     }
                     printStartStopSubstringCustom("term", level + 1, termStart, termStop, cql);
                 }
