@@ -230,7 +230,7 @@ public class CQLParser {
 	throws CQLParseException, IOException {
 	debug("in parseTerm()");
 
-	int termStart = lexer.pos() - lexer.value().length()- ((lexer.what() == CQLTokenizer.TT_STRING) ? 2 : 0);
+	int termStart = lexer.pos() - ((lexer.value() != null) ? lexer.value().length() : 0) - ((lexer.what() == CQLTokenizer.TT_STRING) ? 2 : 0);
 	int termStop = lexer.pos();
 	String first;
         StringBuilder all;
@@ -249,7 +249,7 @@ public class CQLParser {
 	    }
 
 	    debug("non-parenthesised term");
-	    termStop = lexer.pos() - lexer.value().length();
+	    termStop = lexer.pos() - ((lexer.value() != null) ? lexer.value().length() : 0);
 	    first = matchSymbol("index or term");
             all = new StringBuilder(first);
             //match relation only on second postion
