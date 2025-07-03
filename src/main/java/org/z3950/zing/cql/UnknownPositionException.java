@@ -18,6 +18,6 @@ public class UnknownPositionException extends PQFTranslationException {
      *	The position for which there was no PQF configuration.
      */
     public UnknownPositionException(String s) {
-	super(s);
+        super(s);
     }
 }

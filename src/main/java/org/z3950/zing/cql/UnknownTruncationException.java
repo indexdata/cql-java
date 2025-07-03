@@ -11,15 +11,15 @@ package org.z3950.zing.cql;
  *
  */
 public class UnknownTruncationException extends PQFTranslationException {
-	private static final long serialVersionUID = 6971993723734811253L;
+    private static final long serialVersionUID = 6971993723734811253L;
 
-	/**
-	 * Creates a new <code>UnknownTruncationException</code>.
-	 * 
-	 * @param s
-	 *            The truncation for which there was no PQF configuration.
-	 */
-	public UnknownTruncationException(String s) {
-		super(s);
-	}
+    /**
+     * Creates a new <code>UnknownTruncationException</code>.
+     *
+     * @param s
+     *            The truncation for which there was no PQF configuration.
+     */
+    public UnknownTruncationException(String s) {
+        super(s);
+    }
 }

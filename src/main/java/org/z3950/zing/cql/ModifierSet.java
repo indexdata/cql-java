@@ -25,15 +25,15 @@ public class ModifierSet {
      * Creates a new ModifierSet with the specified base.
      */
     public ModifierSet(String base) {
-	this.base = base;
-	modifiers = new ArrayList<Modifier>();
+        this.base = base;
+        modifiers = new ArrayList<Modifier>();
     }
 
     /**
      * Returns the base string with which the ModifierSet was created.
      */
     public String getBase() {
-	return base;
+        return base;
     }
 
     /**
@@ -41,8 +41,8 @@ public class ModifierSet {
      * <code>comparison</code> and <code>value</code> to a ModifierSet.
      */
     public void addModifier(String type, String comparison, String value) {
-	Modifier modifier = new Modifier(type, comparison, value);
-	modifiers.add(modifier);
+        Modifier modifier = new Modifier(type, comparison, value);
+        modifiers.add(modifier);
     }
 
     /**
@@ -50,8 +50,8 @@ public class ModifierSet {
      * <code>comparison</code> and <code>value</code>, to a ModifierSet.
      */
     public void addModifier(String type) {
-	Modifier modifier = new Modifier(type);
-	modifiers.add(modifier);
+        Modifier modifier = new Modifier(type);
+        modifiers.add(modifier);
     }
 
     /**
@@ -59,13 +59,13 @@ public class ModifierSet {
      * that corresponds to the specified type.
      */
     public String modifier(String type) {
-	int n = modifiers.size();
-	for (int i = 0; i < n; i++) {
-	    Modifier mod = modifiers.get(i);
-	    if (mod.type.equals(type))
-		return mod.value;
-	}
-	return null;
+        int n = modifiers.size();
+        for (int i = 0; i < n; i++) {
+            Modifier mod = modifiers.get(i);
+            if (mod.type.equals(type))
+                return mod.value;
+        }
+        return null;
     }
 
     /**
@@ -74,45 +74,45 @@ public class ModifierSet {
      *	An array of Modifiers.
      */
     public List<Modifier> getModifiers() {
-	return modifiers;
+        return modifiers;
     }
 
     void toXCQLInternal(XCQLBuilder b, int level,
-        String topLevelElement, String valueElement) {
-	b.indent(level).append("<").append(topLevelElement).
+                        String topLevelElement, String valueElement) {
+        b.indent(level).append("<").append(topLevelElement).
             append(">\n").indent(level + 1).append("<").
             append(valueElement).append(">").xq(base).append("</").
             append(valueElement).append(">\n");
-	if (modifiers.size() > 0) {
-	    b.indent(level + 1).append("<modifiers>\n");
-	    for (int i = 0; i < modifiers.size(); i++) {
+        if (modifiers.size() > 0) {
+            b.indent(level + 1).append("<modifiers>\n");
+            for (int i = 0; i < modifiers.size(); i++) {
               modifiers.get(i).toXCQLInternal(b, level+2, "comparison");
-	    }
-	    b.indent(level + 1).append("</modifiers>\n");
-	}
-	b.indent(level).append("</").append(topLevelElement).append(">\n");
+            }
+            b.indent(level + 1).append("</modifiers>\n");
+        }
+        b.indent(level).append("</").append(topLevelElement).append(">\n");
     }
 
     public String toCQL() {
-	StringBuilder buf = new StringBuilder(base);
-	for (int i = 0; i < modifiers.size(); i++) {
-	    buf.append("/").append(modifiers.get(i).toCQL());
-	}
+        StringBuilder buf = new StringBuilder(base);
+        for (int i = 0; i < modifiers.size(); i++) {
+            buf.append("/").append(modifiers.get(i).toCQL());
+        }
 
-	return buf.toString();
+        return buf.toString();
     }
 
     public static void main(String[] args) {
-	if (args.length < 1) {
-	    System.err.println("Usage: ModifierSet <base> [<type> <comparison> <name>]...");
-	    System.exit(1);
-	}
+        if (args.length < 1) {
+            System.err.println("Usage: ModifierSet <base> [<type> <comparison> <name>]...");
+            System.exit(1);
+        }
 
-	ModifierSet res = new ModifierSet(args[0]);
-	for (int i = 1; i < args.length; i += 3) {
-	    res.addModifier(args[i], args[i+1], args[i+2]);
-	}
+        ModifierSet res = new ModifierSet(args[0]);
+        for (int i = 1; i < args.length; i += 3) {
+            res.addModifier(args[i], args[i+1], args[i+2]);
+        }
 
-	System.out.println(res.toCQL());
+        System.out.println(res.toCQL());
     }
 }

@@ -10,7 +10,7 @@ import java.util.Properties;
  *
  */
 public abstract class CQLNode {
-  
+
     public abstract void traverse(CQLNodeVisitor visitor);
 
     /**
@@ -22,7 +22,7 @@ public abstract class CQLNode {
      * @return the name of the referenced result-set
      */
     public String getResultSetName() {
-	return null;
+        return null;
     }
 
     /**
@@ -33,7 +33,7 @@ public abstract class CQLNode {
      */
     public String toXCQL() {
         StringBuilder sb = new StringBuilder();
-	toXCQLInternal(new XCQLBuilder(sb), 0);
+        toXCQLInternal(new XCQLBuilder(sb), 0);
         return sb.toString();
     }
 
@@ -42,36 +42,36 @@ public abstract class CQLNode {
     }
 
     abstract void toXCQLInternal(XCQLBuilder b, int level,
-      List<CQLPrefix> prefixes, List<ModifierSet> sortkeys);
+                                 List<CQLPrefix> prefixes, List<ModifierSet> sortkeys);
 
     static void renderPrefixes(XCQLBuilder b,
         int level, List<CQLPrefix> prefixes) {
-	if (prefixes == null || prefixes.size() == 0)
-	    return;
-	b.indent(level).append("<prefixes>\n");
-	for (int i = 0; i < prefixes.size(); i++) {
-	    CQLPrefix p = prefixes.get(i);
-	    b.indent(level+1).append("<prefix>\n");
-	    if (p.name != null)
-		b.indent(level + 2).append("<name>").
+        if (prefixes == null || prefixes.size() == 0)
+            return;
+        b.indent(level).append("<prefixes>\n");
+        for (int i = 0; i < prefixes.size(); i++) {
+            CQLPrefix p = prefixes.get(i);
+            b.indent(level+1).append("<prefix>\n");
+            if (p.name != null)
+                b.indent(level + 2).append("<name>").
                     append(p.name).append("</name>\n");
             b.indent(level + 2).append("<identifier>").
                 append(p.identifier).append("</identifier>\n");
             b.indent(level+1).append("</prefix>\n");
-	}
-	b.indent(level).append("</prefixes>\n");
+        }
+        b.indent(level).append("</prefixes>\n");
     }
 
     static void renderSortKeys(XCQLBuilder b, int level,
-					   List<ModifierSet> sortkeys) {
-	if (sortkeys == null || sortkeys.size() == 0)
-	    return;
-	b.indent(level).append("<sortKeys>\n");
-	for (int i = 0; i < sortkeys.size(); i++) {
-	    ModifierSet key = sortkeys.get(i);
-	    key.toXCQLInternal(b, level+1, "key", "index");
-	}
-	b.indent(level).append("</sortKeys>\n");
+                                           List<ModifierSet> sortkeys) {
+        if (sortkeys == null || sortkeys.size() == 0)
+            return;
+        b.indent(level).append("<sortKeys>\n");
+        for (int i = 0; i < sortkeys.size(); i++) {
+            ModifierSet key = sortkeys.get(i);
+            key.toXCQLInternal(b, level+1, "key", "index");
+        }
+        b.indent(level).append("</sortKeys>\n");
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class CQLNode {
      *  PQF configuration.
      */
     abstract public String toPQF(Properties config)
-	throws PQFTranslationException;
+        throws PQFTranslationException;
 
     /**
      * Renders a parser-tree into a BER-endoded packet representing an
@@ -134,7 +134,7 @@ public abstract class CQLNode {
      *  PQF configuration.
      */
     abstract public byte[] toType1BER(Properties config)
-	throws PQFTranslationException;
+        throws PQFTranslationException;
 
     // ANS.1 classes
     protected static final int UNIVERSAL   = 0;
@@ -162,7 +162,7 @@ public abstract class CQLNode {
     public static final byte GENERALSTRING    = 27;
 
     protected static final int putTag(int asn1class, int fldid, int form,
-				      byte[] record, int offset) {
+                                      byte[] record, int offset) {
         if (fldid < 31)
             record[offset++] = (byte)(fldid + asn1class*64 + form*32);
         else {
@@ -208,7 +208,7 @@ public abstract class CQLNode {
      * @return length needed to encode given length
      */
     protected // ### shouldn't this be private?
-	static final int lenLen(int length) {
+        static final int lenLen(int length) {
 
         return ((length < 128) ? 1 :
             (length < 256) ? 2 :
@@ -223,8 +223,8 @@ public abstract class CQLNode {
      */
     protected static final int numLen(long num) {
         num = num < 0 ? -num : num;
-	// ### Wouldn't this be better done algorithmically?
-	// Or at least with the constants expressed in hex?
+        // ### Wouldn't this be better done algorithmically?
+        // Or at least with the constants expressed in hex?
         return ((num < 128) ? 1 :
             (num < 32768) ? 2 :
                 (num < 8388608) ? 3 :
@@ -254,7 +254,7 @@ public abstract class CQLNode {
 
     // Used only by the makeOID() method
     private static final Map<String, byte[]> madeOIDs =
-	new HashMap<String, byte[]>(10);
+        new HashMap<String, byte[]>(10);
 
     protected static final byte[] makeOID(String oid) {
         byte[] o;
@@ -263,7 +263,7 @@ public abstract class CQLNode {
         if ((o = (byte[])madeOIDs.get(oid)) == null) {
             o = new byte[100];
 
-	    // Isn't this kind of thing excruciating in Java?
+            // Isn't this kind of thing excruciating in Java?
             while (oidOffset < oid.length() &&
               Character.isDigit(oid.charAt(oidOffset)) == true) {
                 if (offset > 90) // too large
@@ -284,7 +284,7 @@ public abstract class CQLNode {
                     if (dot == -1)
                         dot = oid.length();
 
-		    // ### Eh?!
+                    // ### Eh?!
                     value = value * 40 +
                         Integer.parseInt(oid.substring(oidOffset,dot));
                 }
@@ -305,13 +305,13 @@ public abstract class CQLNode {
                         o[offset++] = (byte)(bits[count] | 0x80);
 
                     o[offset++] = bits[count];
-		}
+                }
 
                 dot = oid.indexOf('.', oidOffset);
                 if (dot == -1)
                     break;
 
-		oidOffset = dot+1;
+                oidOffset = dot+1;
             }
 
             byte[] ptr = new byte[offset];
@@ -323,7 +323,7 @@ public abstract class CQLNode {
     }
 
     public static final byte[] makeQuery(CQLNode root, Properties properties)
-	throws PQFTranslationException {
+        throws PQFTranslationException {
         byte[] rpnStructure = root.toType1BER(properties);
         byte[] qry = new byte[rpnStructure.length+100];
         int offset = 0;
@@ -342,7 +342,7 @@ public abstract class CQLNode {
         System.arraycopy(qry, 0, q, 0, offset);
         return q;
     }
-    
+
     @Override
     public String toString() {
         return toCQL();

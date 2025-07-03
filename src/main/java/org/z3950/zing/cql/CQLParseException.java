@@ -13,16 +13,16 @@ public class CQLParseException extends Exception {
      *	usually a syntax error of some kind.
      */
     public CQLParseException(String s, int pos) {
-	super(s);
+        super(s);
         this.pos = pos;
     }
-    
+
     /**
      * Character position of the parsing error.
-     * @return 
+     * @return
      */
     public int getPosition() {
-      return pos;
+        return pos;
     }
 }
 

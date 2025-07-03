@@ -17,7 +17,7 @@ public class CQLPrefix {
         return name;
     }
 
- 
+
     String identifier;
 
     /**
@@ -34,7 +34,7 @@ public class CQLPrefix {
      * to the specified identifier.
      */
     CQLPrefix(String name, String identifier) {
-	this.name = name;
-	this.identifier = identifier;
+        this.name = name;
+        this.identifier = identifier;
     }
 }
