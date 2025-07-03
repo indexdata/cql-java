@@ -14,6 +14,8 @@ public class Modifier {
     String comparison;
     String value;
 
+    private int start, stop;
+
     /**
      * Creates a new Modifier with the specified type, comparison
      * and value.
@@ -53,6 +55,19 @@ public class Modifier {
      */
     public String getValue() {
 	return value;
+    }
+
+    public int getStart() {
+	return start;
+    }
+
+    public int getStop() {
+	return stop;
+    }
+
+    protected void setStartStop(int start, int stop) {
+	this.start = start;
+	this.stop = stop;
     }
 
     void toXCQLInternal(XCQLBuilder b, int level, String relationElement) {
