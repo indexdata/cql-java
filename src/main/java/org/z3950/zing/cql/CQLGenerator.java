@@ -88,20 +88,20 @@ public class CQLGenerator {
      *  </DL>
      */
     public CQLGenerator(Properties params) {
-	this.params = params;
-	String seed = params.getProperty("seed");
-	if (seed != null)
-	    rnd = new Random(new Long(seed).longValue());
-	else
-	    rnd = new Random();
+        this.params = params;
+        String seed = params.getProperty("seed");
+        if (seed != null)
+            rnd = new Random(new Long(seed).longValue());
+        else
+            rnd = new Random();
     }
 
     private static void debug(String str) {
-	if (DEBUG)
-	    System.err.println("DEBUG: " + str);
+        if (DEBUG)
+            System.err.println("DEBUG: " + str);
     }
 
-    /**	
+    /**
      * Generates a single random CQL query.
      * <P>
      * Uses the parameters that were associated with the generator
@@ -116,135 +116,135 @@ public class CQLGenerator {
      *	method.
      */
     public CQLNode generate() throws MissingParameterException {
-	return generate_cql_query();
+        return generate_cql_query();
     }
 
     private CQLNode generate_cql_query() throws MissingParameterException {
-	if (!maybe("complexQuery")) {
-	    return generate_search_clause();
-	}
+        if (!maybe("complexQuery")) {
+            return generate_search_clause();
+        }
 
-	CQLNode node1 = generate_cql_query();
-	CQLNode node2 = generate_search_clause();
-	// ### should generate prefix-mapping nodes
-	if (maybe("proxOp")) {
-	    // ### generate proximity nodes
-	} else {
-	    switch (rnd.nextInt(3)) {
-	    case 0: return new CQLAndNode(node1, node2, new ModifierSet("and"));
-	    case 1: return new CQLOrNode (node1, node2, new ModifierSet("or"));
-	    case 2: return new CQLNotNode(node1, node2, new ModifierSet("not"));
-	    }
-	}
+        CQLNode node1 = generate_cql_query();
+        CQLNode node2 = generate_search_clause();
+        // ### should generate prefix-mapping nodes
+        if (maybe("proxOp")) {
+            // ### generate proximity nodes
+        } else {
+            switch (rnd.nextInt(3)) {
+            case 0: return new CQLAndNode(node1, node2, new ModifierSet("and"));
+            case 1: return new CQLOrNode (node1, node2, new ModifierSet("or"));
+            case 2: return new CQLNotNode(node1, node2, new ModifierSet("not"));
+            }
+        }
 
-	return generate_search_clause();
+        return generate_search_clause();
     }
 
     private CQLNode generate_search_clause() throws MissingParameterException {
-	if (maybe("complexClause")) {
-	    return generate_cql_query();
-	}
+        if (maybe("complexClause")) {
+            return generate_cql_query();
+        }
 
-	// ### Should sometimes generate index/relation-free terms
-	String index = generate_index();
-	CQLRelation relation = generate_relation();
-	String term = generate_term();
+        // ### Should sometimes generate index/relation-free terms
+        String index = generate_index();
+        CQLRelation relation = generate_relation();
+        String term = generate_term();
 
-	return new CQLTermNode(index, relation, term);
+        return new CQLTermNode(index, relation, term);
     }
 
     // ### Should probably be more configurable
     private String generate_index() {
-	String index = "";	// shut up compiler warning
-	if (rnd.nextInt(2) == 0) {
-	    switch (rnd.nextInt(3)) {
-	    case 0: index = "dc.author"; break;
-	    case 1: index = "dc.title"; break;
-	    case 2: index = "dc.subject"; break;
-	    }
-	} else {
-	    switch (rnd.nextInt(4)) {
-	    case 0: index = "bath.author"; break;
-	    case 1: index = "bath.title"; break;
-	    case 2: index = "bath.subject"; break;
-	    case 3: index = "foo>bar"; break;
-	    }
-	}
+        String index = "";	// shut up compiler warning
+        if (rnd.nextInt(2) == 0) {
+            switch (rnd.nextInt(3)) {
+            case 0: index = "dc.author"; break;
+            case 1: index = "dc.title"; break;
+            case 2: index = "dc.subject"; break;
+            }
+        } else {
+            switch (rnd.nextInt(4)) {
+            case 0: index = "bath.author"; break;
+            case 1: index = "bath.title"; break;
+            case 2: index = "bath.subject"; break;
+            case 3: index = "foo>bar"; break;
+            }
+        }
 
-	return index;
+        return index;
     }
 
     private CQLRelation generate_relation() throws MissingParameterException {
-	String base = generate_base_relation();
-	CQLRelation rel = new CQLRelation(base);
-	// ### should generate modifiers too
-	return rel;
+        String base = generate_base_relation();
+        CQLRelation rel = new CQLRelation(base);
+        // ### should generate modifiers too
+        return rel;
     }
 
     private String generate_base_relation() throws MissingParameterException {
-	if (maybe("equalsRelation")) {
-	    return "=";
-	} else if (maybe("numericRelation")) {
-	    return generate_numeric_relation();
-	} else {
-	    switch (rnd.nextInt(3)) {
-	    case 0: return "within";
-	    case 1: return "all";
-	    case 2: return "any";
-	    }
-	}
+        if (maybe("equalsRelation")) {
+            return "=";
+        } else if (maybe("numericRelation")) {
+            return generate_numeric_relation();
+        } else {
+            switch (rnd.nextInt(3)) {
+            case 0: return "within";
+            case 1: return "all";
+            case 2: return "any";
+            }
+        }
 
-	// NOTREACHED
-	return "";		// shut up compiler warning
+        // NOTREACHED
+        return "";		// shut up compiler warning
     }
 
     // ### could read candidate terms from /usr/dict/words
     // ### should introduce wildcard characters
     // ### should generate multi-word terms
     private String generate_term() {
-	switch (rnd.nextInt(10)) {
-	case 0: return "cat";
-	case 1: return "\"cat\"";
-	case 2: return "comp.os.linux";
-	case 3: return "xml:element";
-	case 4: return "<xml.element>";
-	case 5: return "prox/word/>=/5";
-	case 6: return "";
-	case 7: return "frog fish";
-	case 8: return "the complete dinosaur";
-	case 9: return "foo*bar";
-	}
+        switch (rnd.nextInt(10)) {
+        case 0: return "cat";
+        case 1: return "\"cat\"";
+        case 2: return "comp.os.linux";
+        case 3: return "xml:element";
+        case 4: return "<xml.element>";
+        case 5: return "prox/word/>=/5";
+        case 6: return "";
+        case 7: return "frog fish";
+        case 8: return "the complete dinosaur";
+        case 9: return "foo*bar";
+        }
 
-	// NOTREACHED
-	return "";		// shut up compiler warning
+        // NOTREACHED
+        return "";		// shut up compiler warning
     }
 
     private String generate_numeric_relation() {
-	switch (rnd.nextInt(6)) {
-	case 0: return "<";
-	case 1: return ">";
-	case 2: return "<=";
-	case 3: return ">=";
-	case 4: return "<>";
-	case 5: return "=";
-	}
+        switch (rnd.nextInt(6)) {
+        case 0: return "<";
+        case 1: return ">";
+        case 2: return "<=";
+        case 3: return ">=";
+        case 4: return "<>";
+        case 5: return "=";
+        }
 
-	// NOTREACHED
-	return "";		// shut up compiler warning
+        // NOTREACHED
+        return "";		// shut up compiler warning
     }
 
     boolean maybe(String param) throws MissingParameterException {
-	String probability = params.getProperty(param);
-	if (probability == null)
-	    throw new MissingParameterException(param);
+        String probability = params.getProperty(param);
+        if (probability == null)
+            throw new MissingParameterException(param);
 
-	double dice = rnd.nextDouble();
-	double threshhold = new Double(probability).doubleValue();
-	boolean res = dice < threshhold;
-	debug("dice=" + String.valueOf(dice).substring(0, 8) +
-	      " vs. " + threshhold + "='" + param + "': " + res);
-	return res;
-    }	
+        double dice = rnd.nextDouble();
+        double threshhold = new Double(probability).doubleValue();
+        boolean res = dice < threshhold;
+        debug("dice=" + String.valueOf(dice).substring(0, 8) +
+              " vs. " + threshhold + "='" + param + "': " + res);
+        return res;
+    }
 
 
     /**
@@ -283,22 +283,22 @@ public class CQLGenerator {
      *	to all conformant CQL compilers.
      */
     public static void main (String[] args) throws Exception {
-	if (args.length % 2 != 1) {
-	    System.err.println("Usage: CQLGenerator <props-file> "+
-			       "[<name> <value>]...");
-	    System.exit(1);
-	}
+        if (args.length % 2 != 1) {
+            System.err.println("Usage: CQLGenerator <props-file> "+
+                               "[<name> <value>]...");
+            System.exit(1);
+        }
 
-	String configFile = args[0];
-	InputStream f = new FileInputStream(configFile);
-	Properties params = new Properties();
-	params.load(f);
-	f.close();
-	for (int i = 1; i < args.length; i += 2)
-	    params.setProperty(args[i], args[i+1]);
-        
-	CQLGenerator generator = new CQLGenerator(params);
-	CQLNode tree = generator.generate();
-	System.out.println(tree.toCQL());
+        String configFile = args[0];
+        InputStream f = new FileInputStream(configFile);
+        Properties params = new Properties();
+        params.load(f);
+        f.close();
+        for (int i = 1; i < args.length; i += 2)
+            params.setProperty(args[i], args[i+1]);
+
+        CQLGenerator generator = new CQLGenerator(params);
+        CQLNode tree = generator.generate();
+        System.out.println(tree.toCQL());
     }
 }

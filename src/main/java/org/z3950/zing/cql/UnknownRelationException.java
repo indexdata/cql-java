@@ -16,6 +16,6 @@ public class UnknownRelationException extends PQFTranslationException {
      *	The relation for which there was no PQF configuration.
      */
     public UnknownRelationException(String s) {
-	super(s);
+        super(s);
     }
 }

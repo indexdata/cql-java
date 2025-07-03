@@ -13,7 +13,7 @@ public abstract class CQLBooleanNode extends CQLNode {
     public CQLBoolean getOperator() {
         return operator;
     }
-    
+
     private CQLNode left;
 
     /**
@@ -45,25 +45,25 @@ public abstract class CQLBooleanNode extends CQLNode {
     }
 
     protected CQLBooleanNode(CQLNode left, CQLNode right, ModifierSet ms, CQLBoolean operator) {
-	this.left = left;
-	this.right = right;
-	this.ms = ms;
+        this.left = left;
+        this.right = right;
+        this.ms = ms;
         this.operator = operator;
     }
 
     @Override
     public void traverse(CQLNodeVisitor visitor) {
-      visitor.onBooleanNodeStart(this);
-      left.traverse(visitor);
-      visitor.onBooleanNodeOp(this);
-      right.traverse(visitor);
-      visitor.onBooleanNodeEnd(this);
+        visitor.onBooleanNodeStart(this);
+        left.traverse(visitor);
+        visitor.onBooleanNodeOp(this);
+        right.traverse(visitor);
+        visitor.onBooleanNodeEnd(this);
     }
 
     @Override
     void toXCQLInternal(XCQLBuilder b, int level,
-        List<CQLPrefix> prefixes, List<ModifierSet> sortkeys) {
-	b.indent(level).append("<triple>\n");
+                        List<CQLPrefix> prefixes, List<ModifierSet> sortkeys) {
+        b.indent(level).append("<triple>\n");
         renderPrefixes(b, level + 1, prefixes);
         ms.toXCQLInternal(b, level + 1, "boolean", "value");
         b.indent(level + 1).append("<leftOperand>\n");
@@ -78,17 +78,17 @@ public abstract class CQLBooleanNode extends CQLNode {
 
     @Override
     public String toCQL() {
-	// ### We don't always need parens around the operands
-	return ("(" + left.toCQL() + ")" +
-		" " + ms.toCQL() + " " +
-		"(" + right.toCQL() + ")");
+        // ### We don't always need parens around the operands
+        return ("(" + left.toCQL() + ")" +
+                " " + ms.toCQL() + " " +
+                "(" + right.toCQL() + ")");
     }
 
     @Override
     public String toPQF(Properties config) throws PQFTranslationException {
-	return ("@" + opPQF() +
-		" " + left.toPQF(config) +
-		" " + right.toPQF(config));
+        return ("@" + opPQF() +
+                " " + left.toPQF(config) +
+                " " + right.toPQF(config));
     }
 
     // represents the operation for PQF: overridden for CQLProxNode
@@ -97,13 +97,13 @@ public abstract class CQLBooleanNode extends CQLNode {
     @Override
     public byte[] toType1BER(Properties config) throws PQFTranslationException {
         System.out.println("in CQLBooleanNode.toType1BER(): PQF=" +
-			   toPQF(config));
+                           toPQF(config));
         byte[] rpn1 = left.toType1BER(config);
         byte[] rpn2 = right.toType1BER(config);
         byte[] op = opType1();
         byte[] rpnStructure = new byte[rpn1.length+rpn2.length+op.length+4];
-        
-	// rpnRpnOp
+
+        // rpnRpnOp
         int offset = putTag(CONTEXT, 1, CONSTRUCTED, rpnStructure, 0);
 
         rpnStructure[offset++] = (byte)(0x80&0xff); // indefinite length

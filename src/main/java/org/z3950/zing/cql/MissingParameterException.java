@@ -11,6 +11,6 @@ public class MissingParameterException extends Exception {
      *	The name of the property whose value was required but not supplied.
      */
     public MissingParameterException(String s) {
-	super(s);
+        super(s);
     }
 }
