@@ -229,7 +229,7 @@ public class CQLTermNode extends CQLNode {
 	    str.indexOf('/') != -1 ||
 	    str.indexOf('(') != -1 ||
 	    str.indexOf(')') != -1) {
-	    str = '"' + str.replace("\"", "\\\"") + '"';
+	    str = '"' + str + '"';
 	}
 
 	return str;

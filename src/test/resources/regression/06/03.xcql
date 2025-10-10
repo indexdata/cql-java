@@ -3,5 +3,5 @@
   <relation>
     <value>=</value>
   </relation>
-  <term>^cat says "fish"</term>
+  <term>^cat says \"fish\"</term>
 </searchClause>
