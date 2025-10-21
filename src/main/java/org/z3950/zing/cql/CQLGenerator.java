@@ -204,7 +204,7 @@ public class CQLGenerator {
     private String generate_term() {
 	switch (rnd.nextInt(10)) {
 	case 0: return "cat";
-	case 1: return "\\\"cat\\\"";
+	case 1: return "\"cat\\\"";  // A term with both bare quotes and escaped quotes
 	case 2: return "comp.os.linux";
 	case 3: return "xml:element";
 	case 4: return "<xml.element>";
