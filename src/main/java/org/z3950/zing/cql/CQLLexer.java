@@ -69,19 +69,15 @@ public class CQLLexer implements CQLTokenizer {
       //remember quote char
       char mark = c;
       qi++;
-      boolean escaped = false;
       buf.setLength(0); //reset buffer
-      while (qi < ql) {
-        if (!escaped && qs.charAt(qi) == mark) //terminator
-          break;
-        if (escaped && strchr("*?^\\", qs.charAt(qi))) //no escaping for d-quote
-          buf.append("\\");
-        if (!escaped && qs.charAt(qi) == '\\') { //escape-char
-          escaped = true;
+      while (qi < ql && qs.charAt(qi) != mark) {
+        if (qs.charAt(qi) == '\\') { //escape-char
+          if (qi == ql - 1) {
+            break; //unterminated
+          }
+          buf.append(qs.charAt(qi));
           qi++;
-          continue;
         }
-        escaped = false; //reset escape
         buf.append(qs.charAt(qi));
         qi++;
       }
