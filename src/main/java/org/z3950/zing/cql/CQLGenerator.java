@@ -280,7 +280,7 @@ public class CQLGenerator {
             throw new MissingParameterException(param);
 
         double dice = rnd.nextDouble();
-        double threshhold = new Double(probability).doubleValue();
+        double threshhold = Double.parseDouble(probability);
         boolean res = dice < threshhold;
         debug("dice=" + String.valueOf(dice).substring(0, 8) +
                 " vs. " + threshhold + "='" + param + "': " + res);
