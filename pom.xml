@@ -24,7 +24,7 @@
       <id>mike</id>
       <email>mike@indexdata.com</email>
       <organization>Index Data</organization>
-      <organizationUrl>https://www.indexdata.com/</organizationUrl>
+      <organizationUrl>https://www.indexdata.com</organizationUrl>
       <roles />
       <timezone />
     </developer>
@@ -33,7 +33,7 @@
       <id>jakub</id>
       <email>jakub@indexdata.dk</email>
       <organization>Index Data</organization>
-      <organizationUrl>https://www.indexdata.com/</organizationUrl>
+      <organizationUrl>https://www.indexdata.com</organizationUrl>
       <roles />
       <timezone />
     </developer>
@@ -44,8 +44,8 @@
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
-    <system>Bugzilla</system>
-    <url>https://index-data.atlassian.net/browse/CQLJAVA</url>
+    <system>GitHub</system>
+    <url>https://github.com/indexdata/cql-java/issues</url>
   </issueManagement>
   <reporting>
     <plugins>
