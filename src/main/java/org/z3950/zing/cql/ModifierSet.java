@@ -108,7 +108,7 @@ public class ModifierSet {
         }
 
         ModifierSet res = new ModifierSet(args[0]);
-        for (int i = 1; i < args.length; i += 3) {
+        for (int i = 1; i + 2 < args.length ; i += 3) {
             res.addModifier(args[i], args[i + 1], args[i + 2]);
         }
 
