@@ -135,19 +135,26 @@ public class CQLParser {
 	CQLNode node = parseQuery(index, relation);
 	if ((compat == V1POINT2 || compat == V1POINT1SORT) &&
 	    lexer.what() == CQLTokenizer.TT_SORTBY) {
+	    int start = lexer.pos() - lexer.value().length(), stop = -1;
 	    match(lexer.what());
 	    debug("sortspec");
 
 	    CQLSortNode sortnode = new CQLSortNode(node);
 	    while (lexer.what() != CQLTokenizer.TT_EOF) {
+		stop = lexer.pos();
 		String sortindex = matchSymbol("sort index");
 		ModifierSet ms = gatherModifiers(sortindex);
+		if (ms.getModifiers().size() > 0) {
+		    stop = ms.getModifiers().get(ms.getModifiers().size() -1).getStop();
+		}
 		sortnode.addSortIndex(ms);
 	    }
 
 	    if (sortnode.keys.size() == 0) {
 		throw new CQLParseException("no sort keys", lexer.pos());
 	    }
+
+	    sortnode.setStartStop(start, stop);
 
 	    node = sortnode;
 	}
@@ -172,10 +179,13 @@ public class CQLParser {
 		match(type);
 		ModifierSet ms = gatherModifiers(val);
 		CQLNode term2 = parseTerm(index, relation);
+		int start = term.getStart();
+		int stop = term2.getStop();
 		term = ((type == CQLTokenizer.TT_AND) ? new CQLAndNode(term, term2, ms) :
 			(type == CQLTokenizer.TT_OR)  ? new CQLOrNode (term, term2, ms) :
 			(type == CQLTokenizer.TT_NOT) ? new CQLNotNode(term, term2, ms) :
 			                         new CQLProxNode(term, term2, ms));
+		term.setStartStop(start, stop);
 	    } else {
 		throw new CQLParseException("expected boolean, got " +
 					    lexer.render(), lexer.pos());
@@ -192,7 +202,9 @@ public class CQLParser {
 
 	ModifierSet ms = new ModifierSet(base);
 	while (lexer.what() == '/') {
+	    int start = lexer.pos() - 1;
 	    match('/');
+	    int stop = lexer.pos();
 	    if (lexer.what() != CQLTokenizer.TT_WORD)
 		throw new CQLParseException("expected modifier, "
 					    + "got " + lexer.render(),
@@ -201,13 +213,14 @@ public class CQLParser {
 	    match(lexer.what());
 	    if (!isSymbolicRelation()) {
 		// It's a simple modifier consisting of type only
-		ms.addModifier(type);
+		ms.addModifier(type).setStartStop(start, stop);
 	    } else {
 		// It's a complex modifier of the form type=value
 		String comparision = lexer.render(lexer.what(), false);
 		match(lexer.what());
+		stop = lexer.pos();
 		String value = matchSymbol("modifier value");
-		ms.addModifier(type, comparision, value);
+		ms.addModifier(type, comparision, value).setStartStop(start, stop);
 	    }
 	}
 
@@ -218,20 +231,26 @@ public class CQLParser {
 	throws CQLParseException, IOException {
 	debug("in parseTerm()");
 
+	int termStart = lexer.pos() - ((lexer.value() != null) ? lexer.value().length() : 0) - ((lexer.what() == CQLTokenizer.TT_STRING) ? 2 : 0);
+	int termStop = lexer.pos();
 	String first;
         StringBuilder all;
 	while (true) {
 	    if (lexer.what() == '(') {
 		debug("parenthesised term");
+		int wrapStart = lexer.pos() - 1;
 		match('(');
 		CQLNode expr = parseQuery(index, relation);
+		int wrapStop = lexer.pos();
 		match(')');
+		expr.setStartStop(wrapStart, wrapStop);
 		return expr;
 	    } else if (lexer.what() == '>') {
 		return parsePrefix(index, relation, false);
 	    }
 
 	    debug("non-parenthesised term");
+	    termStop = lexer.pos() - ((lexer.value() != null) ? lexer.value().length() : 0);
 	    first = matchSymbol("index or term");
             all = new StringBuilder(first);
             //match relation only on second postion
@@ -239,6 +258,7 @@ public class CQLParser {
               all.append(" ").append(lexer.value());
               match(lexer.what());
             }
+	    termStop += all.length();
 
 	    if (!isRelation())
               break; //we're done if no relation
@@ -253,13 +273,20 @@ public class CQLParser {
             }
             index = first;
 	    relation = new CQLRelation(relstr);
+	    int start = lexer.pos() - ((isSymbolicRelation()) ? ((lexer.what() == CQLTokenizer.TT_LE || lexer.what() == CQLTokenizer.TT_GE || lexer.what() == CQLTokenizer.TT_NE || lexer.what() == CQLTokenizer.TT_EQEQ) ? 2 : 1) : lexer.value().length());
+	    int stop = lexer.pos();
 	    match(lexer.what());
 	    ModifierSet ms = gatherModifiers(relstr);
 	    relation.ms = ms;
+	    if (ms.getModifiers().size() > 0) {
+		stop = ms.getModifiers().get(ms.getModifiers().size() - 1).getStop();
+	    }
+	    relation.setStartStop(start, stop);
 	    debug("index='" + index + ", " +
 		  "relation='" + relation.toCQL() + "'");
 	}
 	CQLTermNode node = new CQLTermNode(index, relation, all.toString());
+	node.setStartStop(termStart, termStop);
 	debug("made term node " + node.toCQL());
 	return node;
     }
@@ -269,19 +296,26 @@ public class CQLParser {
 	throws CQLParseException, IOException {
 	debug("prefix mapping");
 
+	int start = lexer.pos() - 1;
+	int stop = -1;
 	match('>');
+
 	String name = null;
+	stop = lexer.pos();
 	String identifier = matchSymbol("prefix-name");
 	if (lexer.what() == '=') {
 	    match('=');
 	    name = identifier;
+	    stop = lexer.pos();
 	    identifier = matchSymbol("prefix-identifer");
 	}
 	CQLNode node = topLevel ?
 	    parseTopLevelPrefixes(index, relation) :
 	    parseQuery(index, relation);
 
-	return new CQLPrefixNode(name, identifier, node);
+	CQLPrefixNode prefixNode = new CQLPrefixNode(name, identifier, node);
+	prefixNode.setStartStop(start, stop);
+	return prefixNode;
     }
 
     private boolean isWordOrString() {
