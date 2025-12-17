@@ -95,12 +95,7 @@ public class CQLGenerator {
         this.params = params;
         String seed = params.getProperty("seed");
         if (seed != null) {
-            try {
-                rnd = new Random(Long.parseLong(seed));
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException(
-                        "Bad seed value '" + seed + "'");
-            }
+            rnd = new Random(Long.parseLong(seed));
         } else {
             rnd = new Random();
     }

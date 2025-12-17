@@ -193,4 +193,38 @@ public class CQLParserTest {
         throw new UnsupportedOperationException("Cannot list files for URL "
                 + dirURL);
     }
+
+    @Test
+    public void testMakeOID() {
+        String[] oids = {
+            "1.2",
+            "1.2.840.10003.5.109.10",
+            "2.16.840",
+        };
+        int [][] expected = {
+            {42},
+            {42, 134, 72, 206, 19, 5, 109, 10},
+            {96, 134, 72},
+        };
+        int i = 0;
+        for (String oid : oids) {
+            out.println("Testing OID: " + oid);
+            byte[] encoded = CQLNode.makeOID(oid);
+            for (int j = 0; j < expected[i].length && j < encoded.length; j++) {
+                assertEquals("Byte " + j + " of OID " + oid, expected[i][j], encoded[j] & 0xff);
+            }
+            assertEquals("Length of OID " + oid, expected[i].length, encoded.length);
+            i++;
+        }
+        // not very consistent below, but this is how it is implemented
+        assertNull(CQLNode.makeOID(""));
+        assertNull(CQLNode.makeOID("1"));
+        assertNull(CQLNode.makeOID("b"));
+        assertThrows(NumberFormatException.class, () -> {
+            CQLNode.makeOID("1a.");
+        });
+        assertThrows(NumberFormatException.class, () -> {
+            CQLNode.makeOID("1.b");
+        });
+    }
 }

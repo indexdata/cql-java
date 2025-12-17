@@ -89,11 +89,7 @@ public class CQLProxNode extends CQLBooleanNode {
         offset = putNum(value, op, offset);
 
         offset = putTag(CONTEXT, 2, PRIMITIVE, op, offset); // distance
-        try {
-            value = Integer.parseInt(ms.modifier("distance"));
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Bad distance modifier: " + ms.modifier("distance"));
-        }
+        value = Integer.parseInt(ms.modifier("distance"));
         offset = putLen(numLen(value), op, offset);
         offset = putNum(value, op, offset);
 
