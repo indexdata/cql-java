@@ -144,9 +144,6 @@ public class CQLParserTest {
         }
     }
 
-    // helper methods follow
-    // TODO move to masterkey-common
-
     @SuppressWarnings("rawtypes")
     public static String[] getResourceListing(Class clazz, String path) throws IOException {
         URL dirURL = clazz.getClassLoader().getResource(path);
