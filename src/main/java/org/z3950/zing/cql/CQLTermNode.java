@@ -291,12 +291,20 @@ public class CQLTermNode extends CQLNode {
                 offset = putTag(UNIVERSAL, SEQUENCE, CONSTRUCTED, operand, offset);
                 operand[offset++] = (byte) (0x80 & 0xff);
                 offset = putTag(CONTEXT, 120, PRIMITIVE, operand, offset);
-                type = Integer.parseInt(attr.substring(0, j));
+                try {
+                    type = Integer.parseInt(attr.substring(0, j));
+                } catch (NumberFormatException e) {
+                    throw new PQFTranslationException("Bad attribute type: " + attr.substring(0, j));
+                }
                 offset = putLen(numLen(type), operand, offset);
                 offset = putNum(type, operand, offset);
 
                 offset = putTag(CONTEXT, 121, PRIMITIVE, operand, offset);
-                value = Integer.parseInt(attr.substring(j + 1));
+                try {
+                    value = Integer.parseInt(attr.substring(j + 1));
+                } catch (NumberFormatException e) {
+                    throw new PQFTranslationException("Bad attribute value: " + attr.substring(j + 1));
+                }
                 offset = putLen(numLen(value), operand, offset);
                 offset = putNum(value, operand, offset);
                 operand[offset++] = 0x00; // end of SEQUENCE

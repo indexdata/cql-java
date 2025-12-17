@@ -43,6 +43,7 @@ class XCQLBuilder {
         return this;
     }
 
+    @Override
     public String toString() {
         return sb.toString();
     }

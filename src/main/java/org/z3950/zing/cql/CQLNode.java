@@ -259,69 +259,80 @@ public abstract class CQLNode {
     private static final Map<String, byte[]> madeOIDs = new HashMap<String, byte[]>(10);
 
     protected static final byte[] makeOID(String oid) {
-        byte[] o;
+        byte[] o = (byte[]) madeOIDs.get(oid);
+        if (o != null) {
+            return o;
+        }
+        try {
+            o = parseOID(oid);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Bad OID string: '" + oid + "'");
+        }
+        madeOIDs.put(oid, o);
+        return o;
+    }
+
+    private static final byte[] parseOID(String oid) {
+        byte[] o = (byte[]) madeOIDs.get(oid);
+        if (o != null) {
+            return o;
+        }
         int dot, offset = 0, oidOffset = 0, value;
+        o = new byte[100];
+        // Isn't this kind of thing excruciating in Java?
+        while (oidOffset < oid.length() &&
+                Character.isDigit(oid.charAt(oidOffset)) == true) {
+            if (offset > 90) // too large
+                return null;
 
-        if ((o = (byte[]) madeOIDs.get(oid)) == null) {
-            o = new byte[100];
+            dot = oid.indexOf('.', oidOffset);
+            if (dot == -1)
+                dot = oid.length();
 
-            // Isn't this kind of thing excruciating in Java?
-            while (oidOffset < oid.length() &&
-                    Character.isDigit(oid.charAt(oidOffset)) == true) {
-                if (offset > 90) // too large
-                    return null;
+            value = Integer.parseInt(oid.substring(oidOffset, dot));
+
+            if (offset == 0) { // 1st two are special
+                if (dot == -1) // ### can't happen: -1 is reassigned above
+                    return null; // can't be this short
+                oidOffset = dot + 1; // skip past '.'
 
                 dot = oid.indexOf('.', oidOffset);
                 if (dot == -1)
                     dot = oid.length();
 
-                value = Integer.parseInt(oid.substring(oidOffset, dot));
-
-                if (offset == 0) { // 1st two are special
-                    if (dot == -1) // ### can't happen: -1 is reassigned above
-                        return null; // can't be this short
-                    oidOffset = dot + 1; // skip past '.'
-
-                    dot = oid.indexOf('.', oidOffset);
-                    if (dot == -1)
-                        dot = oid.length();
-
-                    // ### Eh?!
-                    value = value * 40 +
-                            Integer.parseInt(oid.substring(oidOffset, dot));
-                }
-
-                if (value < 0x80) {
-                    o[offset++] = (byte) value;
-                } else {
-                    int count = 0;
-                    byte bits[] = new byte[12]; // save a 84 (12*7) bit number
-
-                    while (value != 0) {
-                        bits[count++] = (byte) (value & 0x7f);
-                        value >>= 7;
-                    }
-
-                    // Now place in the correct order
-                    while (--count > 0)
-                        o[offset++] = (byte) (bits[count] | 0x80);
-
-                    o[offset++] = bits[count];
-                }
-
-                dot = oid.indexOf('.', oidOffset);
-                if (dot == -1)
-                    break;
-
-                oidOffset = dot + 1;
+                // ### Eh?!
+                value = value * 40 +
+                        Integer.parseInt(oid.substring(oidOffset, dot));
             }
 
-            byte[] ptr = new byte[offset];
-            System.arraycopy(o, 0, ptr, 0, offset);
-            madeOIDs.put(oid, ptr);
-            return ptr;
+            if (value < 0x80) {
+                o[offset++] = (byte) value;
+            } else {
+                int count = 0;
+                byte bits[] = new byte[12]; // save a 84 (12*7) bit number
+
+                while (value != 0) {
+                    bits[count++] = (byte) (value & 0x7f);
+                    value >>= 7;
+                }
+
+                // Now place in the correct order
+                while (--count > 0)
+                    o[offset++] = (byte) (bits[count] | 0x80);
+
+                o[offset++] = bits[count];
+            }
+
+            dot = oid.indexOf('.', oidOffset);
+            if (dot == -1)
+                break;
+
+            oidOffset = dot + 1;
         }
-        return o;
+
+        byte[] ptr = new byte[offset];
+        System.arraycopy(o, 0, ptr, 0, offset);
+        return ptr;
     }
 
     public static final byte[] makeQuery(CQLNode root, Properties properties)
