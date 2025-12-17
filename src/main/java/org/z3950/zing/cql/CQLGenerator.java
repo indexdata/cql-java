@@ -95,7 +95,7 @@ public class CQLGenerator {
         this.params = params;
         String seed = params.getProperty("seed");
         if (seed != null)
-            rnd = new Random(new Long(seed).longValue());
+            rnd = new Random(Long.parseLong(seed));
         else
             rnd = new Random();
     }
