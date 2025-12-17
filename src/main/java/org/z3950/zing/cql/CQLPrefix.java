@@ -9,7 +9,7 @@ public class CQLPrefix {
     String name;
 
     /**
-     * The short name of the prefix mapping.  That is, the prefix
+     * The short name of the prefix mapping. That is, the prefix
      * itself, such as <code>dc</code>, as it might be used in an index
      * like <code>dc.title</code>.
      */
@@ -17,11 +17,10 @@ public class CQLPrefix {
         return name;
     }
 
- 
     String identifier;
 
     /**
-     * The full identifier name of the prefix mapping.  That is,
+     * The full identifier name of the prefix mapping. That is,
      * typically, a URI permanently allocated to a specific index
      * set, such as <code>http://zthes.z3950.org/cql/1.0<code>.
      */
@@ -34,7 +33,7 @@ public class CQLPrefix {
      * to the specified identifier.
      */
     CQLPrefix(String name, String identifier) {
-	this.name = name;
-	this.identifier = identifier;
+        this.name = name;
+        this.identifier = identifier;
     }
 }

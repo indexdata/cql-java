@@ -6,6 +6,6 @@ package org.z3950.zing.cql;
  */
 public class PQFTranslationException extends Exception {
     PQFTranslationException(String s) {
-	super(s);
+        super(s);
     }
 }
