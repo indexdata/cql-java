@@ -164,7 +164,7 @@ public class CQLTermNode extends CQLNode {
             pos = pos.equals("first") ? "firstAndLast" : "last";
             // ### in the firstAndLast case, the standard
             // pqf.properties file specifies that we generate a
-            // completeness=whole-field attributem, which means that
+            // completeness=whole-field attribute, which means that
             // we don't generate a position attribute at all. Do we
             // care? Does it matter?
         }
