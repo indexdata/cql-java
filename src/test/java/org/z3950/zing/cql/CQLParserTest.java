@@ -189,7 +189,7 @@ public class CQLParserTest {
                 }
                 return result.toArray(new String[result.size()]);
             }
-
+        }
         throw new UnsupportedOperationException("Cannot list files for URL "
                 + dirURL);
     }
