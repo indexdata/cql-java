@@ -282,40 +282,39 @@ public class CQLParser {
 
 	return new CQLPrefixNode(name, identifier, node);
     }
-    
+
     private boolean isWordOrString() {
-      return CQLTokenizer.TT_WORD == lexer.what() 
+      return CQLTokenizer.TT_WORD == lexer.what()
         || CQLTokenizer.TT_STRING == lexer.what();
     }
 
     private boolean isRelation() {
-	debug("isRelation: checking what()=" + lexer.what() +
-	      " (" + lexer.render() + ")");
-        if (lexer.what() == CQLTokenizer.TT_WORD &&
-            (lexer.value().indexOf('.') >= 0 ||
-             lexer.value().equals("any") ||
-             lexer.value().equals("all") ||
-             lexer.value().equals("within") ||
-             lexer.value().equals("encloses") ||
-             (lexer.value().equals("exact") && compat != V1POINT2) ||
-             (lexer.value().equals("scr") && compat != V1POINT2) ||
-             (lexer.value().equals("adj") && compat == V1POINT2) ||
-             customRelations.contains(lexer.value())))
-          return true;
-
+        debug("isRelation: checking what()=" + lexer.what() +
+                " (" + lexer.render() + ")");
+        if (lexer.what() == CQLTokenizer.TT_WORD) {
+            return lexer.value().indexOf('.') >= 0 ||
+                    lexer.value().equalsIgnoreCase("any") ||
+                    lexer.value().equalsIgnoreCase("all") ||
+                    lexer.value().equalsIgnoreCase("within") ||
+                    lexer.value().equalsIgnoreCase("encloses") ||
+                    (lexer.value().equalsIgnoreCase("exact") && compat != V1POINT2) ||
+                    (lexer.value().equalsIgnoreCase("scr") && compat != V1POINT2) ||
+                    (lexer.value().equalsIgnoreCase("adj") && compat == V1POINT2) ||
+                    customRelations.stream().anyMatch(r -> r.equalsIgnoreCase(lexer.value()));
+        }
         return isSymbolicRelation();
     }
 
     private boolean isSymbolicRelation() {
-	debug("isSymbolicRelation: checking what()=" + lexer.what() +
-	      " (" + lexer.render() + ")");
-	return (lexer.what() == '<' ||
-		lexer.what() == '>' ||
-		lexer.what() == '=' ||
-		lexer.what() == CQLTokenizer.TT_LE ||
-		lexer.what() == CQLTokenizer.TT_GE ||
-		lexer.what() == CQLTokenizer.TT_NE ||
-		lexer.what() == CQLTokenizer.TT_EQEQ);
+        debug("isSymbolicRelation: checking what()=" + lexer.what() +
+                " (" + lexer.render() + ")");
+        return (lexer.what() == '<' ||
+                lexer.what() == '>' ||
+                lexer.what() == '=' ||
+                lexer.what() == CQLTokenizer.TT_LE ||
+                lexer.what() == CQLTokenizer.TT_GE ||
+                lexer.what() == CQLTokenizer.TT_NE ||
+                lexer.what() == CQLTokenizer.TT_EQEQ);
     }
 
     private void match(int token)

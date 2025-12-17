@@ -3,16 +3,16 @@
   <relation>
     <value>=</value>
   </relation>
-  <term>sortby</term>
+  <term>Sortby</term>
   <sortKeys>
     <key>
-      <index>sortby</index>
+      <index>Sortby</index>
     </key>
     <key>
-      <index>sortby</index>
+      <index>Sortby</index>
     </key>
     <key>
-      <index>sortby</index>
+      <index>Sortby</index>
     </key>
   </sortKeys>
 </searchClause>
