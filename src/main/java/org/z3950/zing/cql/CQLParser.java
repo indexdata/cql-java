@@ -21,7 +21,7 @@ public class CQLParser {
     private CQLTokenizer lexer;
     private final int compat;	// When false, implement CQL 1.2
     private final Set<String> customRelations = new HashSet<String>();
-    
+
     public static final int V1POINT1 = 12368;
     public static final int V1POINT2 = 12369;
     public static final int V1POINT1SORT = 12370;
@@ -47,10 +47,10 @@ public class CQLParser {
 	this.compat = compat;
         this.allowKeywordTerms = true;
     }
-    
+
     /**
-     * Official CQL grammar allows registered keywords like 'and/or/not/sortby/prox' 
-     * to be used unquoted in terms. This constructor allows to create an instance 
+     * Official CQL grammar allows registered keywords like 'and/or/not/sortby/prox'
+     * to be used unquoted in terms. This constructor allows to create an instance
      * of a parser that prohibits this behavior while sacrificing compatibility.
      * @param compat CQL version compatibility
      * @param allowKeywordTerms when false registered keywords are disallowed in unquoted terms
@@ -59,7 +59,7 @@ public class CQLParser {
 	this.compat = compat;
         this.allowKeywordTerms = allowKeywordTerms;
     }
-    
+
     /**
      * The new parser implements CQL 1.2
      */
@@ -72,24 +72,25 @@ public class CQLParser {
 	if (DEBUG)
 	    System.err.println("PARSEDEBUG: " + str);
     }
-    
+
     /**
      * Registers custom relation in this parser. Note that when a custom relation
      * is registered the parser is no longer strictly compliant with the chosen spec.
+     * Custom relations are case-insensitive.
      * @param relation
      * @return true if custom relation has not been registered already
      */
     public boolean registerCustomRelation(String relation) {
-      return customRelations.add(relation);
+      return customRelations.add(relation.toLowerCase());
     }
-    
+
     /**
      * Unregisters previously registered custom relation in this instance of the parser.
      * @param relation
      * @return true is relation has been previously registered
      */
     public boolean unregisterCustomRelation(String relation) {
-      return customRelations.remove(relation);
+      return customRelations.remove(relation.toLowerCase());
     }
 
     /**
@@ -117,7 +118,7 @@ public class CQLParser {
 	CQLNode root = parseTopLevelPrefixes("cql.serverChoice",
 		new CQLRelation(compat == V1POINT2 ? "=" : "scr"));
 	if (lexer.what() != CQLTokenizer.TT_EOF)
-	    throw new CQLParseException("junk after end: " + lexer.render(), 
+	    throw new CQLParseException("junk after end: " + lexer.render(),
               lexer.pos());
 
 	return root;
@@ -194,7 +195,7 @@ public class CQLParser {
 	    match('/');
 	    if (lexer.what() != CQLTokenizer.TT_WORD)
 		throw new CQLParseException("expected modifier, "
-					    + "got " + lexer.render(), 
+					    + "got " + lexer.render(),
                   lexer.pos());
 	    String type = lexer.value().toLowerCase();
 	    match(lexer.what());
@@ -241,7 +242,7 @@ public class CQLParser {
 
 	    if (!isRelation())
               break; //we're done if no relation
-	    
+
             //render relation
 	    String relstr = (lexer.what() == CQLTokenizer.TT_WORD ?
 			     lexer.value() : lexer.render(lexer.what(), false));
@@ -282,40 +283,39 @@ public class CQLParser {
 
 	return new CQLPrefixNode(name, identifier, node);
     }
-    
+
     private boolean isWordOrString() {
-      return CQLTokenizer.TT_WORD == lexer.what() 
+      return CQLTokenizer.TT_WORD == lexer.what()
         || CQLTokenizer.TT_STRING == lexer.what();
     }
 
     private boolean isRelation() {
-	debug("isRelation: checking what()=" + lexer.what() +
-	      " (" + lexer.render() + ")");
-        if (lexer.what() == CQLTokenizer.TT_WORD &&
-            (lexer.value().indexOf('.') >= 0 ||
-             lexer.value().equals("any") ||
-             lexer.value().equals("all") ||
-             lexer.value().equals("within") ||
-             lexer.value().equals("encloses") ||
-             (lexer.value().equals("exact") && compat != V1POINT2) ||
-             (lexer.value().equals("scr") && compat != V1POINT2) ||
-             (lexer.value().equals("adj") && compat == V1POINT2) ||
-             customRelations.contains(lexer.value())))
-          return true;
-
+        debug("isRelation: checking what()=" + lexer.what() +
+                " (" + lexer.render() + ")");
+        if (lexer.what() == CQLTokenizer.TT_WORD) {
+            return lexer.value().indexOf('.') >= 0 ||
+                    lexer.value().equalsIgnoreCase("any") ||
+                    lexer.value().equalsIgnoreCase("all") ||
+                    lexer.value().equalsIgnoreCase("within") ||
+                    lexer.value().equalsIgnoreCase("encloses") ||
+                    (lexer.value().equalsIgnoreCase("exact") && compat != V1POINT2) ||
+                    (lexer.value().equalsIgnoreCase("scr") && compat != V1POINT2) ||
+                    (lexer.value().equalsIgnoreCase("adj") && compat == V1POINT2) ||
+                    customRelations.stream().anyMatch(r -> r.equalsIgnoreCase(lexer.value()));
+        }
         return isSymbolicRelation();
     }
 
     private boolean isSymbolicRelation() {
-	debug("isSymbolicRelation: checking what()=" + lexer.what() +
-	      " (" + lexer.render() + ")");
-	return (lexer.what() == '<' ||
-		lexer.what() == '>' ||
-		lexer.what() == '=' ||
-		lexer.what() == CQLTokenizer.TT_LE ||
-		lexer.what() == CQLTokenizer.TT_GE ||
-		lexer.what() == CQLTokenizer.TT_NE ||
-		lexer.what() == CQLTokenizer.TT_EQEQ);
+        debug("isSymbolicRelation: checking what()=" + lexer.what() +
+                " (" + lexer.render() + ")");
+        return (lexer.what() == '<' ||
+                lexer.what() == '>' ||
+                lexer.what() == '=' ||
+                lexer.what() == CQLTokenizer.TT_LE ||
+                lexer.what() == CQLTokenizer.TT_GE ||
+                lexer.what() == CQLTokenizer.TT_NE ||
+                lexer.what() == CQLTokenizer.TT_EQEQ);
     }
 
     private void match(int token)
@@ -324,7 +324,7 @@ public class CQLParser {
 	if (lexer.what() != token)
 	    throw new CQLParseException("expected " +
 					lexer.render(token, true) +
-					", " + "got " + lexer.render(), 
+					", " + "got " + lexer.render(),
               lexer.pos());
 	lexer.move();
 	debug("match() got token=" + lexer.what() + ", value()='" + lexer.value() + "'");
@@ -500,7 +500,7 @@ public class CQLParser {
 		f.close();
 		System.out.println(root.toPQF(config));
               } catch (IOException ex) {
-                System.err.println("Can't load PQF properties:" + 
+                System.err.println("Can't load PQF properties:" +
                   ex.getMessage());
                 System.exit(5);
               }
