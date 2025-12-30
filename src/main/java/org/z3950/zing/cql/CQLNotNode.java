@@ -10,16 +10,16 @@ public class CQLNotNode extends CQLBooleanNode {
      * sides and modifiers.
      */
     public CQLNotNode(CQLNode left, CQLNode right, ModifierSet ms) {
-	super(left, right, ms, CQLBoolean.NOT);
-    }  
+        super(left, right, ms, CQLBoolean.NOT);
+    }
 
     @Override
     byte[] opType1() {
-	byte[] op = new byte[5];
-	putTag(CONTEXT, 46, CONSTRUCTED, op, 0); // Operator
-	putLen(2, op, 2);
-	putTag(CONTEXT, 2, PRIMITIVE, op, 3); // and-not
-	putLen(0, op, 4);
-	return op;
+        byte[] op = new byte[5];
+        putTag(CONTEXT, 46, CONSTRUCTED, op, 0); // Operator
+        putLen(2, op, 2);
+        putTag(CONTEXT, 2, PRIMITIVE, op, 3); // and-not
+        putLen(0, op, 4);
+        return op;
     }
 }

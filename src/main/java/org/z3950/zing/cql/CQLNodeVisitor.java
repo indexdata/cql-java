@@ -7,22 +7,23 @@ package org.z3950.zing.cql;
  * CQLBooleanNode/Start/Op/End methods allow to generate prefix, infix or
  * postfix notations without needing to keep track of the parse tree.
  * See the CQLNodeVisitorTest for examples.
+ *
  * @author jakub
  */
 public interface CQLNodeVisitor {
-    
-  public void onSortNode(CQLSortNode node);
-  
-  public void onPrefixNode(CQLPrefixNode node);
-  
-  public void onBooleanNodeStart(CQLBooleanNode node);
-  
-  public void onBooleanNodeOp(CQLBooleanNode node);
-  
-  public void onBooleanNodeEnd(CQLBooleanNode node);
-  
-  public void onTermNode(CQLTermNode node);
-  
-  public void onRelation(CQLRelation relation);
-  
+
+    public void onSortNode(CQLSortNode node);
+
+    public void onPrefixNode(CQLPrefixNode node);
+
+    public void onBooleanNodeStart(CQLBooleanNode node);
+
+    public void onBooleanNodeOp(CQLBooleanNode node);
+
+    public void onBooleanNodeEnd(CQLBooleanNode node);
+
+    public void onTermNode(CQLTermNode node);
+
+    public void onRelation(CQLRelation relation);
+
 }
