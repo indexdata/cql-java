@@ -18,6 +18,8 @@ public class CQLLexer implements CQLTokenizer {
     private String lval;
     private StringBuilder buf = new StringBuilder();
 
+    static final String OPS_AND_WHITESPACE = "()/<>= \t\r\n";
+
     public CQLLexer(String cql, boolean debug) {
         qs = cql;
         ql = cql.length();
@@ -89,8 +91,7 @@ public class CQLLexer implements CQLTokenizer {
         } else {
             what = TT_WORD;
             buf.setLength(0); // reset buffer
-            while (qi < ql
-                    && !strchr("()/<>= \t\r\n", qs.charAt(qi))) {
+            while (qi < ql && !strchr(OPS_AND_WHITESPACE, qs.charAt(qi))) {
                 buf.append(qs.charAt(qi));
                 qi++;
             }
