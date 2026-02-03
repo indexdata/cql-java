@@ -5,48 +5,53 @@ import static org.junit.Assert.*;
 
 public class CQLTermNodeTest {
     @Test
-    public void TestMaybeQuoteNull() {
-        assertNull(CQLTermNode.maybeQuote(null));
+    public void TestTCQLTermQuoteNull() {
+        assertNull(CQLTermNode.toCQLTerm(null));
     }
 
     @Test
-    public void TestMaybeQuoteEmpty() {
-        assertEquals("\"\"", CQLTermNode.maybeQuote(""));
+    public void TestTCQLTermQuoteEmpty() {
+        assertEquals("\"\"", CQLTermNode.toCQLTerm(""));
     }
 
     @Test
-    public void TestMaybeQuoteRelation() {
-        assertEquals("\"<\"", CQLTermNode.maybeQuote("<"));
+    public void TestTCQLTermQuoteRelation() {
+        assertEquals("\"<\"", CQLTermNode.toCQLTerm("<"));
     }
 
     @Test
-    public void TestMaybeQuoteSimple() {
-        assertEquals("simple", CQLTermNode.maybeQuote("simple"));
+    public void TestTCQLTermQuoteSimple() {
+        assertEquals("simple", CQLTermNode.toCQLTerm("simple"));
     }
 
     @Test
-    public void TestMaybeQuoteBlank() {
-        assertEquals("\"a b\"", CQLTermNode.maybeQuote("a b"));
+    public void TestTCQLTermQuoteBlank() {
+        assertEquals("\"a b\"", CQLTermNode.toCQLTerm("a b"));
     }
 
     @Test
-    public void TestMaybeQuoteQuote1() {
-        assertEquals("a\\\"", CQLTermNode.maybeQuote("a\""));
+    public void TestTCQLTermQuoteQuote1() {
+        assertEquals("a\\\"", CQLTermNode.toCQLTerm("a\""));
     }
 
     @Test
-    public void TestMaybeQuoteQuote2() {
-        assertEquals("a\\\"", CQLTermNode.maybeQuote("a\\\""));
+    public void TestTCQLTermQuoteQuote2() {
+        assertEquals("a\\\"", CQLTermNode.toCQLTerm("a\\\""));
     }
 
     @Test
-    public void TestMaybeQuoteQuote3() {
-        assertEquals("a" + "\\\\" + "\\\"", CQLTermNode.maybeQuote("a" + "\\\\" + "\""));
+    public void TestTCQLTermQuoteQuote3() {
+        assertEquals("a" + "\\\\" + "\\\"", CQLTermNode.toCQLTerm("a" + "\\\\" + "\""));
     }
 
     @Test
-    public void TestMaybeQuoteQuote4() {
-        assertEquals("a" + "\\\\" + "\\\"", CQLTermNode.maybeQuote("a" + "\\\\" + "\\\""));
+    public void TestTCQLTermQuoteQuote4() {
+        assertEquals("a" + "\\\\" + "\\\"", CQLTermNode.toCQLTerm("a" + "\\\\" + "\\\""));
+    }
+
+    @Test
+    public void TestTCQLTermQuoteBackSlashTrail() {
+        assertEquals("a\\", CQLTermNode.toCQLTerm("a\\"));
     }
 
 }

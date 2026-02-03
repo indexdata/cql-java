@@ -78,8 +78,8 @@ public class CQLTermNode extends CQLNode {
 
     @Override
     public String toCQL() {
-        String quotedIndex = maybeQuote(index);
-        String quotedTerm = maybeQuote(term);
+        String quotedIndex = toCQLTerm(index);
+        String quotedTerm = toCQLTerm(term);
         String res = quotedTerm;
 
         if (index != null &&
@@ -192,7 +192,7 @@ public class CQLTermNode extends CQLNode {
         if (isResultSetIndex(index)) {
             // Special case: ignore relation, modifiers, wildcards, etc.
             // There's parallel code in toType1BER()
-            return "@set " + maybeQuote(term);
+            return "@set " + toCQLTerm(term);
         }
 
         List<String> attrs = getAttrs(config);
@@ -219,10 +219,13 @@ public class CQLTermNode extends CQLNode {
             text = text.substring(0, len - 1);
         }
 
-        return s + maybeQuote(text);
+        return s + toCQLTerm(text);
     }
 
-    static String maybeQuote(String str) {
+    // ensure that a term is properly quoted for CQL output if necessary.
+    // If the term has a bare double-quote (") it will be
+    // escaped with a backslash.
+    static String toCQLTerm(String str) {
         if (str == null) {
             return null;
         }
