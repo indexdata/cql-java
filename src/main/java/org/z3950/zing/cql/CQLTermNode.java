@@ -242,6 +242,10 @@ public class CQLTermNode extends CQLNode {
             escaped = ch == '\\' && !escaped;
             sb.append(ch);
         }
+        if (escaped) {
+            // trailing backslash - escape it
+            sb.append('\\');
+        }
         if (quote) {
             return "\"" + sb.toString() + "\"";
         } else {

@@ -50,8 +50,13 @@ public class CQLTermNodeTest {
     }
 
     @Test
-    public void TestTCQLTermQuoteBackSlashTrail() {
-        assertEquals("a\\", CQLTermNode.toCQLTerm("a\\"));
+    public void TestTCQLTermQuoteBackSlashTrail1() {
+        assertEquals("a\\\\", CQLTermNode.toCQLTerm("a\\"));
+    }
+
+    @Test
+    public void TestTCQLTermQuoteBackSlashTrail2() {
+        assertEquals("\"a \\\\\"", CQLTermNode.toCQLTerm("a \\"));
     }
 
 }
