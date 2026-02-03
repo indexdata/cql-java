@@ -90,9 +90,9 @@ public abstract class CQLNode {
      * that can be trivially mapped, one-to-one, int Z39.50 Type-1 and
      * Type-101 queries. A specification for the format can be found
      * in
-     * <A href="http://indexdata.dk/yaz/doc/tools.php#PQF"
+     * <A href="https://indexdata.com/yaz/doc/tools.html#PQF"
      * >Chapter 7 (Supporting Tools)</A> of the
-     * <A href="http://indexdata.dk/yaz/">YAZ</A> manual.
+     * <A href="https://indexdata.com/yaz/doc">YAZ</A> manual.
      *
      * @param config
      *               A <code>Properties</code> object containing configuration
@@ -130,8 +130,8 @@ public abstract class CQLNode {
      * @return
      *         A byte array containing the BER packet.
      * @see
-     *      <A href="ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc"
-     *      >ftp://ftp.rsasecurity.com/pub/pkcs/ascii/layman.asc</A>
+     *      <A href="https://luca.ntop.org/Teaching/Appunti/asn1.html"
+     *      >A Layman's Guide to a Subset of ASN.1, BER, and DER</A>
      * @throws PQFTranslationException
      *                                 If the parse-tree cannot be translated into
      *                                 PQF, for example

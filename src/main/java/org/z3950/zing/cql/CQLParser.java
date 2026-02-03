@@ -14,8 +14,8 @@ import java.util.Set;
 /**
  * Compiles CQL strings into parse trees of CQLNode subtypes.
  *
- * @see <A href="http://zing.z3950.org/cql/index.html"
- *      >http://zing.z3950.org/cql/index.html</A>
+ * @see <A href="https://zing.z3950.org/cql/index.html"
+ *      >https://zing.z3950.org/cql/index.html</A>
  */
 public class CQLParser {
     private CQLTokenizer lexer;
