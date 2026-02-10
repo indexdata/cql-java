@@ -19,8 +19,8 @@ import java.io.FileInputStream;
  * this distribution - there is a <code>generate_<I>x</I>()</code> method
  * for each grammar element <I>X</I>.
  *
- * @see <A href="http://zing.z3950.org/cql/index.html"
- *      >http://zing.z3950.org/cql/index.html</A>
+ * @see <A href="https://zing.z3950.org/cql/index.html"
+ *      >https://zing.z3950.org/cql/index.html</A>
  */
 public class CQLGenerator {
     private Properties params;

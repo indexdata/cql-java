@@ -19,13 +19,13 @@ CQL-Java is a Free Software project that provides:
 CQL is "Common Query Language", a query language designed under
 the umbrella of the ZING initiative (Z39.59-International Next
 Generation).  The official specification is at
-	http://www.loc.gov/standards/sru/cql/
+	https://www.loc.gov/standards/sru/cql/
 and there's more (and friendlier) information at
-	http://zing.z3950.org/cql/index.html
+	https://zing.z3950.org/cql/index.html
 
 XCQL is "XML CQL", a representation of CQL-equivalent queries in XML
 which is supposed to be easier to parse.  The specification is at
-	http://docs.oasis-open.org/search-ws/searchRetrieve/v1.0/os/schemas/xcql.xsd
+	https://docs.oasis-open.org/search-ws/searchRetrieve/v1.0/os/schemas/xcql.xsd
 in the form of an XML Schema.
 
 But if you didn't know that, why are you even reading this?  :-)
@@ -90,7 +90,7 @@ Using the library in your own applications:
 
 ## Description
 
-See the automatically generated class documentation in the "target"
+See the automatically generated class documentation in the `target`
 subdirectory.
 
 
@@ -99,7 +99,7 @@ subdirectory.
 Original code and documentation by Mike Taylor, Index Data <mike@indexdata.com>
 At present maintained by Jakub Skoczen, Index Data <jakub@indexdata.dk>
 
-* http://www.indexdata.com/cql-java
+* https://www.indexdata.com/cql-java
 
 Please email us with bug-reports, wishlist items, patches, deployment
 stories and, of course, large cash donations.
@@ -109,7 +109,7 @@ stories and, of course, large cash donations.
 
 The CQL-Java suite is Free Software, which is pretty much legally
 equivalent -- though not morally equivalent -- to Open Source.  See
-	http://www.gnu.org/philosophy/free-software-for-freedom.html
+	https://www.gnu.org/philosophy/free-software-for-freedom.html
 for a detailed if somewhat one-sided discussion of the differences,
 and particularly of why Free Software is an important idea.
 
@@ -124,7 +124,7 @@ a part of a non-free larger work.
 
 ## See also
 
-* http://zing.z3950.org/cql
+* https://zing.z3950.org/cql
 * Adam Dickmeiss's CQL compiler, written in C.
 * Rob Sanderson's CQL compiler, written in Python.
 * Jakub Skoczen's CQL-js compiler, written in JavaScript https://github.com/indexdata/cql-js
