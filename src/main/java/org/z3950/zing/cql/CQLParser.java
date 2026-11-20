@@ -18,7 +18,9 @@ import java.util.Set;
  *      >https://zing.z3950.org/cql/index.html</A>
  */
 public class CQLParser {
-    private CQLTokenizer lexer;
+    private CQLLexer lexer;
+    // End of the last consumed token; the lexer already holds the lookahead.
+    private int consumedEnd;
     private final int compat; // When false, implement CQL 1.2
     private final Set<String> customRelations = new HashSet<String>();
 
@@ -119,6 +121,7 @@ public class CQLParser {
     public CQLNode parse(String cql)
             throws CQLParseException, IOException {
         lexer = new CQLLexer(cql, LEXDEBUG);
+        consumedEnd = -1;
 
         lexer.move();
         debug("about to parseQuery()");
@@ -147,8 +150,9 @@ public class CQLParser {
 
             CQLSortNode sortnode = new CQLSortNode(node);
             while (lexer.what() != CQLTokenizer.TT_EOF) {
+                int keyStart = lexer.getStart();
                 String sortindex = matchSymbol("sort index");
-                ModifierSet ms = gatherModifiers(sortindex);
+                ModifierSet ms = gatherModifiers(sortindex, keyStart);
                 sortnode.addSortIndex(ms);
             }
 
@@ -156,6 +160,7 @@ public class CQLParser {
                 throw new CQLParseException("no sort keys", lexer.pos());
             }
 
+            sortnode.setSourceRange(node.getStart(), consumedEnd);
             node = sortnode;
         }
 
@@ -174,15 +179,18 @@ public class CQLParser {
                     lexer.what() == CQLTokenizer.TT_OR ||
                     lexer.what() == CQLTokenizer.TT_NOT ||
                     lexer.what() == CQLTokenizer.TT_PROX) {
+                int start = term.getStart();
+                int operatorStart = lexer.getStart();
                 int type = lexer.what();
                 String val = lexer.value();
                 match(type);
-                ModifierSet ms = gatherModifiers(val);
+                ModifierSet ms = gatherModifiers(val, operatorStart);
                 CQLNode term2 = parseTerm(index, relation);
                 term = ((type == CQLTokenizer.TT_AND) ? new CQLAndNode(term, term2, ms)
                         : (type == CQLTokenizer.TT_OR) ? new CQLOrNode(term, term2, ms)
                                 : (type == CQLTokenizer.TT_NOT) ? new CQLNotNode(term, term2, ms)
                                         : new CQLProxNode(term, term2, ms));
+                term.setSourceRange(start, consumedEnd);
             } else {
                 throw new CQLParseException("expected boolean, got " +
                         lexer.render(), lexer.pos());
@@ -193,12 +201,13 @@ public class CQLParser {
         return term;
     }
 
-    private ModifierSet gatherModifiers(String base)
+    private ModifierSet gatherModifiers(String base, int start)
             throws CQLParseException, IOException {
         debug("in gatherModifiers()");
 
         ModifierSet ms = new ModifierSet(base);
         while (lexer.what() == '/') {
+            int modifierStart = lexer.getStart();
             match('/');
             if (lexer.what() != CQLTokenizer.TT_WORD)
                 throw new CQLParseException("expected modifier, "
@@ -216,7 +225,10 @@ public class CQLParser {
                 String value = matchSymbol("modifier value");
                 ms.addModifier(type, comparision, value);
             }
+            ms.getModifiers().get(ms.getModifiers().size() - 1)
+                    .setSourceRange(modifierStart, consumedEnd);
         }
+        ms.setSourceRange(start, consumedEnd);
 
         return ms;
     }
@@ -225,6 +237,7 @@ public class CQLParser {
             throws CQLParseException, IOException {
         debug("in parseTerm()");
 
+        int start = lexer.getStart();
         String first;
         StringBuilder all;
         while (true) {
@@ -233,9 +246,12 @@ public class CQLParser {
                 match('(');
                 CQLNode expr = parseQuery(index, relation);
                 match(')');
+                expr.setSourceRange(start, consumedEnd);
                 return expr;
             } else if (lexer.what() == '>') {
-                return parsePrefix(index, relation, false);
+                CQLNode expr = parsePrefix(index, relation, false);
+                expr.setSourceRange(start, consumedEnd);
+                return expr;
             }
 
             debug("non-parenthesised term");
@@ -257,14 +273,17 @@ public class CQLParser {
                 throw new CQLParseException("unexpected relation '" + relstr + "'", lexer.pos());
             }
             index = first;
+            int relationStart = lexer.getStart();
             relation = new CQLRelation(relstr);
             match(lexer.what());
-            ModifierSet ms = gatherModifiers(relstr);
+            ModifierSet ms = gatherModifiers(relstr, relationStart);
             relation.ms = ms;
+            relation.setSourceRange(relationStart, consumedEnd);
             debug("index='" + index + ", " +
                     "relation='" + relation.toCQL() + "'");
         }
         CQLTermNode node = new CQLTermNode(index, relation, all.toString());
+        node.setSourceRange(start, consumedEnd);
         debug("made term node " + node.toCQL());
         return node;
     }
@@ -274,6 +293,7 @@ public class CQLParser {
             throws CQLParseException, IOException {
         debug("prefix mapping");
 
+        int start = lexer.getStart();
         match('>');
         String name = null;
         String identifier = matchSymbol("prefix-name");
@@ -284,7 +304,9 @@ public class CQLParser {
         }
         CQLNode node = topLevel ? parseTopLevelPrefixes(index, relation) : parseQuery(index, relation);
 
-        return new CQLPrefixNode(name, identifier, node);
+        CQLPrefixNode prefix = new CQLPrefixNode(name, identifier, node);
+        prefix.setSourceRange(start, consumedEnd);
+        return prefix;
     }
 
     private boolean isWordOrString() {
@@ -329,6 +351,7 @@ public class CQLParser {
                     lexer.render(token, true) +
                     ", " + "got " + lexer.render(),
                     lexer.pos());
+        consumedEnd = lexer.getEnd();
         lexer.move();
         debug("match() got token=" + lexer.what() + ", value()='" + lexer.value() + "'");
     }

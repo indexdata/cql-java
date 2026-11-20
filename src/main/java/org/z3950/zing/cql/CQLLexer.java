@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 public class CQLLexer implements CQLTokenizer {
     private String qs;
     private int qi;
+    private int tokenStart = -1;
     private int ql;
     private int what = TT_NOTHING;
     private String val;
@@ -30,6 +31,7 @@ public class CQLLexer implements CQLTokenizer {
         // eat whitespace
         while (qi < ql && strchr(" \t\r\n", qs.charAt(qi)))
             qi++;
+        tokenStart = qi;
         // eof
         if (qi == ql) {
             what = TT_EOF;
@@ -163,6 +165,27 @@ public class CQLLexer implements CQLTokenizer {
                     res = "'" + res + "'";
                 return res;
         }
+    }
+
+    /**
+     * Returns the current token's inclusive UTF-16 source start, or -1 before
+     * the first move. Quotes are included; leading whitespace is excluded.
+     * At end of input the span is empty at the input length.
+     *
+     * @return token start
+     */
+    public int getStart() {
+        return tokenStart;
+    }
+
+    /**
+     * Returns the current token's exclusive UTF-16 source end, or -1 before
+     * the first move.
+     *
+     * @return token end
+     */
+    public int getEnd() {
+        return tokenStart < 0 ? -1 : qi;
     }
 
     @Override
