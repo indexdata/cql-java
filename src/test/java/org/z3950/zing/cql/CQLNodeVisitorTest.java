@@ -8,8 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import static java.lang.System.*;
-
 /**
  *
  * @author jakub
@@ -40,7 +38,6 @@ public class CQLNodeVisitorTest {
         String cql = "((x=a and y=b) or z=c)";
         String epxected = "@or @and @attr 1=x a @attr 1=y b @attr 1=z c";
         CQLParser p = new CQLParser(CQLParser.V1POINT2);
-        out.println("Parsing " + cql);
         try {
             CQLNode n = p.parse(cql);
             CQLNodeVisitor v = new CQLDefaultNodeVisitor() {
@@ -56,6 +53,12 @@ public class CQLNodeVisitorTest {
                             break;
                         case OR:
                             op = "@or";
+                            break;
+                        case PROX:
+                            op = "@prox";
+                            break;
+                        case NOT:
+                            op = "@not";
                             break;
                     }
                     actual += op + " ";
@@ -73,12 +76,11 @@ public class CQLNodeVisitorTest {
                 }
             };
             n.traverse(v);
-            out.println(v);
-            assertEquals(epxected, v.toString());
+            assertEquals("Query: " + cql, epxected, v.toString());
         } catch (CQLParseException ex) {
-            fail(ex.getMessage());
+            fail("Query: " + cql + "\n" + ex.getMessage());
         } catch (IOException ex) {
-            fail(ex.getMessage());
+            fail("Query: " + cql + "\n" + ex.getMessage());
         }
     }
 
@@ -87,7 +89,6 @@ public class CQLNodeVisitorTest {
         String cql = "((x=a and y=b) or z=c)";
         String epxected = "((x:a OG y:b) ELLER z:c)";
         CQLParser p = new CQLParser(CQLParser.V1POINT2);
-        out.println("Parsing " + cql);
         try {
             CQLNode n = p.parse(cql);
             CQLNodeVisitor v = new CQLDefaultNodeVisitor() {
@@ -128,12 +129,11 @@ public class CQLNodeVisitorTest {
                 }
             };
             n.traverse(v);
-            out.println(v);
-            assertEquals(epxected, v.toString());
+            assertEquals("Query: " + cql, epxected, v.toString());
         } catch (CQLParseException ex) {
-            fail(ex.getMessage());
+            fail("Query: " + cql + "\n" + ex.getMessage());
         } catch (IOException ex) {
-            fail(ex.getMessage());
+            fail("Query: " + cql + "\n" + ex.getMessage());
         }
     }
 }

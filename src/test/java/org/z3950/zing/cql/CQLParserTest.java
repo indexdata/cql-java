@@ -21,7 +21,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static java.lang.System.out;
 
 /**
  *
@@ -52,7 +51,6 @@ public class CQLParserTest {
      */
     @Test
     public void testRegressionQueries() throws IOException {
-        System.out.println("Testing the parser using pre-canned regression queries...");
         // we might be running the test from within the jar
         // list all resource dirs, then traverse them
         String[] dirs = getResourceListing(this.getClass(), "regression");
@@ -61,13 +59,11 @@ public class CQLParserTest {
             for (String file : files) {
                 if (!file.endsWith(".cql"))
                     continue;
-                out.println("Parsing " + dir + "/" + file);
                 InputStream is = this.getClass().getResourceAsStream("/regression/" + dir + "/" + file);
                 BufferedReader reader = null, reader2 = null;
                 try {
                     reader = new BufferedReader(new InputStreamReader(is));
                     String input = reader.readLine();
-                    out.println("Query: " + input);
                     String result;
                     try {
                         CQLParser parser = new CQLParser();
@@ -76,8 +72,6 @@ public class CQLParserTest {
                     } catch (CQLParseException pe) {
                         result = pe.getMessage() + "\n";
                     }
-                    out.println("Parsed:");
-                    out.println(result);
                     // read the expected xcql output
                     String expected = "<expected result file not found>";
                     String prefix = file.substring(0, file.length() - 4);
@@ -92,9 +86,8 @@ public class CQLParserTest {
                         }
                         expected = sb.toString();
                     }
-                    out.println("Expected: ");
-                    out.println(expected);
-                    assertEquals("Assertion failure for " + dir + "/" + file, expected, result);
+                    assertEquals("Regression query " + dir + "/" + file + "\nQuery: " + input,
+                            expected, result);
                 } finally {
                     if (reader != null)
                         reader.close();
@@ -121,7 +114,6 @@ public class CQLParserTest {
      */
     @Test
     public void testRandomQueries() throws IOException, MissingParameterException {
-        out.println("Testing the parser using 100 randomly generated queries...");
         Properties params = new Properties();
         InputStream is = getClass().getResourceAsStream("/generate.properties");
         if (is == null)
@@ -132,14 +124,14 @@ public class CQLParserTest {
         for (int i = 0; i < 1000; i++) {
             CQLNode random = generator.generate();
             String expected = random.toCQL();
-            out.println("Generated query: " + expected);
             CQLParser parser = new CQLParser();
             try {
                 CQLNode parsed = parser.parse(expected);
                 String result = parsed.toCQL();
-                assertEquals(expected, result);
+                assertEquals("Generated query " + (i + 1) + "\nQuery: " + expected, expected, result);
             } catch (CQLParseException pe) {
-                fail("Generated query failed to parse: " + pe.getMessage());
+                fail("Generated query " + (i + 1) + " failed to parse: " + expected
+                        + "\n" + pe.getMessage());
             }
         }
     }
@@ -205,7 +197,6 @@ public class CQLParserTest {
         };
         int i = 0;
         for (String oid : oids) {
-            out.println("Testing OID: " + oid);
             byte[] encoded = CQLNode.makeOID(oid);
             for (int j = 0; j < expected[i].length && j < encoded.length; j++) {
                 assertEquals("Byte " + j + " of OID " + oid, expected[i][j], encoded[j] & 0xff);
