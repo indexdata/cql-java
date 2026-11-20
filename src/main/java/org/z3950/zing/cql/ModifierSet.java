@@ -18,6 +18,39 @@ import java.util.List;
  *
  */
 public class ModifierSet {
+
+    private int start = -1;
+    private int end = -1;
+
+    /**
+     * Returns the inclusive source start of this base and its modifiers.
+     * Offsets are zero-based UTF-16 indexes into the original query, excluding
+     * surrounding whitespace. Manually constructed objects and implicit defaults
+     * have no source location and return -1. Locations describe the original
+     * parse and are not updated after tree modifications.
+     *
+     * @return source start, or -1 when unavailable
+     */
+    public int getStart() {
+        return start;
+    }
+
+    /**
+     * Returns the exclusive source end, suitable for
+     * {@code query.substring(getStart(), getEnd())}.
+     *
+     * @return source end, or -1 when unavailable
+     * @see #getStart()
+     */
+    public int getEnd() {
+        return end;
+    }
+
+    void setSourceRange(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+
     private String base;
     private List<Modifier> modifiers;
 

@@ -105,6 +105,26 @@ Please email us with bug-reports, wishlist items, patches, deployment
 stories and, of course, large cash donations.
 
 
+## Source positions
+
+Parsed nodes expose `getStart()` and `getEnd()`: zero-based UTF-16 offsets
+into the original query, with an exclusive end. For example,
+`query.substring(node.getStart(), node.getEnd())` retrieves the original
+source, preserving whitespace, quotes and escapes.
+
+A node's range includes its subtree, enclosing parentheses and any index
+and relation introducing a grouped expression. Surrounding whitespace is
+excluded. Relations, modifiers (including the slash), and sort keys
+(`ModifierSet`) also expose ranges. An inherited relation retains the
+location where it was written, which can be outside the inheriting term.
+Implicit defaults and manually constructed objects return `-1` for both
+offsets. Positions describe the original parse; editing the tree does not
+update them. Individual index and term-value ranges are not exposed.
+
+This implementation was inspired by Querela's source-position proposal in
+[PR #19](https://github.com/indexdata/cql-java/pull/19).
+Existing method signatures and the `CQLTokenizer` interface are unchanged.
+
 ## Licence
 
 The CQL-Java suite is Free Software, which is pretty much legally
