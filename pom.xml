@@ -3,7 +3,7 @@
   <groupId>org.z3950.zing</groupId>
   <artifactId>cql-java</artifactId>
   <packaging>jar</packaging>
-  <version>1.14-SNAPSHOT</version>
+  <version>1.14.0</version>
   <name>cql-java</name>
   <url>https://www.indexdata.com/cql-java</url>
   <licenses>
@@ -41,7 +41,7 @@
   <scm>
     <connection>scm:git:git://github.com/indexdata/cql-java.git</connection>
     <url>https://github.com/indexdata/cql-java</url>
-    <tag>HEAD</tag>
+    <tag>v1.14.0</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>
