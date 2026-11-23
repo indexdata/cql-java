@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site xmlns="http://maven.apache.org/SITE/2.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd"
+      name="cql-java">
+  <bannerLeft name="cql-java" href="https://www.indexdata.com/cql-java"/>
+  <publishDate format="dd MMM yyyy"/>
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-fluido-skin</artifactId>
+    <version>2.0.1</version>
+  </skin>
+  <body>
+    <menu name="Documentation">
+      <item name="Java API" href="apidocs/index.html"/>
+    </menu>
+    <menu ref="reports"/>
+  </body>
+</site>

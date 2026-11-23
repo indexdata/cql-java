@@ -51,12 +51,24 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.9.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
         <configuration>
           <charset>UTF-8</charset>
           <doclint>none</doclint>
         </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>
@@ -153,16 +165,27 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <!--
+    Publishing requires SSH access to the destinations below.
+    Prepare a release with mvn release:clean release:prepare, then publish with
+    mvn release:perform. Keep release.properties until publishing is complete.
+    Unlike yaz4j, cql-java is pure Java and needs no native-library bundle profile.
+
+    To publish documentation only, run mvn site site:deploy. The site is labelled
+    with the current POM version; use release sources when publishing release docs.
+    To retry an existing site's upload, run mvn site:deploy from its build directory.
+    Deployment chmod is disabled below because the server directory is owned by root.
+  -->
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>id-maven-repo</id>
       <name>Index Data Maven Repository</name>
-      <url>scp://maven.indexdata.com/var/www/maven/repository</url>
+      <url>scpexe://maven.indexdata.com/var/www/maven/repository</url>
     </repository>
     <site>
       <id>id-website</id>
-      <url>scpexe://www.indexdata.com/var/www/software/cql-java/</url>
+      <url>scpexe://idsoft@software.indexdata.com/home/indexdata/software-site/htdocs/cql-java/</url>
     </site>
   </distributionManagement>
   <repositories>
@@ -173,6 +196,8 @@
   </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- The deployment account can write to the site but does not own its directory. -->
+    <maven.site.chmod>false</maven.site.chmod>
     <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
   </properties>
   <profiles>
