@@ -5,6 +5,59 @@ See the bottom of this file for a list of things still to do.
 The work for releases 1.0, 1.2 and 1.2.1 was sponsored by the National
 Library of Australia, whose help we gratefully acknowledge.
 
+1.14.0 Mon 23 Nov 2026 14:08:10 CET
+  - Add getStart() and getEnd() to CQLNode, Modifier, ModifierSet and
+    CQLLexer, exposing source ranges for parsed nodes, modifiers, sort
+    keys and tokens. Ranges preserve quotes, escapes, internal whitespace,
+    subtrees and enclosing parentheses, using zero-based UTF-16 offsets
+    with an inclusive start and exclusive end. Objects without a source
+    location return -1; ranges are not updated after tree modifications.
+    Existing public signatures and CQLTokenizer remain unchanged.
+    Based on the proposal in PR #19.
+
+  - Fix case-sensitive relation checks in the parser. Built-in relations
+    and registered custom relations are now recognized regardless of
+    letter case. Fixes #17.
+
+  - Preserve backslash escape sequences in the lexer instead of removing
+    them prematurely. Later translation stages can now distinguish
+    escaped characters and apply the appropriate masking rules. Fixes #5.
+
+  - Fix quoting when generating CQL, including double quotes following
+    escaped backslashes and terms ending in an unmatched backslash.
+    Handle whitespace and operator characters consistently when deciding
+    whether an index or term needs quoting, with regression tests for
+    these cases.
+
+  - Target Java 8 and enforce Java 8 API compatibility when compiling
+    with newer JDKs by using the compiler's release option. Retain source
+    and target settings for builds running on JDK 8. Fixes #20.
+
+  - Upgrade and pin Maven lifecycle, compiler, release, Javadoc and site
+    plugins, and update the SSH Wagon extensions. Replace obsolete
+    Javadoc options and move report configuration into the reporting
+    section to avoid Maven configuration warnings.
+
+  - Modernize API documentation generation and site navigation. Pin the
+    project-info reports plugin, use the Fluido skin, and add a direct
+    Java API link. Update Javadoc markup for HTML 5 and refresh project,
+    repository and issue-tracker links.
+
+  - Update publishing to use external SSH for Maven artifacts and the
+    idsoft account on software.indexdata.com for documentation. Preserve
+    the existing cql-java documentation and apidocs paths, disable chmod
+    on the root-owned site directory, and document publishing in the POM.
+
+  - Add GitHub Actions verification and run the build on Java 11 and 21.
+    Upgrade JUnit to 4.13.1, add source-position and escaping regression
+    tests, and replace noisy test output with contextual failure messages.
+    Standardize Java source indentation with EditorConfig.
+
+  - Correct the Maven license metadata to LGPL-2.1-only and link to the
+    corresponding license text. This aligns the machine-readable metadata
+    with the existing license stated in the README; it is not a license
+    change.
+
 1.13 Wed 10 May 2017 14:44:44 CET
   - add classes for visitor traversal
   - truncation attribute right/left/both/none (thanks to Rustam Usmanov)
